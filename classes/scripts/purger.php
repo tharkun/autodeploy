@@ -4,7 +4,7 @@ namespace autodeploy\scripts;
 
 use autodeploy;
 
-final class runner extends autodeploy\script implements autodeploy\aggregators\runner
+final class purger extends autodeploy\script implements autodeploy\aggregators\runner
 {
 
     protected $runner = null;
