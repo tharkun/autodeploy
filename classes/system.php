@@ -22,7 +22,7 @@ final class system
         else if ( substr( $uname, 0, 3 ) == "Mac" )
         {
 
-            $this->osType = "max";
+            $this->osType = "mac";
             $this->fileSeparator = "/";
         }
         else
