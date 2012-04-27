@@ -63,18 +63,25 @@ class parser implements \iteratorAggregate
 
             if (self::isArgument($value) === false)
             {
-                throw new \UnexpectedValueException('First argument \'' . $value . '\' is invalid');
+                $argument = '';
+
+                $this->values[$argument] = array($value);
             }
+            else
+            {
+                $argument = $value;
 
-            $argument = $value;
+                $this->values[$argument] = array();
 
-            $this->values[$argument] = array();
+            }
 
             $arguments->next();
 
             while ($arguments->valid() === true)
             {
                 $value = $arguments->current();
+
+                echo "$value\n";
 
                 if (self::isArgument($value) === false)
                 {
@@ -109,10 +116,10 @@ class parser implements \iteratorAggregate
 
         foreach ($arguments as $argument)
         {
-            if (self::isArgument($argument) === false)
+            /*if (self::isArgument($argument) === false)
             {
                 throw new \RuntimeException('Argument \'' . $argument . '\' is invalid');
-            }
+            }//*/
 
             $this->handlers[$argument][] = $handler;
         }
@@ -128,6 +135,8 @@ class parser implements \iteratorAggregate
     protected function trigger(autodeploy\script $script)
     {
         $lastArgument = array_slice($this->values, -1);
+
+        print_r($lastArgument);
 
         list($argument, $values) = each($lastArgument);
 

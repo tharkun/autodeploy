@@ -28,13 +28,11 @@ class generate extends step
         $tasksIterator = $this->getRunner()->getTasksIterator();
         foreach ($tasksIterator as $task)
         {
-            $task['wildcard'] = (string)framework\generator::build(array(
-                                                                        $this->getRunner()->getProfil()->getName(),
-                                                                        $task['parser']
-                                                                   ),
-                                                                   $task['value']
-            );
-            $tasksIterator->set($task);
+            foreach ($this->getFactories() as $oFactory)
+            {
+                $task['wildcard'] = (string) $oFactory->__invoke($this->getRunner(), $task);
+                $tasksIterator->set($task);
+            }
         }
 
         return $this;

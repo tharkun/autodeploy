@@ -9,6 +9,7 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
     const runStop = 'stepStop';
 
     protected $runner = null;
+    protected $factories = array();
     protected $observers = array();
 
     private $start = null;
@@ -16,10 +17,12 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
 
     /**
      * @param runner $runner
+     * @param array $factories
      */
-    public function __construct(runner $runner)
+    public function __construct(runner $runner, array $factories = array())
     {
         $this->setRunner($runner);
+        $this->setFactories($factories);
     }
 
     /**
@@ -39,6 +42,25 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
     public function getRunner()
     {
         return $this->runner;
+    }
+
+    /**
+     * @param array $factories
+     * @return step
+     */
+    public function setFactories(array $factories)
+    {
+        $this->factories = new \ArrayIterator($factories);
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getFactories()
+    {
+        return $this->factories;
     }
 
     /**

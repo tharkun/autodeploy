@@ -39,14 +39,10 @@ class execute extends step
 
             $this->callObservers(self::actionStart);
 
-            factories\task::build(array(
-                                       str_replace('_', '\\', $action['type']),
-                                       $action['parser']
-                                  ),
-                                  $this->getRunner(),
-                                  array($action['wildcard'])
-            )
-                    ->execute();
+            foreach ($this->getFactories() as $oFactory)
+            {
+                $oFactory->__invoke($this->getRunner(), $action)->execute();
+            }
 
             $this->callObservers(self::actionStop);
         }

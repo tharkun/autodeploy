@@ -2,15 +2,15 @@
 
 namespace autodeploy;
 
-class profil
+class profil extends php\options
 {
 
     const ORIGIN_SVN = 'svn';
     const ORIGIN_RSYNC = 'rsync';
 
     protected $name = null;
-    protected $origin = null;
-    protected $parsers = array();
+    //protected $origin = null;
+    //protected $parsers = array();
 
     /**
      * @param null $name
@@ -18,9 +18,9 @@ class profil
      * @param array $parsers
      * @return profil
      */
-    public function __construct($name = null, $origin = null, array $parsers = array())
+    public function __construct($name = null/*, $origin = null, array $parsers = array()*/)
     {
-        $this->setOrigin($origin);
+        //$this->setOrigin($origin);
     }
 
     /**
@@ -65,7 +65,7 @@ class profil
      * @param $origin
      * @return profil
      */
-    public function setOrigin($origin)
+    /*public function setOrigin($origin)
     {
         if ($origin !== null && !in_array($origin, $this->getOrigins()))
         {
@@ -75,33 +75,33 @@ class profil
         $this->origin = $origin;
 
         return $this;
-    }
+    }*/
 
     /**
      * @return string
      */
-    public function getOrigin()
+    /*public function getOrigin()
     {
         return $this->origin;
-    }
+    }*/
 
     /**
      * @param array $parsers
      * @return profil
      */
-    public function setParsers(array $parsers)
+    /*public function setParsers(array $parsers)
     {
         $this->parsers = $parsers;
 
         return $this;
-    }
+    }*/
 
     /**
      * @return array
      */
-    public function getParsers()
+    /*public function getParsers()
     {
         return $this->parsers;
-    }
+    }*/
 
 }

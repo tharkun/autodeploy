@@ -7,6 +7,30 @@ use autodeploy;
 final class svnup extends autodeploy\script implements autodeploy\aggregators\runner
 {
 
+    /**
+     * @param $name
+     * @param \autodeploy\runner|null $runner
+     */
+    public function __construct($name, autodeploy\runner $runner = null)
+    {
+        parent::__construct($name, $runner);
+
+        $this->getRunner()
+            ->setSteps(array(
+                'transform' => array(
+                ),
+                'filter'    => array(
+                ),
+                'parse'     => array(
+                ),
+                'generate'  => array(
+                ),
+                'execute'   => array(
+                ),
+            ))
+        ;
+    }
+
     protected function setArgumentHandlers()
     {
         $runner = $this->getRunner();

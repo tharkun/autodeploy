@@ -29,13 +29,7 @@ class parse extends autodeploy\step
 
         foreach ($this->getRunner()->getProfil()->getParsers() as $parser)
         {
-            $tasks = framework\parser::build(array(
-                                                  $this->getRunner()->getProfil()->getName(),
-                                                  $parser,
-                                                  $this->getRunner()->getProfil()->getOrigin()
-                                             ),
-                                             $this->getRunner()
-            )
+            $tasks = $this->getFactories()->current()->__invoke($this->getRunner(), $parser)
                 ->parse( $this->getRunner()->getElementsIterator() )
                 ->getTasks()
             ;

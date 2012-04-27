@@ -24,10 +24,7 @@ class transform extends step
      */
     public function runStep()
     {
-        $transformer = factories\transformer::build(
-            $this->getRunner()->getProfil()->getOrigin(),
-            $this->getRunner()
-        );
+        $transformer = $this->getFactories()->current()->__invoke($this->getRunner());
 
         foreach ($this->observers as $observer)
         {

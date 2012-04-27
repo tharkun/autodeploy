@@ -21,17 +21,10 @@ class filter extends step
 
     public function runStep()
     {
-        factories\filter::build(
-            $this->getRunner()->getProfil()->getOrigin(),
-            $this->getRunner()
-        )
-                ->filter($this->getRunner()->getElementsIterator());
-
-        factories\framework\filter::build(
-            $this->getRunner()->getProfil()->getName(),
-            $this->getRunner()
-        )
-                ->filter($this->getRunner()->getElementsIterator());
+        foreach ($this->getFactories() as $oFactory)
+        {
+            $oFactory->__invoke($this->getRunner())->filter($this->getRunner()->getElementsIterator());
+        }
 
         return $this;
     }

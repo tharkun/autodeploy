@@ -148,19 +148,11 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
         $this->callObservers(self::runStart);
 
-        /*$steps = array(
-            'transform',
-            'filter',
-            'parse',
-            'generate',
-            'execute',
-        );//*/
-
-        foreach ($this->getSteps() as $step)
+        foreach ($this->getSteps() as $step => $a)
         {
             $this->stepNumber++;
 
-            $object = factories\step::build($step, $this);
+            $object = factories\step::build($step, $this, $a);
 
             foreach ($this->observers as $observer)
             {
