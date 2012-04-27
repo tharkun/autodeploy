@@ -7,25 +7,13 @@ use autodeploy;
 final class purger extends autodeploy\script implements autodeploy\aggregators\runner
 {
 
-    protected $runner = null;
-
-
-    /*****************************************************************************************************************************/
-    /*****************************************************************************************************************************/
-    /*****************************************************************************************************************************/
-
-
     /**
      * @param $name
      * @param \autodeploy\runner|null $runner
      */
     public function __construct($name, autodeploy\runner $runner = null)
     {
-        $this
-            ->setRunner($runner ?: new autodeploy\runner())
-        ;
-
-        parent::__construct($name);
+        parent::__construct($name, $runner);
 
         $this->getRunner()
             ->setSteps(array(
@@ -38,43 +26,9 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
         ;
     }
 
-    /**
-     * @param \autodeploy\runner $runner
-     * @return runner
-     */
-    public function setRunner(autodeploy\runner $runner)
-    {
-        $this->runner = $runner;
-
-        return $this;
-    }
-
-    /**
-     * @return runner
-     */
-    public function getRunner()
-    {
-        return $this->runner;
-    }
-
     protected function setArgumentHandlers()
     {
         $runner = $this->getRunner();
-
-        $this->addArgumentHandler(
-            function($script, $argument, $values)
-            {
-                if (sizeof($values) != 0)
-                {
-                    throw new \InvalidArgument(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
-                }
-
-                autodeploy\outputs\cli::forceTerminal();
-            },
-            array('-c', '--color'),
-            null,
-            $this->locale->_('Use color')
-        );
 
         $this->addArgumentHandler(
             function($script, $argument, $origin) use ($runner)
@@ -168,14 +122,6 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
         try
         {
             parent::run($arguments);
-
-            if ($this->getRunner()->hasReports() === false)
-            {
-                $report = new autodeploy\reports\synchronous\cli();
-                $report->addWriter(new autodeploy\writers\std\out());
-
-                $this->getRunner()->addReport($report);
-            }
 
             $this->getRunner()->run();
 
