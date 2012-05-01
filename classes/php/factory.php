@@ -31,6 +31,8 @@ class factory
     {
         $args = func_get_args();
 
+        //print_r($args);
+
         $factory = new static(
             ($class = array_shift($args)) && is_string($class) ? array($class) : $class,
             $args

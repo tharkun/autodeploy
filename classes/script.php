@@ -141,14 +141,6 @@ abstract class script implements aggregators\php\adapter, aggregators\php\locale
         $runner = $this->getRunner();
 
         $this->addArgumentHandler(
-            function($script, $argument, $values) use ($runner) {
-            },
-            array(''),
-            '<file>',
-            $this->locale->_('Include <file> before executing each test method')
-        );
-
-        $this->addArgumentHandler(
             function($script, $argument, $values)
             {
                 if (sizeof($values) != 0)

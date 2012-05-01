@@ -72,7 +72,6 @@ class parser implements \iteratorAggregate
                 $argument = $value;
 
                 $this->values[$argument] = array();
-
             }
 
             $arguments->next();
@@ -80,8 +79,6 @@ class parser implements \iteratorAggregate
             while ($arguments->valid() === true)
             {
                 $value = $arguments->current();
-
-                echo "$value\n";
 
                 if (self::isArgument($value) === false)
                 {
@@ -135,8 +132,6 @@ class parser implements \iteratorAggregate
     protected function trigger(autodeploy\script $script)
     {
         $lastArgument = array_slice($this->values, -1);
-
-        print_r($lastArgument);
 
         list($argument, $values) = each($lastArgument);
 
