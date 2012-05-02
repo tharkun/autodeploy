@@ -5,6 +5,8 @@ namespace autodeploy;
 abstract class step implements aggregators\runner, definitions\php\observable, definitions\step
 {
 
+    const defaultFactory = 'basic';
+
     const runStart = 'stepStart';
     const runStop = 'stepStop';
 

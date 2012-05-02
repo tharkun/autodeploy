@@ -22,7 +22,7 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
                     function ($runner)
                     {
                         return factories\transformer::build(
-                            '',
+                            autodeploy\step::defaultFactory,
                             $runner
                         );
                     },
@@ -31,7 +31,7 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
                     function ($runner)
                     {
                         return factories\filter::build(
-                            '',
+                            autodeploy\step::defaultFactory,
                             $runner
                         );
                     },
@@ -40,7 +40,7 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
                     function ($runner)
                     {
                         return factories\parser::build(
-                            '',
+                            autodeploy\step::defaultFactory,
                             $runner
                         );
                     }
@@ -52,8 +52,9 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
                             array(
                                 $runner->getProfil()->getName(),
                                 'up'
-                           ),
-                           $task['value']
+                            ),
+                            $runner,
+                            $task['value']
                         );
                     }
                 ),

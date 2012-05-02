@@ -63,8 +63,9 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                             array(
                                 $runner->getProfil()->getName(),
                                 $task['parser']
-                           ),
-                           $task['value']
+                            ),
+                            $runner,
+                            $task['value']
                         );
                     }
                 ),
