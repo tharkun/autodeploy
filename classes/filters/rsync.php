@@ -6,4 +6,4 @@ use
     autodeploy
 ;
 
-class rsync extends none {}
+class rsync extends basic {}

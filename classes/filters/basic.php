@@ -11,7 +11,7 @@ class basic extends autodeploy\filter
 
     /**
      * @param \autodeploy\iterator $iterator
-     * @return none
+     * @return basic
      */
     public function filter(autodeploy\iterator $iterator)
     {

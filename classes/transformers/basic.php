@@ -9,7 +9,7 @@ class basic extends autodeploy\transformer
 
     /**
      * @param $line
-     * @return none
+     * @return basic
      */
     public function transform($line)
     {

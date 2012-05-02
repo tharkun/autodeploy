@@ -31,7 +31,7 @@ class factory
     {
         $args  = func_get_args();
         $class = array_shift($args);
-        $class = is_string($class) && '' == $class ? 'none' : $class;
+        //$class = is_string($class) && '' == $class ? 'none' : $class;
         $class = is_string($class) ? array($class) : $class;
 
         $factory = new static( $class, $args );
