@@ -6,7 +6,7 @@ use
     autodeploy
 ;
 
-class none extends autodeploy\filter
+class basic extends autodeploy\filter
 {
 
     /**

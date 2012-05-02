@@ -4,7 +4,7 @@ namespace autodeploy\transformers;
 
 use autodeploy;
 
-class none extends autodeploy\transformer
+class basic extends autodeploy\transformer
 {
 
     /**

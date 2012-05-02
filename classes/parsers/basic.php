@@ -4,7 +4,7 @@ namespace autodeploy\parsers;
 
 use autodeploy;
 
-class none extends autodeploy\parser
+class basic extends autodeploy\parser
 {
 
     protected static $singleton = null;
