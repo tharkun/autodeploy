@@ -22,7 +22,7 @@ class script extends autodeploy\task
                 preg_match("@^[a-zA-Z0-9-_/\\\\.]+.(php)( .+)?$@", $sWildCard, $aMatches);
 
                 $sBatchPrefix = '';
-                if (count($aMatches))
+                /*if (count($aMatches))
                 {
                     switch ($aMatches[1])
                     {
@@ -31,7 +31,7 @@ class script extends autodeploy\task
                             {
                                 case 'win32':
                                 case 'unix':
-                                    $sBatchPrefix = "php";
+                                    //$sBatchPrefix = "php";
                                     break;
                             }
                             break;
@@ -39,9 +39,9 @@ class script extends autodeploy\task
                 }
                 if ('' == $sBatchPrefix)
                 {
-                    throw new \RuntimeException('Unsupported script extension.');
-                }
-                $aCommands[] = "$sBatchPrefix $sWildCard";
+                    //throw new \RuntimeException('Unsupported script extension.');
+                }*/
+                $aCommands[] = trim("$sBatchPrefix $sWildCard");
             }
             return implode(' && ', array_unique($aCommands));
         };

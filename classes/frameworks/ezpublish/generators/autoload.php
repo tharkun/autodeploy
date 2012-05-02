@@ -11,7 +11,7 @@ class autoload extends autodeploy\generator
 
     public function __toString()
     {
-        return 'bin/php/ezpgenerateautoloads.php -e';
+        return 'php bin/php/ezpgenerateautoloads.php -e';
     }
 
 }

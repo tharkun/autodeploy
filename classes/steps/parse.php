@@ -27,20 +27,24 @@ class parse extends autodeploy\step
     {
         $iterator = new autodeploy\iterator();
 
-        foreach ($this->getRunner()->getProfil()->getParsers() as $parser)
+        foreach ($this->getFactories() as $oFactory)
         {
-            $tasks = $this->getFactories()->current()->__invoke($this->getRunner(), $parser)
-                ->parse( $this->getRunner()->getElementsIterator() )
-                ->getTasks()
-            ;
-
-            foreach ($tasks as $task)
+            foreach ($this->getRunner()->getProfil()->getParsers() as $parser)
             {
-                $iterator->append(array(
-                    'parser' => $parser,
-                    'type'   => $task[0],
-                    'value'  => $task[1],
-                ));
+                $tasks = $oFactory
+                    ->__invoke($this->getRunner(), $parser)
+                    ->parse( $this->getRunner()->getElementsIterator() )
+                    ->getTasks()
+                ;
+
+                foreach ($tasks as $task)
+                {
+                    $iterator->append(array(
+                        'parser' => $parser,
+                        'type'   => $task[0],
+                        'value'  => $task[1],
+                    ));
+                }
             }
         }
 

@@ -103,7 +103,12 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
         $this->callObservers(self::runStart);
         $this->callObservers(static::runStart);
 
-        $this->runStep();
+        $this->getFactories()->rewind();
+
+        if ($this->getFactories()->valid())
+        {
+            $this->runStep();
+        }
 
         $this->stop = $this->getRunner()->getAdapter()->microtime(true);
 

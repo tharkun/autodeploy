@@ -147,40 +147,19 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
             $this->locale->_('Files')
         );
 
-        $this->addArgumentHandler(
-            function($script, $argument, $values) use ($runner) {
-                if (sizeof($values) != 1)
-                {
-                    throw new \InvalidArgument(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
-                }
-
-                $bootstrapFile = realpath($values[0]);
-
-                if ($bootstrapFile === false || is_file($bootstrapFile) === false || is_readable($bootstrapFile) === false)
-                {
-                    throw new \InvalidArgument(sprintf($script->getLocale()->_('Bootstrap file \'%s\' does not exist'), $values[0]));
-                }
-
-                $runner->setBootstrapFile($bootstrapFile);
-            },
-            array('-bf', '--bootstrap-file'),
-            '<file>',
-            $this->locale->_('Include <file> before executing each test method')
-        );
-
         return $this;
     }
 
     /**
      * @throws \Exception
-     * @param array $arguments
+     * @param array $args
      * @return runner
      */
-    public function run(array $arguments = array())
+    public function run(array $args = array())
     {
         try
         {
-            parent::run($arguments);
+            parent::run($args);
 
             $this->getRunner()->run();
 

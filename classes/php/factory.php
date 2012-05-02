@@ -29,14 +29,12 @@ class factory
      */
     public static function build()
     {
-        $args = func_get_args();
+        $args  = func_get_args();
+        $class = array_shift($args);
+        $class = is_string($class) && '' == $class ? 'none' : $class;
+        $class = is_string($class) ? array($class) : $class;
 
-        //print_r($args);
-
-        $factory = new static(
-            ($class = array_shift($args)) && is_string($class) ? array($class) : $class,
-            $args
-        );
+        $factory = new static( $class, $args );
         return $factory->create();
     }
 

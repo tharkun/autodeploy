@@ -47,6 +47,12 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
             ->setSystem($system ?: new system())
             ->setProfil($profil ?: new profil())
         ;
+
+        $this
+            ->setFilesIterator( new iterator() )
+            ->setElementsIterator( new iterator() )
+            ->setTasksIterator( new iterator() )
+        ;
     }
 
     /**
@@ -251,6 +257,10 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
     public function setSteps(array $steps)
     {
+        /*foreach ($steps as $name => $step)
+        {
+
+        }*/
         $this->steps = $steps;
 
         return $this;

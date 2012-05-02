@@ -2,7 +2,7 @@
 
 namespace autodeploy;
 
-class filter implements aggregators\runner, definitions\filter
+abstract class filter implements aggregators\runner, definitions\filter
 {
 
     protected $runner = null;
@@ -32,15 +32,6 @@ class filter implements aggregators\runner, definitions\filter
     final public function getRunner()
     {
         return $this->runner;
-    }
-
-    /**
-     * @param iterator $iterator
-     * @return filter
-     */
-    public function filter(iterator $iterator)
-    {
-        return $this;
     }
 
 }

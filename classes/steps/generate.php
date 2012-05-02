@@ -26,11 +26,13 @@ class generate extends step
     public function runStep()
     {
         $tasksIterator = $this->getRunner()->getTasksIterator();
-        foreach ($tasksIterator as $task)
+
+        foreach ($this->getFactories() as $oFactory)
         {
-            foreach ($this->getFactories() as $oFactory)
+            foreach ($tasksIterator as $task)
             {
                 $task['wildcard'] = (string) $oFactory->__invoke($this->getRunner(), $task);
+
                 $tasksIterator->set($task);
             }
         }
