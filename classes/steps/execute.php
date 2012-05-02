@@ -3,7 +3,6 @@
 namespace autodeploy\steps;
 
 use autodeploy\step;
-use autodeploy\factories;
 
 class execute extends step
 {
@@ -31,7 +30,7 @@ class execute extends step
 
         foreach ($this->getRunner()->getTasksIterator() as $action)
         {
-            if (($currentAction = md5( implode(':', array($action['parser'], $action['type'], $action['wildcard'])) )) == $lastAction && '' != $lastAction)
+            if (($currentAction = self::uniqueAction($action)) == $lastAction && '' != $lastAction)
             {
                 continue;
             }
@@ -48,6 +47,16 @@ class execute extends step
         }
 
         return $this;
+    }
+
+    private static function uniqueAction(array $action)
+    {
+        return md5( implode(':', array(
+            $action['parser'],
+            $action['type'],
+            $action['command'],
+            $action['wildcard']
+        )) );
     }
 
 }

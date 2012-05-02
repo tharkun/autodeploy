@@ -3,8 +3,6 @@
 namespace autodeploy\steps;
 
 use autodeploy;
-use autodeploy\factories;
-use autodeploy\factories\profile;
 
 class parse extends autodeploy\step
 {

@@ -3,7 +3,6 @@
 namespace autodeploy\steps;
 
 use autodeploy\step;
-use autodeploy\factories;
 
 class transform extends step
 {

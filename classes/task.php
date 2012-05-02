@@ -7,6 +7,7 @@ abstract class task implements aggregators\runner, definitions\task
 
     protected $runner = null;
 
+    protected $command = null;
     protected $wildcards = array();
 
 
@@ -16,12 +17,14 @@ abstract class task implements aggregators\runner, definitions\task
 
     /**
      * @param runner $runner
+     * @param $command
      * @param array $wildcards
      */
-    public function __construct(runner $runner, array $wildcards)
+    public function __construct(runner $runner, $command, array $wildcards)
     {
         $this
             ->setRunner($runner)
+            ->setCommand($command)
             ->setWildcards($wildcards)
         ;
     }
@@ -43,6 +46,17 @@ abstract class task implements aggregators\runner, definitions\task
     public function getRunner()
     {
         return $this->runner;
+    }
+
+    /**
+     * @param string $command
+     * @return task
+     */
+    public function setCommand($command = null)
+    {
+        $this->command = $command;
+
+        return $this;
     }
 
     /**

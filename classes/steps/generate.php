@@ -3,8 +3,6 @@
 namespace autodeploy\steps;
 
 use autodeploy\step;
-use autodeploy\factories;
-use autodeploy\factories\profile;
 
 class generate extends step
 {
@@ -52,8 +50,6 @@ class generate extends step
                 {
                     throw new \UnexpectedValueException();
                 }
-
-
 
                 $tasksIterator->set($task);
             }

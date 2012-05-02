@@ -78,6 +78,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                                 $action['parser']
                             ),
                             $runner,
+                            $action['command'],
                             array($action['wildcard'])
                         );
                     }

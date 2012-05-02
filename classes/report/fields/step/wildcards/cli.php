@@ -47,7 +47,7 @@ class cli extends fields\step\wildcards
             return '';
         }
 
-        return (string) new table( $this->iterator->getArrayCopy(), array('Parser', 'Type', 'Value', 'Wildcard') );
+        return (string) new table( $this->iterator->getArrayCopy(), array('Parser', 'Type', 'Value', 'Command', 'Wildcard') );
     }
 
 }
