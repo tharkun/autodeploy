@@ -9,7 +9,7 @@ use
 class autoload extends autodeploy\generator
 {
 
-    public function __toString()
+    public function generate()
     {
         return 'php bin/php/ezpgenerateautoloads.php -e';
     }

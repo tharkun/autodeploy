@@ -9,7 +9,7 @@ use
 class override extends autodeploy\generator
 {
 
-    public function __toString()
+    public function generate()
     {
         return \eZSys::cacheDirectory() . '/override/*';
     }

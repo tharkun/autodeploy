@@ -9,7 +9,7 @@ use
 class ini extends autodeploy\generator
 {
 
-    public function __toString()
+    public function generate()
     {
         return \eZINI::CONFIG_CACHE_DIR . $this->wildcard . '-*';
     }

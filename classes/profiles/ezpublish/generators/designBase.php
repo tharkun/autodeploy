@@ -9,7 +9,7 @@ use
 class designBase extends autodeploy\generator
 {
 
-    public function __toString()
+    public function generate()
     {
         return \eZSys::cacheDirectory() . '/' . \eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME.'*';
     }

@@ -9,6 +9,6 @@ interface generator
      * @abstract
      * @return void
      */
-    public function __toString();
+    public function generate();
 
 }

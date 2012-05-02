@@ -9,9 +9,12 @@ use
 class up extends autodeploy\generator
 {
 
-    public function __toString()
+    public function generate()
     {
-        return sprintf("svn up %s", $this->wildcard);
+        return array(
+            "svn up",
+            $this->wildcard
+        );
     }
 
 }

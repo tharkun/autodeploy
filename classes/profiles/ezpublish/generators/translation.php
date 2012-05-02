@@ -9,7 +9,7 @@ use
 class translation extends autodeploy\generator
 {
 
-    public function __toString()
+    public function generate()
     {
         return \eZDir::path( array( \eZSys::cacheDirectory(), 'translation' ) ) . '/*';
     }

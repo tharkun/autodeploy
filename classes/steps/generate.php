@@ -31,7 +31,29 @@ class generate extends step
         {
             foreach ($tasksIterator as $task)
             {
-                $task['wildcard'] = (string) $oFactory->__invoke($this->getRunner(), $task);
+                $return = $oFactory->__invoke($this->getRunner(), $task)->generate();
+
+                if (is_array($return) &&  2 == count($return))
+                {
+                    $task['command']  = $return[0];
+                    $task['wildcard'] = $return[1];
+                }
+                else if (is_array($return) && 1 == count($return))
+                {
+                    $task['command']  = 'auto';
+                    $task['wildcard'] = $return[0];
+                }
+                else if (is_string($return))
+                {
+                    $task['command']  = 'auto';
+                    $task['wildcard'] = $return;
+                }
+                else
+                {
+                    throw new \UnexpectedValueException();
+                }
+
+
 
                 $tasksIterator->set($task);
             }

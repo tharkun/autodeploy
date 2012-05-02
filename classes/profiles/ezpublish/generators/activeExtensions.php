@@ -9,7 +9,7 @@ use
 class activeExtensions extends autodeploy\generator
 {
 
-    public function __toString()
+    public function generate()
     {
         return \eZExtension::CACHE_DIR . 'active_extensions_*';
     }

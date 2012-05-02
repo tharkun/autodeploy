@@ -9,7 +9,7 @@ use
 class template extends autodeploy\generator
 {
 
-    public function __toString()
+    public function generate()
     {
         return \eZTemplateCompiler::compilationDirectory() . '/' . $this->wildcard . '-*';
     }
