@@ -150,26 +150,4 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
         return $this;
     }
 
-    /**
-     * @throws \Exception
-     * @param array $args
-     * @return runner
-     */
-    public function run(array $args = array())
-    {
-        try
-        {
-            parent::run($args);
-
-            $this->getRunner()->run();
-
-        }
-        catch (\Exception $exception)
-        {
-            throw $exception;
-        }
-
-        return $this;
-    }
-
 }

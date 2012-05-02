@@ -202,7 +202,7 @@ abstract class script implements aggregators\php\adapter, aggregators\php\locale
      * @param array $args
      * @return script
      */
-    public function run(array $args = array())
+    public function init(array $args = array())
     {
         $this->adapter->ini_set('log_errors_max_len', '0');
         $this->adapter->ini_set('log_errors', 'Off');
@@ -216,6 +216,28 @@ abstract class script implements aggregators\php\adapter, aggregators\php\locale
             $report->addWriter(new writers\std\out());
 
             $this->getRunner()->addReport($report);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @throws \Exception
+     * @param array $args
+     * @return runner
+     */
+    public function run(array $args = array())
+    {
+        try
+        {
+            self::init($args);
+
+            $this->getRunner()->run();
+
+        }
+        catch (\Exception $exception)
+        {
+            throw $exception;
         }
 
         return $this;
