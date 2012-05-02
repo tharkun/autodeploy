@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\frameworks\ezpublish\parsers;
+namespace autodeploy\profiles\ezpublish\parsers;
 
 use
     autodeploy

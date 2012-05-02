@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\frameworks\ezpublish;
+namespace autodeploy\profiles\ezpublish;
 
 use
     autodeploy

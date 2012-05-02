@@ -7,12 +7,9 @@ class profil extends php\options
 
     protected $name = null;
 
-    /**
-     * @param null $name
-     */
-    public function __construct($name = null)
+    public function __construct()
     {
-        $this->setName($name);
+
     }
 
     /**

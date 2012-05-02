@@ -37,7 +37,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                     },
                     function ($runner)
                     {
-                        return factories\framework\filter::build(
+                        return factories\profile\filter::build(
                             $runner->getProfil()->getName(),
                             $runner
                         );
@@ -46,7 +46,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                 'parse'     => array(
                     function ($runner, $parser)
                     {
-                        return factories\framework\parser::build(
+                        return factories\profile\parser::build(
                             array(
                                 $runner->getProfil()->getName(),
                                 $parser,
@@ -59,7 +59,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                 'generate'  => array(
                     function ($runner, $task)
                     {
-                        return factories\framework\generator::build(
+                        return factories\profile\generator::build(
                             array(
                                 $runner->getProfil()->getName(),
                                 $task['parser']

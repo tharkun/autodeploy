@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\frameworks\ezpublish\generators;
+namespace autodeploy\profiles\ezpublish\generators;
 
 use
     autodeploy

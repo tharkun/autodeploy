@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\factories\framework;
+namespace autodeploy\factories\profile;
 
 use autodeploy\php\factory;
 
@@ -9,7 +9,7 @@ class filter extends factory
 
     public function getPattern()
     {
-        return 'frameworks\%s\filter';
+        return 'profiles\%s\filter';
     }
 
 }

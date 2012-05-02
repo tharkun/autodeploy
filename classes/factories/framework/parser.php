@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\factories\framework;
+namespace autodeploy\factories\profile;
 
 use autodeploy\php\factory;
 
@@ -9,7 +9,7 @@ class parser extends factory
 
     public function getPattern()
     {
-        return 'frameworks\%s\parsers\%s\%s';
+        return 'profiles\%s\parsers\%s\%s';
     }
 
 }

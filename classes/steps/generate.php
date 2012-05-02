@@ -4,7 +4,7 @@ namespace autodeploy\steps;
 
 use autodeploy\step;
 use autodeploy\factories;
-use autodeploy\factories\framework;
+use autodeploy\factories\profile;
 
 class generate extends step
 {

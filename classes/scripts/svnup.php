@@ -48,7 +48,7 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
                 'generate'  => array(
                     function ($runner, $task)
                     {
-                        return factories\framework\generator::build(
+                        return factories\profile\generator::build(
                             array(
                                 $runner->getProfil()->getName(),
                                 'up'

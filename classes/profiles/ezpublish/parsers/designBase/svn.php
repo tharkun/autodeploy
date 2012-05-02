@@ -1,10 +1,10 @@
 <?php
 
-namespace autodeploy\frameworks\ezpublish\parsers\designBase;
+namespace autodeploy\profiles\ezpublish\parsers\designBase;
 
 use
     autodeploy,
-    autodeploy\frameworks\ezpublish\parsers
+    autodeploy\profiles\ezpublish\parsers
 ;
 class svn extends parsers\designBase
 {

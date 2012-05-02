@@ -66,7 +66,7 @@ abstract class parser implements aggregators\runner, definitions\parser
     {
         preg_match("/(svn|rsync)$/", get_class($this), $aMatches);
 
-        return factories\framework\parser::build(
+        return factories\profile\parser::build(
             array(
                  $this->getRunner()->getProfil()->getName(),
                  $sParser,

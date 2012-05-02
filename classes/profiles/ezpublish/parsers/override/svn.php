@@ -1,10 +1,10 @@
 <?php
 
-namespace autodeploy\frameworks\ezpublish\parsers\override;
+namespace autodeploy\profiles\ezpublish\parsers\override;
 
 use
     autodeploy,
-    autodeploy\frameworks\ezpublish\parsers
+    autodeploy\profiles\ezpublish\parsers
 ;
 
 class svn extends parsers\override

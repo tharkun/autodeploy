@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\factories\framework;
+namespace autodeploy\factories\profile;
 
 use autodeploy\php\factory;
 
@@ -9,7 +9,7 @@ class generator extends factory
 
     public function getPattern()
     {
-        return 'frameworks\%s\generators\%s';
+        return 'profiles\%s\generators\%s';
     }
 
 }

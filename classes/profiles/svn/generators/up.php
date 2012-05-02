@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\frameworks\svn\generators;
+namespace autodeploy\profiles\svn\generators;
 
 use
     autodeploy
