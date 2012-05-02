@@ -11,7 +11,7 @@ if ( !ini_get( "date.timezone" ) )
 require 'autoload.php';
 
 $runner
-    ->getProfil()
+    ->getProfile()
         ->setName('ezpublish')
         ->setParsers(array(
             'ini',

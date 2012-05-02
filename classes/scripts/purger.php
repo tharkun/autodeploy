@@ -22,7 +22,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                     function ($runner)
                     {
                         return factories\transformer::build(
-                            $runner->getProfil()->getOrigin(),
+                            $runner->getProfile()->getOrigin(),
                             $runner
                         );
                     },
@@ -31,14 +31,14 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                     function ($runner)
                     {
                         return factories\filter::build(
-                            $runner->getProfil()->getOrigin(),
+                            $runner->getProfile()->getOrigin(),
                             $runner
                         );
                     },
                     function ($runner)
                     {
                         return factories\profile\filter::build(
-                            $runner->getProfil()->getName(),
+                            $runner->getProfile()->getName(),
                             $runner
                         );
                     },
@@ -48,9 +48,9 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                     {
                         return factories\profile\parser::build(
                             array(
-                                $runner->getProfil()->getName(),
+                                $runner->getProfile()->getName(),
                                 $parser,
-                                $runner->getProfil()->getOrigin()
+                                $runner->getProfile()->getOrigin()
                             ),
                             $runner
                         );
@@ -61,7 +61,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                     {
                         return factories\profile\generator::build(
                             array(
-                                $runner->getProfil()->getName(),
+                                $runner->getProfile()->getName(),
                                 $task['parser']
                             ),
                             $runner,
@@ -98,7 +98,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                     throw new \InvalidArgument(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
                 }
 
-                $runner->getProfil()->setOrigin(current($origin));
+                $runner->getProfile()->setOrigin(current($origin));
             },
             array('-o', '--origin'),
             null,

@@ -29,7 +29,7 @@ class parse extends autodeploy\step
 
         foreach ($this->getFactories() as $oFactory)
         {
-            foreach ($this->getRunner()->getProfil()->getParsers() as $parser)
+            foreach ($this->getRunner()->getProfile()->getParsers() as $parser)
             {
                 $tasks = $oFactory
                     ->__invoke($this->getRunner(), $parser)

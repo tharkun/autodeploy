@@ -11,7 +11,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     protected $adapter = null;
     protected $locale = null;
     protected $system = null;
-    protected $profil = null;
+    protected $profile = null;
 
     protected $bootstrapFile = null;
     protected $defaultReportTitle = null;
@@ -39,13 +39,13 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     /*****************************************************************************************************************************/
 
 
-    public function __construct(php\adapter $adapter = null, php\locale $locale = null, system $system = null, profil $profil = null)
+    public function __construct(php\adapter $adapter = null, php\locale $locale = null, system $system = null, profile $profile = null)
     {
         $this
             ->setAdapter($adapter ?: new php\adapter())
             ->setLocale($locale ?: new php\locale())
             ->setSystem($system ?: new system())
-            ->setProfil($profil ?: new profil())
+            ->setProfile($profile ?: new profile())
         ;
 
         $this
@@ -206,22 +206,22 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     }
 
     /**
-     * @param profil $profil
+     * @param profile $profile
      * @return runner
      */
-    public function setProfil(profil $profil)
+    public function setProfile(profile $profile)
     {
-        $this->profil = $profil;
+        $this->profile = $profile;
 
         return $this;
     }
 
     /**
-     * @return null|profil
+     * @return null|profile
      */
-    public function getProfil()
+    public function getProfile()
     {
-        return $this->profil;
+        return $this->profile;
     }
 
     /**

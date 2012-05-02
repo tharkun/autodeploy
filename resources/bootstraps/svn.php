@@ -1,7 +1,7 @@
 <?php
 
 $runner
-    ->getProfil()
+    ->getProfile()
         ->setName('svn')
         ->setParsers(array(
             autodeploy\step::defaultFactory,

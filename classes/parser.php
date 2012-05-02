@@ -68,7 +68,7 @@ abstract class parser implements aggregators\runner, definitions\parser
 
         return factories\profile\parser::build(
             array(
-                 $this->getRunner()->getProfil()->getName(),
+                 $this->getRunner()->getProfile()->getName(),
                  $sParser,
                  strtolower($aMatches[1])
             ), $this->getRunner()

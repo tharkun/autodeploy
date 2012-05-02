@@ -2,7 +2,7 @@
 
 namespace autodeploy;
 
-class profil extends php\options
+class profile extends php\options
 {
 
     protected $name = null;
