@@ -26,27 +26,84 @@ class execute extends step
      */
     public function runStep()
     {
-        $lastAction = '';
+        $triggered = false;
 
-        foreach ($this->getRunner()->getTasksIterator() as $action)
+        $iterator = $this->getRunner()->getTasksIterator();
+        $iterator->rewind();
+
+        $action = $iterator->current();
+
+        $lastHashCommand = self::uniqueCommand($action);
+        $lastHashAction  = self::uniqueAction($action);
+
+        $groupAction = $action;
+        $groupAction['wildcard'] = self::makeArray($groupAction['wildcard']);
+
+        $iterator->next();
+
+        while ($iterator->valid() === true)
         {
-            if (($currentAction = self::uniqueAction($action)) == $lastAction && '' != $lastAction)
+            $action = $iterator->current();
+
+            $currentHashCommand = self::uniqueCommand($action);
+            $currentHashAction  = self::uniqueAction($action);
+
+            if ($currentHashAction == $lastHashAction)
             {
+                $iterator->next();
                 continue;
             }
-            $lastAction = $currentAction;
+            $lastHashAction = $currentHashAction;
 
-            $this->callObservers(self::actionStart);
-
-            foreach ($this->getFactories() as $oFactory)
+            if ($currentHashCommand != $lastHashCommand)
             {
-                $oFactory->__invoke($this->getRunner(), $action)->execute();
+                $this->trigger($groupAction);
+                $triggered = false;
+
+                $lastHashCommand = $currentHashCommand;
+                $groupAction = $action;
+                $groupAction['wildcard'] = self::makeArray($groupAction['wildcard']);
+            }
+            else
+            {
+                $groupAction['wildcard'] = array_merge(
+                    $groupAction['wildcard'],
+                    self::makeArray($action['wildcard'])
+                );
             }
 
-            $this->callObservers(self::actionStop);
+            $iterator->next();
+        }
+
+        if (!$triggered)
+        {
+            $this->trigger($groupAction);
         }
 
         return $this;
+    }
+
+    public function trigger(array $action)
+    {
+        $this->callObservers(self::actionStart);
+
+        foreach ($this->getFactories() as $oFactory)
+        {
+            $oFactory->__invoke($this->getRunner(), $action)->execute();
+        }
+
+        $this->callObservers(self::actionStop);
+
+        return $this;
+    }
+
+    private static function uniqueCommand(array $action)
+    {
+        return md5( implode(':', array(
+            //$action['parser'],
+            $action['type'],
+            $action['command'],
+        )) );
     }
 
     private static function uniqueAction(array $action)
@@ -59,4 +116,8 @@ class execute extends step
         )) );
     }
 
+    private static function makeArray($input)
+    {
+        return is_array($input) ? $input : array($input);
+    }
 }

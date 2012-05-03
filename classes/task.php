@@ -127,4 +127,21 @@ abstract class task implements aggregators\runner, definitions\task
         return $this;
     }
 
+    public function getWildcardsAsString()
+    {
+        $self = $this;
+
+        $anonymous = function (array $aWildCards) use ($self)
+        {
+            $aCommands = array();
+            foreach ($aWildCards as $sWildCard)
+            {
+                $aCommands[] = trim( $self->getRunner()->getSystem()->cleanPath( $sWildCard ) );
+            }
+            return implode(' ', array_unique($aCommands));
+        };
+
+        return $anonymous(is_array($this->wildcards) ? $this->wildcards : array($this->wildcards));
+    }
+
 }

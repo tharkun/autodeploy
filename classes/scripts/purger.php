@@ -79,7 +79,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                             ),
                             $runner,
                             $action['command'],
-                            array($action['wildcard'])
+                            $action['wildcard']
                         );
                     }
                 ),

@@ -11,19 +11,7 @@ class script extends autodeploy\task
 
     public function __toString()
     {
-        $self = $this;
-
-        $fMakeCommand = function (array $aWildCards) use ($self)
-        {
-            $aCommands = array();
-            foreach ($aWildCards as $sWildCard)
-            {
-                $aCommands[] = trim( $self->getRunner()->getSystem()->cleanPath( $sWildCard ) );
-            }
-            return implode(' ', array_unique($aCommands));
-        };
-
-        return $this->command . ' ' . $fMakeCommand(is_array($this->wildcards) ? $this->wildcards : array($this->wildcards));
+        return $this->command . ' ' . $this->getWildcardsAsString();
     }
 
 }

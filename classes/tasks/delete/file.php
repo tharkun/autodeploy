@@ -11,7 +11,7 @@ class file extends autodeploy\task
 
     public function __toString()
     {
-        $sWildcard = $this->getRunner()->getSystem()->cleanPath( implode(' ', $this->wildcards) );
+        $sWildcard = $this->getWildcardsAsString();
 
         switch ($this->getRunner()->getSystem()->getOsType())
         {

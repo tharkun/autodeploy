@@ -68,7 +68,7 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
                             ),
                             $runner,
                             $action['command'],
-                            array($action['wildcard'])
+                            $action['wildcard']
                         );
                     }
                 ),
