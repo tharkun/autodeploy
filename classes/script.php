@@ -2,6 +2,8 @@
 
 namespace autodeploy;
 
+use autodeploy\php\arguments;
+
 abstract class script implements aggregators\php\adapter, aggregators\php\locale
 {
 
@@ -151,8 +153,9 @@ abstract class script implements aggregators\php\adapter, aggregators\php\locale
                 outputs\cli::forceTerminal();
             },
             array('-c', '--color'),
+            arguments\parser::TYPE_NONE,
             null,
-            $this->locale->_('Use color')
+            'Use color'
         );
 
         $this->addArgumentHandler(
@@ -172,8 +175,9 @@ abstract class script implements aggregators\php\adapter, aggregators\php\locale
                 $runner->setBootstrapFile($bootstrapFile);
             },
             array('-bf', '--bootstrap-file'),
+            arguments\parser::TYPE_SINGLE,
             '<file>',
-            $this->locale->_('Include <file> before executing each test method')
+            'Include <file> before executing each test method'
         );
 
         return $this;
@@ -190,7 +194,7 @@ abstract class script implements aggregators\php\adapter, aggregators\php\locale
     {
         if ($help !== null)
         {
-            $this->help[] = array($args, $values, $help);
+            $this->help[] = array($args, $values, $this->locale->_($help));
         }
 
         $this->argumentsParser->addHandler($handler, $args);

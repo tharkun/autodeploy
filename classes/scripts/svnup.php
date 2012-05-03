@@ -4,6 +4,7 @@ namespace autodeploy\scripts;
 
 use autodeploy;
 use autodeploy\factories;
+use autodeploy\php\arguments;
 
 final class svnup extends autodeploy\script implements autodeploy\aggregators\runner
 {
@@ -94,8 +95,8 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
                 }
             },
             array(''),
-            '',
-            $this->locale->_('')
+            arguments\parser::TYPE_MULTIPLE,
+            ''
         );
 
         return $this;

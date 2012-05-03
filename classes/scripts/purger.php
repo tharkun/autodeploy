@@ -4,6 +4,7 @@ namespace autodeploy\scripts;
 
 use autodeploy;
 use autodeploy\factories;
+use autodeploy\php\arguments;
 
 final class purger extends autodeploy\script implements autodeploy\aggregators\runner
 {
@@ -102,8 +103,9 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                 $runner->getProfile()->setOrigin(current($origin));
             },
             array('-o', '--origin'),
+            arguments\parser::TYPE_SINGLE,
             null,
-            $this->locale->_('Origin of the f param')
+            'Origin of the f param'
         );
 
         $this->addArgumentHandler(
@@ -145,8 +147,9 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                 $runner->setFilesIterator( $iterator );
             },
             array('-f', '--files'),
+            arguments\parser::TYPE_SINGLE,
             null,
-            $this->locale->_('Files')
+            'Files'
         );
 
         return $this;

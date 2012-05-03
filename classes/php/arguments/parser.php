@@ -6,6 +6,9 @@ use autodeploy;
 
 class parser implements \iteratorAggregate
 {
+    const TYPE_NONE = 1;
+    const TYPE_SINGLE = 2;
+    const TYPE_MULTIPLE = 3;
 
     protected $superglobals = null;
 
@@ -55,49 +58,51 @@ class parser implements \iteratorAggregate
 
         $this->resetValues();
 
+        if (sizeof($array) == 0)
+        {
+            return $this;
+        }
+
         $arguments = new \arrayIterator($array);
 
-        if (sizeof($arguments) > 0)
+        $value = $arguments->current();
+
+        if (self::isOption($value) === false)
+        {
+            $argument = '';
+
+            $this->values[$argument] = array($value);
+        }
+        else
+        {
+            $argument = $value;
+
+            $this->values[$argument] = array();
+        }
+
+        $arguments->next();
+
+        while ($arguments->valid() === true)
         {
             $value = $arguments->current();
 
-            if (self::isArgument($value) === false)
+            if (self::isOption($value) === false)
             {
-                $argument = '';
-
-                $this->values[$argument] = array($value);
+                $this->values[$argument][] = $value;
             }
             else
             {
+                $this->trigger($script);
+
                 $argument = $value;
 
                 $this->values[$argument] = array();
             }
 
             $arguments->next();
-
-            while ($arguments->valid() === true)
-            {
-                $value = $arguments->current();
-
-                if (self::isArgument($value) === false)
-                {
-                    $this->values[$argument][] = $value;
-                }
-                else
-                {
-                    $this->trigger($script);
-
-                    $argument = $value;
-
-                    $this->values[$argument] = array();
-                }
-
-                $arguments->next();
-            }
-
-            $this->trigger($script);
         }
+
+        $this->trigger($script);
 
         return $this;
     }
@@ -113,10 +118,10 @@ class parser implements \iteratorAggregate
 
         foreach ($arguments as $argument)
         {
-            /*if (self::isArgument($argument) === false)
+            if ('' != $argument && self::isOption($argument) === false)
             {
                 throw new \RuntimeException('Argument \'' . $argument . '\' is invalid');
-            }//*/
+            }
 
             $this->handlers[$argument][] = $handler;
         }
@@ -124,7 +129,7 @@ class parser implements \iteratorAggregate
         return $this;
     }
 
-    public static function isArgument($value)
+    public static function isOption($value)
     {
         return (preg_match('/^(\+|-{1,2})[a-z][-_a-z0-9]*/i', $value) === 1);
     }
