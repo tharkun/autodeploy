@@ -145,11 +145,6 @@ abstract class script implements aggregators\php\adapter, aggregators\php\locale
         $this->addArgumentHandler(
             function($script, $argument, $values)
             {
-                if (sizeof($values) != 0)
-                {
-                    throw new \InvalidArgument(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
-                }
-
                 outputs\cli::forceTerminal();
             },
             array('-c', '--color'),
@@ -159,17 +154,13 @@ abstract class script implements aggregators\php\adapter, aggregators\php\locale
         );
 
         $this->addArgumentHandler(
-            function($script, $argument, $values) use ($runner) {
-                if (sizeof($values) != 1)
-                {
-                    throw new \InvalidArgument(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
-                }
-
+            function($script, $argument, $values) use ($runner)
+            {
                 $bootstrapFile = realpath($values[0]);
 
                 if ($bootstrapFile === false || is_file($bootstrapFile) === false || is_readable($bootstrapFile) === false)
                 {
-                    throw new \InvalidArgument(sprintf($script->getLocale()->_('Bootstrap file \'%s\' does not exist'), $values[0]));
+                    throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bootstrap file \'%s\' does not exist'), $values[0]));
                 }
 
                 $runner->setBootstrapFile($bootstrapFile);
@@ -186,18 +177,19 @@ abstract class script implements aggregators\php\adapter, aggregators\php\locale
     /**
      * @param \Closure $handler
      * @param array $args
+     * @param int $type
      * @param null $values
      * @param null $help
      * @return script
      */
-    public function addArgumentHandler(\Closure $handler, array $args, $values = null, $help = null)
+    public function addArgumentHandler(\Closure $handler, array $args, $type = arguments\parser::TYPE_ALL, $values = null, $help = null)
     {
         if ($help !== null)
         {
             $this->help[] = array($args, $values, $this->locale->_($help));
         }
 
-        $this->argumentsParser->addHandler($handler, $args);
+        $this->argumentsParser->addHandler($handler, $args, $type);
 
         return $this;
     }

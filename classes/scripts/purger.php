@@ -95,11 +95,6 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
         $this->addArgumentHandler(
             function($script, $argument, $origin) use ($runner)
             {
-                if (sizeof($origin) != 1)
-                {
-                    throw new \InvalidArgument(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
-                }
-
                 $runner->getProfile()->setOrigin(current($origin));
             },
             array('-o', '--origin'),
@@ -111,11 +106,6 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
         $this->addArgumentHandler(
             function($script, $argument, $files) use ($runner)
             {
-                if (sizeof($files) != 1)
-                {
-                    throw new \InvalidArgument(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
-                }
-
                 $stdObject = json_decode( current($files) );
 
                 if (substr( php_uname(), 0, 7 ) == "Windows" || '/var/www/dekio.fr'==getcwd())

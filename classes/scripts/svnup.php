@@ -84,11 +84,6 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
         $this->addArgumentHandler(
             function($script, $argument, $values) use ($runner)
             {
-                if (!is_array($values))
-                {
-                    throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
-                }
-
                 foreach ($values as $value)
                 {
                     $runner->getFilesIterator()->append( $value );

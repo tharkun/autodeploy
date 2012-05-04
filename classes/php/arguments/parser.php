@@ -6,6 +6,7 @@ use autodeploy;
 
 class parser implements \iteratorAggregate
 {
+    const TYPE_ALL = 0;
     const TYPE_NONE = 1;
     const TYPE_SINGLE = 2;
     const TYPE_MULTIPLE = 3;
@@ -20,6 +21,10 @@ class parser implements \iteratorAggregate
         $this->setSuperglobals($superglobals ?: new autodeploy\php\superglobals());
     }
 
+    /**
+     * @param \autodeploy\php\superglobals $superglobals
+     * @return parser
+     */
     public function setSuperglobals(autodeploy\php\superglobals $superglobals)
     {
         $this->superglobals = $superglobals;
@@ -27,11 +32,17 @@ class parser implements \iteratorAggregate
         return $this;
     }
 
+    /**
+     * @return null
+     */
     public function getSuperglobals()
     {
         return $this->superglobals;
     }
 
+    /**
+     * @return parser
+     */
     public function resetValues()
     {
         $this->values = array();
@@ -39,16 +50,28 @@ class parser implements \iteratorAggregate
         return $this;
     }
 
+    /**
+     * @param null $argument
+     * @return array|null
+     */
     public function getValues($argument = null)
     {
         return ($argument === null ? $this->values : (isset($this->values[$argument]) === false ? null : $this->values[$argument]));
     }
 
+    /**
+     * @return \arrayIterator
+     */
     public function getIterator()
     {
         return new \arrayIterator($this->getValues());
     }
 
+    /**
+     * @param \autodeploy\script $script
+     * @param array $array
+     * @return parser
+     */
     public function parse(autodeploy\script $script, array $array = array())
     {
         if (sizeof($array) <= 0)
@@ -107,7 +130,14 @@ class parser implements \iteratorAggregate
         return $this;
     }
 
-    public function addHandler(\closure $handler, array $arguments)
+    /**
+     * @param closure $handler
+     * @param array $arguments
+     * @param $type
+     * @return parser
+     * @throws \RuntimeException
+     */
+    public function addHandler(\closure $handler, array $arguments, $type = self::TYPE_ALL)
     {
         $invoke = new \reflectionMethod($handler, '__invoke');
 
@@ -123,17 +153,31 @@ class parser implements \iteratorAggregate
                 throw new \RuntimeException('Argument \'' . $argument . '\' is invalid');
             }
 
-            $this->handlers[$argument][] = $handler;
+            $this->handlers[$argument][] = array(
+                'closure'   => $handler,
+                'arguments' => $arguments,
+                'type'      => $type,
+            );
         }
 
         return $this;
     }
 
+    /**
+     * @static
+     * @param $value
+     * @return bool
+     */
     public static function isOption($value)
     {
         return (preg_match('/^(\+|-{1,2})[a-z][-_a-z0-9]*/i', $value) === 1);
     }
 
+    /**
+     * @param \autodeploy\script $script
+     * @return parser
+     * @throws \UnexpectedValueException
+     */
     protected function trigger(autodeploy\script $script)
     {
         $lastArgument = array_slice($this->values, -1);
@@ -182,11 +226,39 @@ class parser implements \iteratorAggregate
         return $this;
     }
 
+    /**
+     * @param \autodeploy\script $script
+     * @param $argument
+     * @param array $values
+     * @return parser
+     */
     protected function invokeHandlers(autodeploy\script $script, $argument, array $values)
     {
         foreach ($this->handlers[$argument] as $handler)
         {
-            $handler->__invoke($script, $argument, $values, sizeof($this->values));
+            switch ($handler['type'])
+            {
+                case self::TYPE_NONE:
+                    if (sizeof($values) != 0)
+                    {
+                        throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
+                    }
+                    break;
+                case self::TYPE_SINGLE:
+                    if (sizeof($values) != 1)
+                    {
+                        throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
+                    }
+                    break;
+                case self::TYPE_MULTIPLE:
+                    if (sizeof($values) <= 0)
+                    {
+                        throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
+                    }
+                    break;
+            }
+
+            $handler['closure']->__invoke($script, $argument, $values, sizeof($this->values));
         }
 
         return $this;
