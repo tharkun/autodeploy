@@ -236,26 +236,22 @@ class parser implements \iteratorAggregate
     {
         foreach ($this->handlers[$argument] as $handler)
         {
+            $isInvalid = false;
             switch ($handler['type'])
             {
                 case self::TYPE_NONE:
-                    if (sizeof($values) != 0)
-                    {
-                        throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
-                    }
+                    $isInvalid = sizeof($values) != 0;
                     break;
                 case self::TYPE_SINGLE:
-                    if (sizeof($values) != 1)
-                    {
-                        throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
-                    }
+                    $isInvalid = sizeof($values) != 1;
                     break;
                 case self::TYPE_MULTIPLE:
-                    if (sizeof($values) <= 0)
-                    {
-                        throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
-                    }
+                    $isInvalid = sizeof($values) <= 0;
                     break;
+            }
+            if ($isInvalid)
+            {
+                throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
             }
 
             $handler['closure']->__invoke($script, $argument, $values, sizeof($this->values));
