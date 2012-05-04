@@ -60,7 +60,7 @@ class factory
     {
         if ($level > $this->recursiveLevel)
         {
-            throw new \Exception('');
+            throw new \RuntimeException('');
         }
 
         if (!class_exists($class) && preg_match('/.+\\\\.+/', $class))

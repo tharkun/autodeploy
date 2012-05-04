@@ -3,6 +3,7 @@
 namespace autodeploy\scripts;
 
 use autodeploy;
+use autodeploy\step;
 use autodeploy\factories;
 use autodeploy\php\arguments;
 
@@ -19,34 +20,34 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
 
         $this->getRunner()
             ->setSteps(array(
-                'transform' => array(
+                step::STEP_TRANSFORM => array(
                     function ($runner)
                     {
                         return factories\transformer::build(
-                            autodeploy\step::defaultFactory,
+                            step::defaultFactory,
                             $runner
                         );
                     },
                 ),
-                'filter'    => array(
+                step::STEP_FILTER    => array(
                     function ($runner)
                     {
                         return factories\filter::build(
-                            autodeploy\step::defaultFactory,
+                            step::defaultFactory,
                             $runner
                         );
                     },
                 ),
-                'parse'     => array(
+                step::STEP_PARSE     => array(
                     function ($runner)
                     {
                         return factories\parser::build(
-                            autodeploy\step::defaultFactory,
+                            step::defaultFactory,
                             $runner
                         );
                     }
                 ),
-                'generate'  => array(
+                step::STEP_GENERATE  => array(
                     function ($runner, $task)
                     {
                         return factories\profile\generator::build(
@@ -59,7 +60,7 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
                         );
                     }
                 ),
-                'execute'   => array(
+                step::STEP_EXECUTE   => array(
                     function ($runner, $action)
                     {
                         return factories\task::build(

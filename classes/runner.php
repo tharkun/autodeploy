@@ -257,10 +257,32 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
     public function setSteps(array $steps)
     {
-        /*foreach ($steps as $name => $step)
+        foreach ($steps as $name => $step)
         {
+            if (!in_array($name, step::$availableSteps))
+            {
+                throw new \InvalidArgumentException(sprintf($this->getLocale()->_('Step \'%s\' does not exist'), $name));
+            }
 
-        }*/
+            if (!is_array($step) && !($step instanceof \Closure))
+            {
+                throw new \InvalidArgumentException(sprintf($this->getLocale()->_('Step \'%s\' should be composed of an array of closure or a single closure'), $name));
+            }
+
+            if (!is_array($step) && $step instanceof \Closure)
+            {
+                $steps[$name] = array($step);
+            }
+
+            foreach ($step as $closure)
+            {
+                if (!($closure instanceof \Closure))
+                {
+                    throw new \InvalidArgumentException(sprintf($this->getLocale()->_('Step \'%s\' should be composed of an array of closure'), $name));
+                }
+            }
+        }
+
         $this->steps = $steps;
 
         return $this;

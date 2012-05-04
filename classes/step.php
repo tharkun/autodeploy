@@ -10,6 +10,20 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
     const runStart = 'stepStart';
     const runStop = 'stepStop';
 
+    const STEP_TRANSFORM    = 'transform';
+    const STEP_FILTER       = 'filter';
+    const STEP_PARSE        = 'parse';
+    const STEP_GENERATE     = 'generate';
+    const STEP_EXECUTE      = 'execute';
+
+    public static $availableSteps = array(
+        self::STEP_TRANSFORM,
+        self::STEP_FILTER,
+        self::STEP_PARSE,
+        self::STEP_GENERATE,
+        self::STEP_EXECUTE,
+    );
+
     protected $runner = null;
     protected $factories = array();
     protected $observers = array();

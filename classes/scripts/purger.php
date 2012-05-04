@@ -3,6 +3,7 @@
 namespace autodeploy\scripts;
 
 use autodeploy;
+use autodeploy\step;
 use autodeploy\factories;
 use autodeploy\php\arguments;
 
@@ -19,7 +20,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
 
         $this->getRunner()
             ->setSteps(array(
-                'transform' => array(
+                step::STEP_TRANSFORM => array(
                     function ($runner)
                     {
                         return factories\transformer::build(
@@ -28,7 +29,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                         );
                     },
                 ),
-                'filter'    => array(
+                step::STEP_FILTER => array(
                     function ($runner)
                     {
                         return factories\filter::build(
@@ -44,7 +45,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                         );
                     },
                 ),
-                'parse'     => array(
+                step::STEP_PARSE     => array(
                     function ($runner, $parser)
                     {
                         return factories\profile\parser::build(
@@ -57,7 +58,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                         );
                     }
                 ),
-                'generate'  => array(
+                step::STEP_GENERATE  => array(
                     function ($runner, $task)
                     {
                         return factories\profile\generator::build(
@@ -70,7 +71,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                         );
                     }
                 ),
-                'execute'   => array(
+                step::STEP_EXECUTE   => array(
                     function ($runner, $action)
                     {
                         return factories\task::build(
