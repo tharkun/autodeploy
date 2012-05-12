@@ -7,14 +7,10 @@ class profile extends php\options
 
     protected $name = null;
 
-    public function __construct()
-    {
-
-    }
-
     /**
-     * @param string $name
-     * @return profil
+     * @param $name
+     * @return profile
+     * @throws \InvalidArgumentException
      */
     public function setName($name)
     {
