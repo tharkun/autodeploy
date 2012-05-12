@@ -26,7 +26,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
 
 
-    protected $filesIterator = null;
+    protected $inputIterator = null;
     protected $elementsIterator = null;
     protected $tasksIterator = null;
 
@@ -49,7 +49,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
         ;
 
         $this
-            ->setFilesIterator( new iterator() )
+            ->setInputIterator( new iterator() )
             ->setElementsIterator( new iterator() )
             ->setTasksIterator( new iterator() )
         ;
@@ -301,12 +301,12 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
 
     /**
-     * @param iterator $filesIterator
+     * @param iterator $inputIterator
      * @return runner
      */
-    public function setFilesIterator(iterator $filesIterator)
+    public function setInputIterator(iterator $inputIterator)
     {
-        $this->filesIterator = $filesIterator;
+        $this->inputIterator = $inputIterator;
 
         return $this;
     }
@@ -314,9 +314,9 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     /**
      * @return null
      */
-    public function getFilesIterator()
+    public function getInputIterator()
     {
-        return $this->filesIterator;
+        return $this->inputIterator;
     }
 
     /**

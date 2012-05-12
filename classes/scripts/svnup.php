@@ -7,7 +7,7 @@ use autodeploy\step;
 use autodeploy\factories;
 use autodeploy\php\arguments;
 
-final class svnup extends autodeploy\script implements autodeploy\aggregators\runner
+final class svnup extends autodeploy\script
 {
 
     /**
@@ -87,7 +87,7 @@ final class svnup extends autodeploy\script implements autodeploy\aggregators\ru
             {
                 foreach ($values as $value)
                 {
-                    $runner->getFilesIterator()->append( $value );
+                    $runner->getInputIterator()->append( $value );
                 }
             },
             array(''),

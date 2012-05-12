@@ -20,6 +20,7 @@ class generate extends step
 
     /**
      * @return generate
+     * @throws \UnexpectedValueException
      */
     public function runStep()
     {

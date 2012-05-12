@@ -7,7 +7,7 @@ use autodeploy\step;
 use autodeploy\factories;
 use autodeploy\php\arguments;
 
-final class purger extends autodeploy\script implements autodeploy\aggregators\runner
+final class purger extends autodeploy\script
 {
 
     /**
@@ -135,7 +135,7 @@ final class purger extends autodeploy\script implements autodeploy\aggregators\r
                     $iterator->append($element);
                 }
 
-                $runner->setFilesIterator( $iterator );
+                $runner->setInputIterator( $iterator );
             },
             array('-f', '--files'),
             arguments\parser::TYPE_SINGLE,

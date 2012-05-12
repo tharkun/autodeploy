@@ -23,14 +23,19 @@ class transform extends step
      */
     public function runStep()
     {
-        $transformer = $this->getFactories()->current()->__invoke($this->getRunner());
+        $iterator = $this->getRunner()->getInputIterator();
 
-        foreach ($this->observers as $observer)
+        foreach ($this->getFactories() as $oFactory)
         {
-            $transformer->addObserver($observer);
-        }
+            $transformer = $oFactory->__invoke($this->getRunner());
 
-        $transformer->run($this->getRunner()->getFilesIterator());
+            foreach ($this->observers as $observer)
+            {
+                $transformer->addObserver($observer);
+            }
+
+            $transformer->run($iterator);
+        }
 
         $this->getRunner()->setElementsIterator($transformer->getIterator());
 

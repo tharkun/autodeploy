@@ -4,7 +4,7 @@ namespace autodeploy;
 
 use autodeploy\php\arguments;
 
-abstract class script implements aggregators\php\adapter, aggregators\php\locale
+abstract class script implements aggregators\runner, aggregators\php\adapter, aggregators\php\locale
 {
 
     protected $name = '';

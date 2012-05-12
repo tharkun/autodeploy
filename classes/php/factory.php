@@ -39,9 +39,12 @@ class factory
     }
 
     /**
-     * @return void
+     * @throws \LogicException
      */
-    final private function __clone() {}
+    final public function __clone()
+    {
+        throw new \LogicException( sprintf('Class %s can not be cloned.', __CLASS__) );
+    }
 
     /**
      * @return string
