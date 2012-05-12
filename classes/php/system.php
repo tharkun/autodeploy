@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy;
+namespace autodeploy\php;
 
 final class system
 {

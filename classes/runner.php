@@ -39,12 +39,12 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     /*****************************************************************************************************************************/
 
 
-    public function __construct(php\adapter $adapter = null, php\locale $locale = null, system $system = null, profile $profile = null)
+    public function __construct(php\adapter $adapter = null, php\locale $locale = null, php\system $system = null, profile $profile = null)
     {
         $this
             ->setAdapter($adapter ?: new php\adapter())
             ->setLocale($locale ?: new php\locale())
-            ->setSystem($system ?: new system())
+            ->setSystem($system ?: new php\system())
             ->setProfile($profile ?: new profile())
         ;
 
@@ -187,10 +187,10 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
 
     /**
-     * @param system $system
+     * @param php\system $system
      * @return runner
      */
-    public function setSystem(system $system)
+    public function setSystem(php\system $system)
     {
         $this->system = $system;
 
@@ -198,7 +198,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     }
 
     /**
-     * @return null|system
+     * @return null|php\system
      */
     public function getSystem()
     {
