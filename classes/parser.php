@@ -8,6 +8,7 @@ abstract class parser implements aggregators\runner, definitions\php\observable,
     protected static $singleton = null;
 
     protected $runner = null;
+    protected $observers = array();
     protected $matches = array();
 
     /**
@@ -160,9 +161,6 @@ abstract class parser implements aggregators\runner, definitions\php\observable,
             }
             else
             {
-                echo get_class($this), "\n";
-                print_r($matches);
-
                 $this->matches[] = array(
                     'file' => $matches[0],
                     'match' => '',

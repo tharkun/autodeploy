@@ -40,7 +40,6 @@ abstract class field implements aggregators\php\locale
 
     public function canHandleEvent($event)
     {
-        //echo "Class = ", get_class($this), " -> ", $event, " == ", (($this->events === null ? true : in_array($event, $this->events)) ? "ok": "ko"),  "\n";
         return ($this->events === null ? true : in_array($event, $this->events));
     }
 

@@ -6,6 +6,7 @@ abstract class filter implements aggregators\runner, definitions\php\observable,
 {
 
     protected $runner = null;
+    protected $observers = array();
 
     /**
      * @param runner $runner

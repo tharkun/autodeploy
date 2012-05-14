@@ -10,7 +10,9 @@ class command
     const STDERR   = 2;
 
     protected $command = null;
-    protected $processes = array();
+
+    private $processes = array();
+
 
     /**
      * @param $command

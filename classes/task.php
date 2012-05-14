@@ -2,18 +2,24 @@
 
 namespace autodeploy;
 
-abstract class task implements aggregators\runner, definitions\task
+abstract class task implements aggregators\runner, definitions\php\observable, definitions\task
 {
 
-    protected $runner = null;
+    const taskStart = 'taskStart';
+    const taskStop = 'taskStop';
 
+    const stdOutStart = 'stdOutStart';
+    const stdErrStart = 'stdErrStart';
+
+    protected $runner = null;
+    protected $observers = array();
+
+    protected $client = '';
     protected $command = null;
     protected $wildcards = array();
 
-
-    /*****************************************************************************************************************************/
-    /*****************************************************************************************************************************/
-    /*****************************************************************************************************************************/
+    protected $stdOut = null;
+    protected $stdErr = null;
 
     /**
      * @param runner $runner
@@ -49,6 +55,39 @@ abstract class task implements aggregators\runner, definitions\task
     }
 
     /**
+     * @param definitions\php\observer $observer
+     * @return step
+     */
+    public function addObserver(definitions\php\observer $observer)
+    {
+        $this->observers[] = $observer;
+
+        return $this;
+    }
+
+    /**
+     * @param $event
+     * @return step
+     */
+    public function callObservers($event)
+    {
+        foreach ($this->observers as $observer)
+        {
+            $observer->handleEvent($event, $this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
      * @param string $command
      * @return task
      */
@@ -70,6 +109,44 @@ abstract class task implements aggregators\runner, definitions\task
         return $this;
     }
 
+    /**
+     * @param $stdOut
+     * @return task
+     */
+    public function setStdOut($stdOut)
+    {
+        $this->stdOut = $stdOut;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getStdOut()
+    {
+        return $this->stdOut;
+    }
+
+    /**
+     * @param $stdErr
+     * @return task
+     */
+    public function setStdErr($stdErr)
+    {
+        $this->stdErr = $stdErr;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getStdErr()
+    {
+        return $this->stdErr;
+    }
+
 
     /*****************************************************************************************************************************/
     /*****************************************************************************************************************************/
@@ -81,9 +158,11 @@ abstract class task implements aggregators\runner, definitions\task
      */
     final public function getClosureForStdout()
     {
-        return function ($sOutput)
+        $self = $this;
+        return function ($stdout) use ($self)
         {
-            echo $sOutput;
+            $self->setStdOut($stdout);
+            $self->callObservers(task::stdOutStart);
         };
     }
 
@@ -92,12 +171,11 @@ abstract class task implements aggregators\runner, definitions\task
      */
     final public function getClosureForStderr()
     {
-        return function ($sOutput)
+        $self = $this;
+        return function ($stderr) use ($self)
         {
-            if ('' !== trim($sOutput))
-            {
-                echo "ERR: ", $sOutput;
-            }
+            $self->setStdErr($stderr);
+            $self->callObservers(task::stdErrStart);
         };
     }
 
@@ -112,17 +190,13 @@ abstract class task implements aggregators\runner, definitions\task
      */
     public function execute()
     {
-        $array = array(
-            "Current client" => $sClient = client::FILE_SYSTEM,
-            "Command" => $command = (string) $this,
-        );
+        $this->client = client::FILE_SYSTEM;
 
-        foreach ($array as $key => $value)
-        {
-            echo sprintf("%s'%s'", str_pad($key, 30, ' ', STR_PAD_RIGHT), $value) . PHP_EOL;
-        }
+        $this->callObservers(self::taskStart);
 
-        factories\client::build($sClient, $this->getRunner(), $command)->execute($this);
+        factories\client::build($this->client, $this->getRunner(), (string) $this)->execute($this);
+
+        $this->callObservers(self::taskStop);
 
         return $this;
     }
