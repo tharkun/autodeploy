@@ -25,9 +25,9 @@ class transform extends step
     {
         $iterator = $this->getRunner()->getInputIterator();
 
-        foreach ($this->getFactories() as $oFactory)
+        foreach ($this->getFactories() as $closure)
         {
-            $transformer = $oFactory->__invoke($this->getRunner());
+            $transformer = $closure->__invoke($this->getRunner());
 
             foreach ($this->observers as $observer)
             {

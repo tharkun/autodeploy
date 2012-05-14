@@ -26,11 +26,11 @@ class generate extends step
     {
         $tasksIterator = $this->getRunner()->getTasksIterator();
 
-        foreach ($this->getFactories() as $oFactory)
+        foreach ($this->getFactories() as $closure)
         {
             foreach ($tasksIterator as $task)
             {
-                $return = $oFactory->__invoke($this->getRunner(), $task)->generate();
+                $return = $closure->__invoke($this->getRunner(), $task)->generate();
 
                 if (is_array($return) &&  2 == count($return))
                 {

@@ -2,7 +2,7 @@
 
 namespace autodeploy;
 
-abstract class filter implements aggregators\runner, definitions\filter
+abstract class filter implements aggregators\runner, definitions\php\observable, definitions\filter
 {
 
     protected $runner = null;
@@ -34,4 +34,28 @@ abstract class filter implements aggregators\runner, definitions\filter
         return $this->runner;
     }
 
+    /**
+     * @param definitions\php\observer $observer
+     * @return step
+     */
+    public function addObserver(definitions\php\observer $observer)
+    {
+        $this->observers[] = $observer;
+
+        return $this;
+    }
+
+    /**
+     * @param $event
+     * @return step
+     */
+    public function callObservers($event)
+    {
+        foreach ($this->observers as $observer)
+        {
+            $observer->handleEvent($event, $this);
+        }
+
+        return $this;
+    }
 }

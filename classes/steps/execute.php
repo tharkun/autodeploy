@@ -87,9 +87,15 @@ class execute extends step
     {
         $this->callObservers(self::actionStart);
 
-        foreach ($this->getFactories() as $oFactory)
+        foreach ($this->getFactories() as $closure)
         {
-            $oFactory->__invoke($this->getRunner(), $action)->execute();
+            $executor = $closure->__invoke($this->getRunner(), $action);
+            foreach ($this->observers as $observer)
+            {
+                //$executor->addObserver($observer);
+            }
+
+            $executor->execute();
         }
 
         $this->callObservers(self::actionStop);
