@@ -23,7 +23,7 @@ class parse extends autodeploy\step
      */
     public function runStep()
     {
-        $iterator = new autodeploy\iterator();
+        $iterator = new autodeploy\php\iterator();
 
         foreach ($this->getFactories() as $oFactory)
         {

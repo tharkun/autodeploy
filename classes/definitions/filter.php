@@ -2,18 +2,16 @@
 
 namespace autodeploy\definitions;
 
-use
-    autodeploy
-;
+use autodeploy\php;
 
 interface filter
 {
 
     /**
-     * Filter autodeploy\iterator
-     * @param \autodeploy\filter\autodeploy\iterator|\autodeploy\iterator $oCachePurgeIterator
-     * @return autodeploy\filterSvn|autodeploy\filterRsync
+     * @abstract
+     * @param \autodeploy\php\iterator $oCachePurgeIterator
+     * @return mixed
      */
-    public function filter(autodeploy\iterator $oCachePurgeIterator);
+    public function filter(php\iterator $oCachePurgeIterator);
 
 }

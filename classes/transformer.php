@@ -67,13 +67,13 @@ abstract class transformer implements aggregators\runner, definitions\php\observ
     }
 
     /**
-     * @return iterator
+     * @return php\iterator
      */
     final public function getIterator()
     {
         usort($this->collection, array($this, "compareByFile"));
 
-        $iterator = new iterator();
+        $iterator = new php\iterator();
 
         foreach ($this->collection as $element)
         {
@@ -110,10 +110,10 @@ abstract class transformer implements aggregators\runner, definitions\php\observ
     }
 
     /**
-     * @param iterator $iterator
+     * @param php\iterator $iterator
      * @return transformer
      */
-    public function run(iterator $iterator)
+    public function run(php\iterator $iterator)
     {
         foreach ($iterator as $line)
         {

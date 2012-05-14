@@ -10,10 +10,10 @@ class svn extends autodeploy\filter
 {
 
     /**
-     * @param \autodeploy\iterator $iterator
+     * @param \autodeploy\php\iterator $iterator
      * @return svn
      */
-    public function filter(autodeploy\iterator $iterator)
+    public function filter(autodeploy\php\iterator $iterator)
     {
         foreach ($iterator as $element)
         {

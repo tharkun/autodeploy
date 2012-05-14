@@ -100,10 +100,10 @@ abstract class parser implements aggregators\runner, definitions\parser
     }
 
     /**
-     * @param iterator $iterator
+     * @param php\iterator $iterator
      * @return parser
      */
-    public function parse(iterator $iterator)
+    public function parse(php\iterator $iterator)
     {
         foreach ($iterator as $element)
         {

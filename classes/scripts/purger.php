@@ -129,7 +129,7 @@ final class purger extends autodeploy\script
                     $stdObject->$s = "U    extension/labackoffice/settings/design.ini.append.php";
                 }
 
-                $iterator = new autodeploy\iterator();
+                $iterator = new autodeploy\php\iterator();
                 foreach ($stdObject as $element)
                 {
                     $iterator->append($element);

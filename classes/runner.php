@@ -49,9 +49,9 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
         ;
 
         $this
-            ->setInputIterator( new iterator() )
-            ->setElementsIterator( new iterator() )
-            ->setTasksIterator( new iterator() )
+            ->setInputIterator( new php\iterator() )
+            ->setElementsIterator( new php\iterator() )
+            ->setTasksIterator( new php\iterator() )
         ;
     }
 
@@ -301,10 +301,10 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
 
     /**
-     * @param iterator $inputIterator
+     * @param php\iterator $inputIterator
      * @return runner
      */
-    public function setInputIterator(iterator $inputIterator)
+    public function setInputIterator(php\iterator $inputIterator)
     {
         $this->inputIterator = $inputIterator;
 
@@ -320,10 +320,10 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     }
 
     /**
-     * @param iterator $elementsIterator
+     * @param php\iterator $elementsIterator
      * @return runner
      */
-    public function setElementsIterator(iterator $elementsIterator)
+    public function setElementsIterator(php\iterator $elementsIterator)
     {
         $this->elementsIterator = $elementsIterator;
 
@@ -339,10 +339,10 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     }
 
     /**
-     * @param iterator $tasksIterator
+     * @param php\iterator $tasksIterator
      * @return runner
      */
-    public function setTasksIterator(iterator $tasksIterator)
+    public function setTasksIterator(php\iterator $tasksIterator)
     {
         $this->tasksIterator = $tasksIterator;
 

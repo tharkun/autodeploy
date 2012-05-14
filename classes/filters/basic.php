@@ -10,10 +10,10 @@ class basic extends autodeploy\filter
 {
 
     /**
-     * @param \autodeploy\iterator $iterator
+     * @param \autodeploy\php\iterator $iterator
      * @return basic
      */
-    public function filter(autodeploy\iterator $iterator)
+    public function filter(autodeploy\php\iterator $iterator)
     {
         return $this;
     }
