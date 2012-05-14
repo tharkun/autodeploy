@@ -2,8 +2,12 @@
 
 namespace autodeploy\php;
 
-final class system
+final class system extends struct
 {
+
+    const OSTYPE_WIN  = 'win32';
+    const OSTYPE_MAC  = 'mac';
+    const OSTYPE_UNIX = 'unix';
 
     protected $osType = null;
     protected $fileSeparator = null;
@@ -16,18 +20,18 @@ final class system
         $uname = php_uname();
         if ( substr( $uname, 0, 7 ) == "Windows" )
         {
-            $this->osType = "win32";
+            $this->osType = self::OSTYPE_WIN;
             $this->fileSeparator = "\\";
         }
         else if ( substr( $uname, 0, 3 ) == "Mac" )
         {
 
-            $this->osType = "mac";
+            $this->osType = self::OSTYPE_MAC;
             $this->fileSeparator = "/";
         }
         else
         {
-            $this->osType = "unix";
+            $this->osType = self::OSTYPE_UNIX;
             $this->fileSeparator = "/";
         }
     }
@@ -56,15 +60,10 @@ final class system
     {
         switch ($this->getOsType())
         {
-            case "win32":
+            case self::OSTYPE_WIN:
             {
                 $path = preg_replace("@/@", "\\", $path);
                 break;
-            }
-            case 'mac':
-            case 'unix':
-            {
-
             }
         }
 

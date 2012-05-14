@@ -3,6 +3,7 @@
 namespace autodeploy\tasks\delete;
 
 use autodeploy;
+use autodeploy\php;
 
 class file extends autodeploy\task
 {
@@ -15,12 +16,13 @@ class file extends autodeploy\task
 
         switch ($this->getRunner()->getSystem()->getOsType())
         {
-            case 'win32':
+            case php\system::OSTYPE_WIN:
             {
                 return "del /S /Q $sWildcard";
                 break;
             }
-            case 'unix':
+            case php\system::OSTYPE_UNIX:
+            case php\system::OSTYPE_MAC:
             {
                 return "rm -vf $sWildcard";
                 break;
