@@ -10,14 +10,65 @@ use autodeploy\php\arguments;
 final class purger extends autodeploy\script
 {
 
-    /**
-     * @param $name
-     * @param \autodeploy\runner|null $runner
-     */
-    public function __construct($name, autodeploy\runner $runner = null)
+    protected function setArgumentHandlers()
     {
-        parent::__construct($name, $runner);
+        $runner = $this->getRunner();
 
+        $this->addArgumentHandler(
+            function($script, $argument, $origin) use ($runner)
+            {
+                $runner->getProfile()->setOrigin(current($origin));
+            },
+            array('-o', '--origin'),
+            arguments\parser::TYPE_SINGLE,
+            null,
+            'Origin of the f param'
+        );
+
+        $this->addArgumentHandler(
+            function($script, $argument, $files) use ($runner)
+            {
+                $stdObject = json_decode( current($files) );
+
+                if (substr( php_uname(), 0, 7 ) == "Windows" || '/var/www/dekio.fr'==getcwd())
+                {
+                    $s = "2";
+                    $stdObject->$s = "A    extension/labackoffice/settings/site.ini.append.php";
+
+                    $s = "3";
+                    $stdObject->$s = "A    design/deco/templates/page_mainarea.tpl";
+                    $s = "7";
+                    $stdObject->$s = "A    extension/labackoffice/settings/override.ini.append.php";
+
+                    $s = "4";
+                    $stdObject->$s = "A    bin/toto.php";
+
+                    $s = "5";
+                    $stdObject->$s = "U    extension/labackoffice/classes/toto.php";
+
+                    $s = "6";
+                    $stdObject->$s = "U    extension/labackoffice/settings/design.ini.append.php";
+                }
+
+                $iterator = new autodeploy\php\iterator();
+                foreach ($stdObject as $element)
+                {
+                    $iterator->append($element);
+                }
+
+                $runner->setInputIterator( $iterator );
+            },
+            array('-f', '--files'),
+            arguments\parser::TYPE_SINGLE,
+            null,
+            'Files'
+        );
+
+        return $this;
+    }
+
+    protected function setStepHandlers()
+    {
         $this->getRunner()
             ->setSteps(array(
                 step::STEP_TRANSFORM => array(
@@ -87,63 +138,6 @@ final class purger extends autodeploy\script
                 ),
             ))
         ;
-    }
-
-    protected function setArgumentHandlers()
-    {
-        $runner = $this->getRunner();
-
-        $this->addArgumentHandler(
-            function($script, $argument, $origin) use ($runner)
-            {
-                $runner->getProfile()->setOrigin(current($origin));
-            },
-            array('-o', '--origin'),
-            arguments\parser::TYPE_SINGLE,
-            null,
-            'Origin of the f param'
-        );
-
-        $this->addArgumentHandler(
-            function($script, $argument, $files) use ($runner)
-            {
-                $stdObject = json_decode( current($files) );
-
-                if (substr( php_uname(), 0, 7 ) == "Windows" || '/var/www/dekio.fr'==getcwd())
-                {
-                    $s = "2";
-                    $stdObject->$s = "A    extension/labackoffice/settings/site.ini.append.php";
-
-                    $s = "3";
-                    $stdObject->$s = "A    design/deco/templates/page_mainarea.tpl";
-                    $s = "7";
-                    $stdObject->$s = "A    extension/labackoffice/settings/override.ini.append.php";
-
-                    $s = "4";
-                    $stdObject->$s = "A    bin/toto.php";
-
-                    $s = "5";
-                    $stdObject->$s = "U    extension/labackoffice/classes/toto.php";
-
-                    $s = "6";
-                    $stdObject->$s = "U    extension/labackoffice/settings/design.ini.append.php";
-                }
-
-                $iterator = new autodeploy\php\iterator();
-                foreach ($stdObject as $element)
-                {
-                    $iterator->append($element);
-                }
-
-                $runner->setInputIterator( $iterator );
-            },
-            array('-f', '--files'),
-            arguments\parser::TYPE_SINGLE,
-            null,
-            'Files'
-        );
-
-        return $this;
     }
 
 }

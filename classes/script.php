@@ -37,6 +37,8 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
 
         $this->setArgumentCommonHandlers();
         $this->setArgumentHandlers();
+
+        $this->setStepHandlers();
     }
 
     /**
@@ -240,5 +242,6 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
     }
 
     protected abstract function setArgumentHandlers();
+    protected abstract function setStepHandlers();
 
 }

@@ -10,14 +10,28 @@ use autodeploy\php\arguments;
 final class svnup extends autodeploy\script
 {
 
-    /**
-     * @param $name
-     * @param \autodeploy\runner|null $runner
-     */
-    public function __construct($name, autodeploy\runner $runner = null)
+    protected function setArgumentHandlers()
     {
-        parent::__construct($name, $runner);
+        $runner = $this->getRunner();
 
+        $this->addArgumentHandler(
+            function($script, $argument, $values) use ($runner)
+            {
+                foreach ($values as $value)
+                {
+                    $runner->getInputIterator()->append( $value );
+                }
+            },
+            array(''),
+            arguments\parser::TYPE_MULTIPLE,
+            ''
+        );
+
+        return $this;
+    }
+
+    protected function setStepHandlers()
+    {
         $this->getRunner()
             ->setSteps(array(
                 step::STEP_TRANSFORM => array(
@@ -76,26 +90,6 @@ final class svnup extends autodeploy\script
                 ),
             ))
         ;
-    }
-
-    protected function setArgumentHandlers()
-    {
-        $runner = $this->getRunner();
-
-        $this->addArgumentHandler(
-            function($script, $argument, $values) use ($runner)
-            {
-                foreach ($values as $value)
-                {
-                    $runner->getInputIterator()->append( $value );
-                }
-            },
-            array(''),
-            arguments\parser::TYPE_MULTIPLE,
-            ''
-        );
-
-        return $this;
     }
 
 }
