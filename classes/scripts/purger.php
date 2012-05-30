@@ -56,7 +56,8 @@ final class purger extends autodeploy\script
                     $iterator->append($element);
                 }
 
-                $runner->setInputIterator( $iterator );
+                //$runner->setInputIterator( $iterator );
+                $runner->getIterator()->getChildren()->append( $iterator );
             },
             array('-f', '--files'),
             arguments\parser::TYPE_SINGLE,
@@ -70,72 +71,70 @@ final class purger extends autodeploy\script
     protected function setStepHandlers()
     {
         $this->getRunner()
-            ->setSteps(array(
-                step::STEP_TRANSFORM => array(
-                    function ($runner)
-                    {
-                        return factories\transformer::build(
-                            $runner->getProfile()->getOrigin(),
-                            $runner
-                        );
-                    },
-                ),
-                step::STEP_FILTER => array(
-                    function ($runner)
-                    {
-                        return factories\filter::build(
-                            $runner->getProfile()->getOrigin(),
-                            $runner
-                        );
-                    },
-                    function ($runner)
-                    {
-                        return factories\profile\filter::build(
+            ->addStep(step::STEP_TRANSFORM, array(
+                function ($runner)
+                {
+                    return factories\transformer::build(
+                        $runner->getProfile()->getOrigin(),
+                        $runner
+                    );
+                },
+            ))
+            ->addStep(step::STEP_FILTER, array(
+                function ($runner)
+                {
+                    return factories\filter::build(
+                        $runner->getProfile()->getOrigin(),
+                        $runner
+                    );
+                },
+                function ($runner)
+                {
+                    return factories\profile\filter::build(
+                        $runner->getProfile()->getName(),
+                        $runner
+                    );
+                },
+            ))
+            ->addStep(step::STEP_PARSE, array(
+                function ($runner, $parser)
+                {
+                    return factories\profile\parser::build(
+                        array(
                             $runner->getProfile()->getName(),
-                            $runner
-                        );
-                    },
-                ),
-                step::STEP_PARSE     => array(
-                    function ($runner, $parser)
-                    {
-                        return factories\profile\parser::build(
-                            array(
-                                $runner->getProfile()->getName(),
-                                $parser,
-                                $runner->getProfile()->getOrigin()
-                            ),
-                            $runner
-                        );
-                    }
-                ),
-                step::STEP_GENERATE  => array(
-                    function ($runner, $task)
-                    {
-                        return factories\profile\generator::build(
-                            array(
-                                $runner->getProfile()->getName(),
-                                $task['parser']
-                            ),
-                            $runner,
-                            $task['value']
-                        );
-                    }
-                ),
-                step::STEP_EXECUTE   => array(
-                    function ($runner, $action)
-                    {
-                        return factories\task::build(
-                            array(
-                                str_replace('_', '\\', $action['type']),
-                                $action['parser']
-                            ),
-                            $runner,
-                            $action['command'],
-                            $action['wildcard']
-                        );
-                    }
-                ),
+                            $parser,
+                            $runner->getProfile()->getOrigin()
+                        ),
+                        $runner
+                    );
+                },
+            ))
+            ->addStep(step::STEP_GENERATE, array(
+                function ($runner, $task)
+                {
+                    return factories\profile\generator::build(
+                        array(
+                            $runner->getProfile()->getName(),
+                            $task['parser']
+                        ),
+                        $runner,
+                        $task['value']
+                    );
+                },
+            ))
+            ->addStep(step::STEP_EXECUTE, array(
+                function ($runner, $action)
+                {
+                    return factories\task::build(
+                        array(
+                            str_replace('_', '\\', $action['type']),
+                            $action['parser']
+                        ),
+                        $runner,
+                        $action['command'],
+                        $action['wildcard']
+                    );
+                },
             ))
         ;
     }

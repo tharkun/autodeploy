@@ -19,7 +19,8 @@ final class svnup extends autodeploy\script
             {
                 foreach ($values as $value)
                 {
-                    $runner->getInputIterator()->append( $value );
+                    //$runner->getInputIterator()->append( $value );
+                    $runner->getIterator()->getChildren()->append( $value );
                 }
             },
             array(''),
@@ -33,61 +34,59 @@ final class svnup extends autodeploy\script
     protected function setStepHandlers()
     {
         $this->getRunner()
-            ->setSteps(array(
-                step::STEP_TRANSFORM => array(
-                    function ($runner)
-                    {
-                        return factories\transformer::build(
-                            step::defaultFactory,
-                            $runner
-                        );
-                    },
-                ),
-                step::STEP_FILTER    => array(
-                    function ($runner)
-                    {
-                        return factories\filter::build(
-                            step::defaultFactory,
-                            $runner
-                        );
-                    },
-                ),
-                step::STEP_PARSE     => array(
-                    function ($runner)
-                    {
-                        return factories\parser::build(
-                            step::defaultFactory,
-                            $runner
-                        );
-                    }
-                ),
-                step::STEP_GENERATE  => array(
-                    function ($runner, $task)
-                    {
-                        return factories\profile\generator::build(
-                            array(
-                                $runner->getProfile()->getName(),
-                                'up'
-                            ),
-                            $runner,
-                            $task['value']
-                        );
-                    }
-                ),
-                step::STEP_EXECUTE   => array(
-                    function ($runner, $action)
-                    {
-                        return factories\task::build(
-                            array(
-                                str_replace('_', '\\', $action['type']),
-                                $action['parser']
-                            ),
-                            $runner,
-                            $action['command'],
-                            $action['wildcard']
-                        );
-                    }
-                ),
+            ->addStep(step::STEP_TRANSFORM, array(
+                function ($runner)
+                {
+                    return factories\transformer::build(
+                        step::defaultFactory,
+                        $runner
+                    );
+                },
+            ))
+            ->addStep(step::STEP_FILTER, array(
+                function ($runner)
+                {
+                    return factories\filter::build(
+                        step::defaultFactory,
+                        $runner
+                    );
+                },
+            ))
+            ->addStep(step::STEP_PARSE, array(
+                function ($runner)
+                {
+                    return factories\parser::build(
+                        step::defaultFactory,
+                        $runner
+                    );
+                },
+            ))
+            ->addStep(step::STEP_GENERATE, array(
+                function ($runner, $task)
+                {
+                    return factories\profile\generator::build(
+                        array(
+                            $runner->getProfile()->getName(),
+                            'up'
+                        ),
+                        $runner,
+                        $task['value']
+                    );
+                },
+            ))
+            ->addStep(step::STEP_EXECUTE, array(
+                function ($runner, $action)
+                {
+                    return factories\task::build(
+                        array(
+                            str_replace('_', '\\', $action['type']),
+                            $action['parser']
+                        ),
+                        $runner,
+                        $action['command'],
+                        $action['wildcard']
+                    );
+                },
             ))
         ;
     }

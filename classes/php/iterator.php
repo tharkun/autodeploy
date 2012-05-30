@@ -10,6 +10,11 @@ class iterator implements \Iterator, \Countable
     protected $collection = array();
     protected $skiped = array();
 
+    public function __construct(array $collection = null)
+    {
+        $this->collection = $collection;
+    }
+
     /**
      * @return bool
      */

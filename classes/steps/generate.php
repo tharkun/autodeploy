@@ -24,7 +24,8 @@ class generate extends step
      */
     public function runStep()
     {
-        $tasksIterator = $this->getRunner()->getTasksIterator();
+        //$tasksIterator = $this->getRunner()->getTasksIterator();
+        $tasksIterator = $this->getRunner()->getIterator()->end()->getChildren();
 
         foreach ($this->getFactories() as $closure)
         {

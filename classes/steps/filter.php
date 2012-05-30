@@ -29,7 +29,8 @@ class filter extends step
                 $filter->addObserver($observer);
             }
 
-            $filter->filter($this->getRunner()->getElementsIterator());
+            //$filter->filter($this->getRunner()->getElementsIterator());
+            $filter->filter( $this->getRunner()->getIterator()->getChildren() );
         }
 
         return $this;

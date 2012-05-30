@@ -22,13 +22,11 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     protected $steps = array();
     protected $stepNumber = 0;
 
+    protected $iterator = null;
 
-
-
-
-    protected $inputIterator = null;
-    protected $elementsIterator = null;
-    protected $tasksIterator = null;
+    //protected $inputIterator = null;
+    //protected $elementsIterator = null;
+    //protected $tasksIterator = null;
 
     private $start = null;
     private $stop = null;
@@ -48,10 +46,12 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
             ->setProfile($profile ?: new profile())
         ;
 
+        $this->iterator = new php\iterator\recursive( array(new php\iterator()) );
+
         $this
-            ->setInputIterator( new php\iterator() )
-            ->setElementsIterator( new php\iterator() )
-            ->setTasksIterator( new php\iterator() )
+            //->setInputIterator( new php\iterator() )
+            //->setElementsIterator( new php\iterator() )
+            //->setTasksIterator( new php\iterator() )
         ;
     }
 
@@ -154,11 +154,11 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
         $this->callObservers(self::runStart);
 
-        foreach ($this->getSteps() as $step => $a)
+        foreach ($this->getSteps() as $step)
         {
             $this->stepNumber++;
 
-            $object = factories\step::build($step, $this, $a);
+            $object = factories\step::build($step['type'], $this, $step['factories']);
 
             foreach ($this->observers as $observer)
             {
@@ -255,35 +255,51 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     /*****************************************************************************************************************************/
 
 
-    public function setSteps(array $steps)
+    /**
+     * @param $type
+     * @param $factories
+     * @return runner
+     * @throws \InvalidArgumentException
+     */
+    final public function addStep($type, $factories)
     {
-        foreach ($steps as $name => $step)
+        if (!in_array($type, step::$availableSteps))
         {
-            if (!in_array($name, step::$availableSteps))
-            {
-                throw new \InvalidArgumentException(sprintf($this->getLocale()->_('Step \'%s\' does not exist'), $name));
-            }
+            throw new \InvalidArgumentException(sprintf($this->getLocale()->_('Step \'%s\' does not exist'), $type));
+        }
 
-            if (!is_array($step) && !($step instanceof \Closure))
-            {
-                throw new \InvalidArgumentException(sprintf($this->getLocale()->_('Step \'%s\' should be composed of an array of closure or a single closure'), $name));
-            }
+        if (!is_array($factories) && !($factories instanceof \Closure))
+        {
+            throw new \InvalidArgumentException(sprintf($this->getLocale()->_('Step \'%s\' should be composed of an array of closure or a single closure'), $type));
+        }
 
-            if (!is_array($step) && $step instanceof \Closure)
-            {
-                $steps[$name] = array($step);
-            }
+        if (!is_array($factories) && $factories instanceof \Closure)
+        {
+            $factories = array( $factories );
+        }
 
-            foreach ($step as $closure)
+        foreach ($factories as $closure)
+        {
+            if (!($closure instanceof \Closure))
             {
-                if (!($closure instanceof \Closure))
-                {
-                    throw new \InvalidArgumentException(sprintf($this->getLocale()->_('Step \'%s\' should be composed of an array of closure'), $name));
-                }
+                throw new \InvalidArgumentException(sprintf($this->getLocale()->_('Step \'%s\' should be composed of an array of closure'), $type));
             }
         }
 
-        $this->steps = $steps;
+        $this->steps[] = array(
+            'type'      => $type,
+            'factories' => $factories
+        );
+
+        return $this;
+    }
+
+    public function setSteps(array $steps)
+    {
+        foreach ($steps as $step)
+        {
+            $this->addStep($step['type'], $step['factories']);
+        }
 
         return $this;
     }
@@ -298,63 +314,69 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
         return $this->stepNumber;
     }
 
-
+    /**
+     * @return php\iterator\recursive|null
+     */
+    public function getIterator()
+    {
+        return $this->iterator;
+    }
 
     /**
      * @param php\iterator $inputIterator
      * @return runner
-     */
+     * /
     public function setInputIterator(php\iterator $inputIterator)
     {
         $this->inputIterator = $inputIterator;
 
         return $this;
-    }
+    }//*/
 
     /**
      * @return null
-     */
+     * /
     public function getInputIterator()
     {
         return $this->inputIterator;
-    }
+    }//*/
 
     /**
      * @param php\iterator $elementsIterator
      * @return runner
-     */
+     * /
     public function setElementsIterator(php\iterator $elementsIterator)
     {
         $this->elementsIterator = $elementsIterator;
 
         return $this;
-    }
+    }//*/
 
     /**
      * @return null
-     */
+     * /
     public function getElementsIterator()
     {
         return $this->elementsIterator;
-    }
+    }//*/
 
     /**
      * @param php\iterator $tasksIterator
      * @return runner
-     */
+     * /
     public function setTasksIterator(php\iterator $tasksIterator)
     {
         $this->tasksIterator = $tasksIterator;
 
         return $this;
-    }
+    }//*/
 
     /**
      * @return null
-     */
+     * /
     public function getTasksIterator()
     {
         return $this->tasksIterator;
-    }
+    }//*/
 
 }
