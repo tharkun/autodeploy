@@ -26,7 +26,7 @@ abstract class stdout extends field
         }
         else
         {
-            $this->value = $observable->getStdOut();
+            $this->value = $observable->getCurrentOutput();
 
             return true;
         }

@@ -18,8 +18,9 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
     protected $command = null;
     protected $wildcards = array();
 
-    protected $stdOut = null;
-    protected $stdErr = null;
+    protected $stdOut = '';
+    protected $stdErr = '';
+    protected $currentOutput = null;
 
     /**
      * @param runner $runner
@@ -115,13 +116,13 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
      */
     public function setStdOut($stdOut)
     {
-        $this->stdOut = $stdOut;
+        $this->stdOut .= $stdOut;
 
         return $this;
     }
 
     /**
-     * @return null
+     * @return string
      */
     public function getStdOut()
     {
@@ -134,7 +135,26 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
      */
     public function setStdErr($stdErr)
     {
-        $this->stdErr = $stdErr;
+        $this->stdErr .= $stdErr;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getStdErr()
+    {
+        return $this->stdErr;
+    }
+
+    /**
+     * @param $currentOutput
+     * @return task
+     */
+    public function setCurrentOutput($currentOutput)
+    {
+        $this->currentOutput = $currentOutput;
 
         return $this;
     }
@@ -142,11 +162,10 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
     /**
      * @return null
      */
-    public function getStdErr()
+    public function getCurrentOutput()
     {
-        return $this->stdErr;
+        return $this->currentOutput;
     }
-
 
     /*****************************************************************************************************************************/
     /*****************************************************************************************************************************/
@@ -162,6 +181,7 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
         return function ($stdout) use ($self)
         {
             $self->setStdOut($stdout);
+            $self->setCurrentOutput($stdout);
             $self->callObservers(task::stdOutStart);
         };
     }
@@ -175,6 +195,7 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
         return function ($stderr) use ($self)
         {
             $self->setStdErr($stderr);
+            $self->setCurrentOutput($stderr);
             $self->callObservers(task::stdErrStart);
         };
     }

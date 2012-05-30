@@ -15,7 +15,7 @@ abstract class stderr extends field
 
     public function __construct(locale $locale = null)
     {
-        parent::__construct(array(autodeploy\task::stdOutStart), $locale);
+        parent::__construct(array(autodeploy\task::stdErrStart), $locale);
     }
 
     public function handleEvent($event, observable $observable)
@@ -26,7 +26,7 @@ abstract class stderr extends field
         }
         else
         {
-            $this->value = $observable->getStdErr();
+            $this->value = $observable->getCurrentOutput();
 
             return true;
         }
