@@ -23,7 +23,6 @@ class transform extends step
      */
     public function runStep()
     {
-        //$iterator = $this->getRunner()->getInputIterator();
         $iterator = $this->getRunner()->getIterator()->getChildren();
 
         foreach ($this->getFactories() as $closure)
@@ -39,7 +38,6 @@ class transform extends step
         }
 
         $this->getRunner()->getIterator()->append($transformer->getIterator());
-        //$this->getRunner()->setElementsIterator($transformer->getIterator());
 
         return $this;
     }

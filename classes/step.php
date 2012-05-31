@@ -123,6 +123,8 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
 
         if ($this->getFactories()->valid())
         {
+            $this->getRunner()->getIterator()->end();
+
             $this->runStep();
         }
 

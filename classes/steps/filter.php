@@ -18,6 +18,9 @@ class filter extends step
         return 'Filtering input';
     }
 
+    /**
+     * @return filter
+     */
     public function runStep()
     {
         foreach ($this->getFactories() as $closure)
@@ -29,7 +32,6 @@ class filter extends step
                 $filter->addObserver($observer);
             }
 
-            //$filter->filter($this->getRunner()->getElementsIterator());
             $filter->filter( $this->getRunner()->getIterator()->getChildren() );
         }
 

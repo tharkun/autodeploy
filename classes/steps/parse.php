@@ -23,8 +23,6 @@ class parse extends autodeploy\step
      */
     public function runStep()
     {
-        $this->getRunner()->getIterator()->next();
-
         $iterator = new autodeploy\php\iterator();
 
         foreach ($this->getFactories() as $closure)
@@ -39,7 +37,6 @@ class parse extends autodeploy\step
 
                 $tasks = $parser
                     ->parse( $this->getRunner()->getIterator()->getChildren() )
-                    //->parse( $this->getRunner()->getElementsIterator() )
                     ->getTasks()
                 ;
 
@@ -55,7 +52,6 @@ class parse extends autodeploy\step
         }
 
         $this->getRunner()->getIterator()->append( $iterator );
-        //$this->getRunner()->setTasksIterator($iterator);
 
         return $this;
     }

@@ -9,9 +9,9 @@ interface filter
 
     /**
      * @abstract
-     * @param \autodeploy\php\iterator $oCachePurgeIterator
+     * @param \autodeploy\php\iterator $iterator
      * @return mixed
      */
-    public function filter(php\iterator $oCachePurgeIterator);
+    public function filter(php\iterator $iterator);
 
 }

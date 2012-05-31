@@ -28,8 +28,7 @@ class execute extends step
     {
         $triggered = false;
 
-        //$iterator = $this->getRunner()->getTasksIterator();
-        $iterator = $this->getRunner()->getIterator()->end()->getChildren();
+        $iterator = $this->getRunner()->getIterator()->getChildren();
         $iterator->rewind();
 
         $action = $iterator->current();

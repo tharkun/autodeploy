@@ -88,6 +88,15 @@ final class svnup extends autodeploy\script
                     );
                 },
             ))
+            ->addStep(step::STEP_TRANSFORM, array(
+                function ($runner)
+                {
+                    return factories\transformer::build(
+                        'svn',
+                        $runner
+                    );
+                },
+            ))
         ;
     }
 
