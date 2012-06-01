@@ -118,7 +118,7 @@ final class svnup extends autodeploy\script
 
                         foreach (explode("\n", $output) as $s)
                         {
-                            $iterator->append($s);
+                            //$iterator->append($s);
                         }
                     }
 

@@ -102,9 +102,14 @@ class execute extends step
 
             $task->execute();
 
-            foreach (explode("\n", $task->getCurrentOutput()) as $s)
+            $stdOut = $task->getStdOut();
+
+            if (trim($stdOut) !== '')
             {
-                $iterator->append($s);
+                foreach (explode("\n", $stdOut) as $s)
+                {
+                    $iterator->append($s);
+                }
             }
         }
 

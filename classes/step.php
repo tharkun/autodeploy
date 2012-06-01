@@ -125,7 +125,10 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
         {
             $this->getRunner()->getIterator()->end();
 
-            $this->runStep();
+            if ($this->getRunner()->getIterator()->getChildren()->count())
+            {
+                $this->runStep();
+            }
         }
 
         $this->stop = $this->getRunner()->getAdapter()->microtime(true);
