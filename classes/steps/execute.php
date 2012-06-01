@@ -2,6 +2,7 @@
 
 namespace autodeploy\steps;
 
+use autodeploy;
 use autodeploy\step;
 
 class execute extends step
@@ -33,6 +34,8 @@ class execute extends step
 
         $action = $iterator->current();
 
+        $nextIterator = new autodeploy\php\iterator();
+
         $lastHashCommand = self::uniqueCommand($action);
         $lastHashAction  = self::uniqueAction($action);
 
@@ -57,7 +60,7 @@ class execute extends step
 
             if ($currentHashCommand != $lastHashCommand)
             {
-                $this->trigger($groupAction);
+                $this->trigger($groupAction, $nextIterator);
                 $triggered = false;
 
                 $lastHashCommand = $currentHashCommand;
@@ -77,13 +80,15 @@ class execute extends step
 
         if (!$triggered)
         {
-            $this->trigger($groupAction);
+            $this->trigger($groupAction, $nextIterator);
         }
+
+        $this->getRunner()->getIterator()->append( $nextIterator );
 
         return $this;
     }
 
-    public function trigger(array $action)
+    public function trigger(array $action, autodeploy\php\iterator $iterator)
     {
         $this->callObservers(self::actionStart);
 
@@ -96,6 +101,11 @@ class execute extends step
             }
 
             $task->execute();
+
+            foreach (explode("\n", $task->getCurrentOutput()) as $s)
+            {
+                $iterator->append($s);
+            }
         }
 
         $this->callObservers(self::actionStop);

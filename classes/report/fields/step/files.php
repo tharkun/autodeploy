@@ -27,7 +27,8 @@ abstract class files extends field
         }
         else
         {
-            foreach ($observable->getRunner()->getIterator()->rewind()->getChildren() as $file)
+            $this->files = array();
+            foreach ($observable->getRunner()->getIterator()->end()->prev()->getChildren() as $file)
             {
                 $this->files[] = $file;
             }

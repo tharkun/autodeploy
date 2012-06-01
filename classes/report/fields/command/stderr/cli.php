@@ -48,7 +48,7 @@ class cli extends fields\command\stderr
                 ?
                 ''
                 :
-                $this->styler->colorize( $this->locale->_("ERR : --" . $this->value) )
+                $this->styler->colorize( $this->locale->_("ERR : " . $this->value) )
             )
         ;
     }

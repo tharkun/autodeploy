@@ -27,7 +27,6 @@ abstract class wildcards extends field
         }
         else
         {
-            //$this->iterator = $observable->getRunner()->getTasksIterator();
             $this->iterator = $observable->getRunner()->getIterator()->end()->getChildren();
 
             return true;

@@ -19,7 +19,6 @@ final class svnup extends autodeploy\script
             {
                 foreach ($values as $value)
                 {
-                    //$runner->getInputIterator()->append( $value );
                     $runner->getIterator()->getChildren()->append( $value );
                 }
             },
@@ -91,9 +90,97 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_TRANSFORM, array(
                 function ($runner)
                 {
+                    $runner->getProfile()
+                        ->setName('ezpublish')
+                        ->setOrigin('svn')
+                        ->setParsers(array(
+                            'ini',
+                            'override',
+                            'template',
+                            'template_autoload',
+                            'module',
+                            'translation',
+                            'design_base',
+                            'active_extensions',
+                            'autoload',
+                        ));
+
+                    if (substr( php_uname(), 0, 7 ) == "Windows")
+                    {
+                        $output = "A    extension/labackoffice/settings/site.ini.append.php\n";
+                        $output .= "A    design/deco/templates/page_mainarea.tpl\n";
+                        $output .= "A    extension/labackoffice/settings/override.ini.append.php\n";
+                        $output .= "A    bin/toto.php\n";
+                        $output .= "U    extension/labackoffice/classes/toto.php\n";
+                        $output .= "U    extension/labackoffice/settings/design.ini.append.php";
+
+                        $iterator = $runner->getIterator()->end()->getChildren();
+
+                        foreach (explode("\n", $output) as $s)
+                        {
+                            $iterator->append($s);
+                        }
+                    }
+
                     return factories\transformer::build(
-                        'svn',
+                        $runner->getProfile()->getOrigin(),
                         $runner
+                    );
+                },
+            ))
+            ->addStep(step::STEP_FILTER, array(
+                function ($runner)
+                {
+                    return factories\filter::build(
+                        $runner->getProfile()->getOrigin(),
+                        $runner
+                    );
+                },
+                function ($runner)
+                {
+                    return factories\profile\filter::build(
+                        $runner->getProfile()->getName(),
+                        $runner
+                    );
+                },
+            ))
+            ->addStep(step::STEP_PARSE, array(
+                function ($runner, $parser)
+                {
+                    return factories\profile\parser::build(
+                        array(
+                            $runner->getProfile()->getName(),
+                            $parser,
+                            $runner->getProfile()->getOrigin(),
+                        ),
+                        $runner
+                    );
+                },
+            ))
+            ->addStep(step::STEP_GENERATE, array(
+                function ($runner, $task)
+                {
+                    return factories\profile\generator::build(
+                        array(
+                            $runner->getProfile()->getName(),
+                            $task['parser']
+                        ),
+                        $runner,
+                        $task['value']
+                    );
+                },
+            ))
+            ->addStep(step::STEP_EXECUTE, array(
+                function ($runner, $action)
+                {
+                    return factories\task::build(
+                        array(
+                            str_replace('_', '\\', $action['type']),
+                            $action['parser']
+                        ),
+                        $runner,
+                        $action['command'],
+                        $action['wildcard']
                     );
                 },
             ))

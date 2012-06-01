@@ -315,7 +315,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     }
 
     /**
-     * @return php\iterator\recursive|null
+     * @return php\iterator\recursive
      */
     public function getIterator()
     {
