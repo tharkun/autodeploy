@@ -156,6 +156,28 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         );
 
         $this->addArgumentHandler(
+            function($script, $argument, $values)
+            {
+
+            },
+            array('-pbs', '--prompt-between-steps'),
+            arguments\parser::TYPE_NONE,
+            null,
+            'Prompt between steps'
+        );
+
+        $this->addArgumentHandler(
+            function($script, $argument, $values)
+            {
+
+            },
+            array('-pbe', '--prompt-before-execution'),
+            arguments\parser::TYPE_NONE,
+            null,
+            'Prompt before command execution'
+        );
+
+        $this->addArgumentHandler(
             function($script, $argument, $values) use ($runner)
             {
                 $bootstrapFile = realpath($values[0]);
@@ -231,7 +253,6 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
             self::init($args);
 
             $this->getRunner()->run();
-
         }
         catch (\Exception $exception)
         {

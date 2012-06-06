@@ -24,10 +24,6 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
     protected $iterator = null;
 
-    //protected $inputIterator = null;
-    //protected $elementsIterator = null;
-    //protected $tasksIterator = null;
-
     private $start = null;
     private $stop = null;
 
@@ -47,12 +43,6 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
         ;
 
         $this->iterator = new php\iterator\recursive( array(new php\iterator()) );
-
-        $this
-            //->setInputIterator( new php\iterator() )
-            //->setElementsIterator( new php\iterator() )
-            //->setTasksIterator( new php\iterator() )
-        ;
     }
 
     /**
@@ -321,62 +311,5 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     {
         return $this->iterator;
     }
-
-    /**
-     * @param php\iterator $inputIterator
-     * @return runner
-     * /
-    public function setInputIterator(php\iterator $inputIterator)
-    {
-        $this->inputIterator = $inputIterator;
-
-        return $this;
-    }//*/
-
-    /**
-     * @return null
-     * /
-    public function getInputIterator()
-    {
-        return $this->inputIterator;
-    }//*/
-
-    /**
-     * @param php\iterator $elementsIterator
-     * @return runner
-     * /
-    public function setElementsIterator(php\iterator $elementsIterator)
-    {
-        $this->elementsIterator = $elementsIterator;
-
-        return $this;
-    }//*/
-
-    /**
-     * @return null
-     * /
-    public function getElementsIterator()
-    {
-        return $this->elementsIterator;
-    }//*/
-
-    /**
-     * @param php\iterator $tasksIterator
-     * @return runner
-     * /
-    public function setTasksIterator(php\iterator $tasksIterator)
-    {
-        $this->tasksIterator = $tasksIterator;
-
-        return $this;
-    }//*/
-
-    /**
-     * @return null
-     * /
-    public function getTasksIterator()
-    {
-        return $this->tasksIterator;
-    }//*/
 
 }
