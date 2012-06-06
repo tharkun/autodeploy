@@ -60,77 +60,6 @@ class parser implements \iteratorAggregate
     }
 
     /**
-     * @return \arrayIterator
-     */
-    public function getIterator()
-    {
-        return new \arrayIterator($this->getValues());
-    }
-
-    /**
-     * @param \autodeploy\script $script
-     * @param array $array
-     * @return parser
-     */
-    public function parse(autodeploy\script $script, array $array = array())
-    {
-        if (sizeof($array) <= 0)
-        {
-            $array = array_slice($this->superglobals->_SERVER['argv'], 1);
-        }
-
-        $this->resetValues();
-
-        if (sizeof($array) == 0)
-        {
-            return $this;
-        }
-
-        $arguments = new \arrayIterator($array);
-
-        $value = $arguments->current();
-
-        if (self::isOption($value) === false)
-        {
-            $argument = '';
-
-            $this->values[$argument] = array($value);
-        }
-        else
-        {
-            $argument = $value;
-
-            $this->values[$argument] = array();
-        }
-
-        $arguments->next();
-
-        while ($arguments->valid() === true)
-        {
-            $value = $arguments->current();
-
-            if (self::isOption($value) === false)
-            {
-                $this->values[$argument][] = $value;
-            }
-            else
-            {
-                $this->trigger($script);
-
-                $argument = $value;
-
-                $this->values[$argument] = array();
-            }
-
-            $arguments->next();
-        }
-
-        $this->trigger($script);
-
-        return $this;
-    }
-
-    /**
      * @param closure $handler
      * @param array $arguments
      * @param $type
@@ -164,31 +93,78 @@ class parser implements \iteratorAggregate
     }
 
     /**
-     * @static
-     * @param $value
-     * @return bool
+     * @return \arrayIterator
      */
-    public static function isOption($value)
+    public function getIterator()
     {
-        return (preg_match('/^(\+|-{1,2})[a-z][-_a-z0-9]*/i', $value) === 1);
+        return new \arrayIterator($this->getValues());
     }
 
     /**
      * @param \autodeploy\script $script
+     * @param array $array
      * @return parser
+     */
+    public function parse(autodeploy\script $script, array $array = array())
+    {
+        if (sizeof($array) <= 0)
+        {
+            $array = array_slice($this->superglobals->_SERVER['argv'], 1);
+        }
+
+        $this->resetValues();
+
+        if (sizeof($array) == 0)
+        {
+            return $this;
+        }
+
+        $arguments = new \arrayIterator($array);
+
+        $argument = '';
+
+        while ($arguments->valid() === true)
+        {
+            $value = $arguments->current();
+
+            if (self::isOption($value) === false)
+            {
+                $this->values[$argument][] = $value;
+
+                if ($this->handlers[$argument][0]['type'] == self::TYPE_SINGLE)
+                {
+                    $argument = '';
+                }
+            }
+            else
+            {
+                $argument = $value;
+                $this->isValidArgument($argument);
+
+                $this->values[$argument] = array();
+
+                if ($this->handlers[$argument][0]['type'] == self::TYPE_NONE)
+                {
+                    $argument = '';
+                }
+            }
+
+            $arguments->next();
+        }
+
+        $this->trigger($script);
+
+        return $this;
+    }
+
+    /**
+     * @param $argument
+     * @return bool
      * @throws \UnexpectedValueException
      */
-    protected function trigger(autodeploy\script $script)
+    protected function isValidArgument($argument)
     {
-        $lastArgument = array_slice($this->values, -1);
-
-        list($argument, $values) = each($lastArgument);
-
-        if (isset($this->handlers[$argument]) === true)
-        {
-            $this->invokeHandlers($script, $argument, $values);
-        }
-        else
+        if (isset($this->handlers[$argument]) !== true)
         {
             $argumentMetaphone = metaphone($argument);
 
@@ -217,9 +193,33 @@ class parser implements \iteratorAggregate
             {
                 throw new \UnexpectedValueException('Argument \'' . $argument . '\' is unknown, did you mean \'' . $closestArgument . '\' ?');
             }
-            else
+        }
+
+        return true;
+    }
+
+    /**
+     * @static
+     * @param $value
+     * @return bool
+     */
+    public static function isOption($value)
+    {
+        return (preg_match('/^(\+|-{1,2})[a-z][-_a-z0-9]*/i', $value) === 1);
+    }
+
+    /**
+     * @param \autodeploy\script $script
+     * @return parser
+     * @throws \UnexpectedValueException
+     */
+    protected function trigger(autodeploy\script $script)
+    {
+        foreach ($this->values as $argument => $values)
+        {
+            if ($this->isValidArgument($argument))
             {
-                $this->invokeHandlers($script, $closestArgument, $values);
+                $this->invokeHandlers($script, $argument, $values);
             }
         }
 
