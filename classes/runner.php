@@ -14,18 +14,24 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     protected $profile = null;
 
     protected $bootstrapFile = null;
-    protected $defaultReportTitle = null;
+    //protected $defaultReportTitle = null;
 
     protected $reports = array();
     protected $observers = array();
 
-    protected $steps = array();
+    private $steps = null;
     protected $stepNumber = 0;
 
     protected $iterator = null;
 
     private $start = null;
     private $stop = null;
+
+    protected $outWriter = null;
+    protected $errWriter = null;
+
+    protected $promptBetweenSteps = false;
+    protected $promptBeforeExecution = false;
 
 
     /*****************************************************************************************************************************/
@@ -42,7 +48,11 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
             ->setProfile($profile ?: new profile())
         ;
 
+        $this->steps    = new php\iterator();
         $this->iterator = new php\iterator\recursive( array(new php\iterator()) );
+
+        $this->setOutWriter(new writers\std\out());
+        $this->setErrWriter(new writers\std\err());
     }
 
     /**
@@ -83,99 +93,6 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
         return $this->locale;
     }
 
-
-    public function setBootstrapFile($path)
-    {
-        $this->bootstrapFile = $path;
-
-        return $this;
-    }
-
-    public function getBootstrapFile()
-    {
-        return $this->bootstrapFile;
-    }
-
-    public function addReport(report $report)
-    {
-        $this->reports[] = $report;
-
-        return $this->addObserver($report);
-    }
-
-    public function hasReports()
-    {
-        return (sizeof($this->reports) > 0);
-    }
-
-    public function addObserver(definitions\php\observer $observer)
-    {
-        $this->observers[] = $observer;
-
-        return $this;
-    }
-
-    public function callObservers($event)
-    {
-        foreach ($this->observers as $observer)
-        {
-            $observer->handleEvent($event, $this);
-        }
-
-        return $this;
-    }
-
-    public function run()
-    {
-        $this->start = microtime(true);
-
-        if ($this->defaultReportTitle !== null)
-        {
-            foreach ($this->reports as $report)
-            {
-                if ($report->getTitle() === null)
-                {
-                    $report->setTitle($this->defaultReportTitle);
-                }
-            }
-        }
-
-        $this->includeBootstrapFile();
-
-        $this->callObservers(self::runStart);
-
-        foreach ($this->getSteps() as $step)
-        {
-            $this->stepNumber++;
-
-            $object = factories\step::build($step['type'], $this, $step['factories']);
-
-            foreach ($this->observers as $observer)
-            {
-                $object->addObserver($observer);
-            }
-
-            $object->run();
-        }
-
-        $this->stop = microtime(true);
-
-        $this->callObservers(self::runStop);
-
-        return $this;
-    }
-
-    public function getDuration()
-    {
-        return ($this->start === null || $this->stop === null ? null : $this->stop - $this->start);
-    }
-
-
-    /*****************************************************************************************************************************/
-    /*****************************************************************************************************************************/
-    /*****************************************************************************************************************************/
-
-
     /**
      * @param php\system $system
      * @return runner
@@ -215,35 +132,89 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     }
 
     /**
-     * @throws \RuntimeException
+     * @param $path
      * @return runner
      */
-    public function includeBootstrapFile()
+    public function setBootstrapFile($path)
     {
-        $runner = $this;
+        $this->bootstrapFile = $path;
 
-        $include = function($path) use ($runner) { include_once($path); };
+        return $this;
+    }
 
-        if (($path = $this->getBootstrapFile()) !== null)
+    /**
+     * @return null
+     */
+    public function getBootstrapFile()
+    {
+        return $this->bootstrapFile;
+    }
+
+    /**
+     * @param report $report
+     * @return runner
+     */
+    public function addReport(report $report)
+    {
+        $this->reports[] = $report;
+
+        return $this->addObserver($report);
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasReports()
+    {
+        return (sizeof($this->reports) > 0);
+    }
+
+    /**
+     * @param definitions\php\observer $observer
+     * @return runner
+     */
+    public function addObserver(definitions\php\observer $observer)
+    {
+        $this->observers[] = $observer;
+
+        return $this;
+    }
+
+    /**
+     * @param $event
+     * @return runner
+     */
+    public function callObservers($event)
+    {
+        foreach ($this->observers as $observer)
         {
-            try
-            {
-                $include( $path = $this->getBootstrapFile() );
-            }
-            catch (\Exception $exception)
-            {
-                throw new \RuntimeException(sprintf($this->getLocale()->_('Unable to include \'%s\''), $path));
-            }
+            $observer->handleEvent($event, $this);
         }
 
         return $this;
     }
 
+    /**
+     * @param array $steps
+     * @return runner
+     */
+    public function setSteps(array $steps)
+    {
+        foreach ($steps as $step)
+        {
+            $this->addStep($step['type'], $step['factories']);
+        }
 
-    /*****************************************************************************************************************************/
-    /*****************************************************************************************************************************/
-    /*****************************************************************************************************************************/
+        return $this;
+    }
 
+    /**
+     * @return php\iterator|null
+     */
+    public function getSteps()
+    {
+        return $this->steps;
+    }
 
     /**
      * @param $type
@@ -276,29 +247,28 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
             }
         }
 
-        $this->steps[] = array(
+        $this->steps->append( array(
             'type'      => $type,
             'factories' => $factories
-        );
+        ));
 
         return $this;
     }
 
-    public function setSteps(array $steps)
+    /**
+     * @param $stepNumber
+     * @return runner
+     */
+    public function setStepNumber($stepNumber)
     {
-        foreach ($steps as $step)
-        {
-            $this->addStep($step['type'], $step['factories']);
-        }
+        $this->stepNumber = $stepNumber;
 
         return $this;
     }
 
-    public function getSteps()
-    {
-        return $this->steps;
-    }
-
+    /**
+     * @return int
+     */
     public function getStepNumber()
     {
         return $this->stepNumber;
@@ -310,6 +280,176 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     public function getIterator()
     {
         return $this->iterator;
+    }
+
+    /**
+     * @param writer $writer
+     * @return runner
+     */
+    public function setOutWriter(writer $writer)
+    {
+        $this->outWriter = $writer;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getOutWriter()
+    {
+        return $this->outWriter;
+    }
+
+    /**
+     * @param writer $writer
+     * @return runner
+     */
+    public function setErrWriter(writer $writer)
+    {
+        $this->errWriter = $writer;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getErrWriter()
+    {
+        return $this->errWriter;
+    }
+
+    /**
+     * @param $bool
+     * @return runner
+     */
+    public function setPromptBetweenSteps($bool)
+    {
+        $this->promptBetweenSteps = $bool;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getPromptBetweenSteps()
+    {
+        return $this->promptBetweenSteps;
+    }
+
+    /**
+     * @param $bool
+     * @return runner
+     */
+    public function setPromptBeforeExecution($bool)
+    {
+        $this->promptBeforeExecution = $bool;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getPromptBeforeExecution()
+    {
+        return $this->promptBeforeExecution;
+    }
+
+    /**
+     * @param $message
+     * @return string
+     */
+    public function prompt($message)
+    {
+        $this->outWriter->write(rtrim($message));
+
+        return trim($this->adapter->fgets(STDIN));
+    }
+
+
+    public function getDuration()
+    {
+        return ($this->start === null || $this->stop === null ? null : $this->stop - $this->start);
+    }
+
+    /**
+     * @throws \RuntimeException
+     * @return runner
+     */
+    public function includeBootstrapFile()
+    {
+        $runner = $this;
+
+        $include = function($path) use ($runner) { include_once($path); };
+
+        if (($path = $this->getBootstrapFile()) !== null)
+        {
+            try
+            {
+                $include( $path = $this->getBootstrapFile() );
+            }
+            catch (\Exception $exception)
+            {
+                throw new \RuntimeException(sprintf($this->getLocale()->_('Unable to include \'%s\''), $path));
+            }
+        }
+
+        return $this;
+    }
+
+
+
+    public function run()
+    {
+        $this->start = microtime(true);
+
+        /*if ($this->defaultReportTitle !== null)
+        {
+            foreach ($this->reports as $report)
+            {
+                if ($report->getTitle() === null)
+                {
+                    $report->setTitle($this->defaultReportTitle);
+                }
+            }
+        }//*/
+
+        $this->includeBootstrapFile();
+
+        $this->callObservers(self::runStart);
+
+        $this->steps->rewind();
+        while ($this->steps->valid())
+        {
+            $step = $this->steps->current();
+
+            $this->stepNumber++;
+
+            $object = factories\step::build($step['type'], $this, $step['factories']);
+
+            foreach ($this->observers as $observer)
+            {
+                $object->addObserver($observer);
+            }
+
+            $object->run();
+
+            $this->steps->next();
+
+            if ($this->steps->valid() && $this->promptBetweenSteps === true)
+            {
+                $this->prompt("Press any key to run next step");
+            }
+        }
+
+        $this->stop = microtime(true);
+
+        $this->callObservers(self::runStop);
+
+        return $this;
     }
 
 }

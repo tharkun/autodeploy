@@ -156,9 +156,9 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         );
 
         $this->addArgumentHandler(
-            function($script, $argument, $values)
+            function($script, $argument, $values) use ($runner)
             {
-
+                $runner->setPromptBetweenSteps(true);
             },
             array('-pbs', '--prompt-between-steps'),
             arguments\parser::TYPE_NONE,
@@ -167,9 +167,9 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         );
 
         $this->addArgumentHandler(
-            function($script, $argument, $values)
+            function($script, $argument, $values) use ($runner)
             {
-
+                $runner->setPromptBeforeExecution(true);
             },
             array('-pbe', '--prompt-before-execution'),
             arguments\parser::TYPE_NONE,

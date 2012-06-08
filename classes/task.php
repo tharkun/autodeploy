@@ -215,7 +215,21 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
 
         $this->callObservers(self::taskStart);
 
-        factories\client::build($this->client, $this->getRunner(), (string) $this)->execute($this);
+        $executeTask = true;
+
+        if ($this->getRunner()->getPromptBeforeExecution() === true)
+        {
+            $input = $this->getRunner()->prompt("Please confirm you want to execute command [y]");
+            if ($input !== 'y')
+            {
+                $executeTask = false;
+            }
+        }
+
+        if ($executeTask)
+        {
+            factories\client::build($this->client, $this->getRunner(), (string) $this)->execute($this);
+        }
 
         $this->callObservers(self::taskStop);
 
