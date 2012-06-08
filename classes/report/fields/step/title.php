@@ -12,7 +12,9 @@ use
 abstract class title extends field
 {
 
-    protected $stepNumber = null;
+    protected $currentStepNumber = null;
+    protected $totalStepNumber   = null;
+
     protected $title = null;
 
     public function __construct(locale $locale = null)
@@ -28,7 +30,9 @@ abstract class title extends field
         }
         else
         {
-            $this->number = $observable->getRunner()->getStepNumber();
+            $this->currentStepNumber    = $observable->getRunner()->getStepNumber();
+            $this->totalStepNumber      = $observable->getRunner()->getSteps()->count();
+
             $this->title = $observable->getName();
 
             return true;

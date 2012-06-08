@@ -44,11 +44,11 @@ class cli extends fields\step\title
     {
         return $this->prefix .
             (
-                $this->number === null || $this->title === null
+                $this->currentStepNumber === null || $this->title === null
                 ?
                 ''
                 :
-                $this->styler->colorize(sprintf($this->locale->_("Step %d : %s"), $this->number, $this->title))
+                $this->styler->colorize(sprintf($this->locale->_("Step %d/%d : %s"), $this->currentStepNumber, $this->totalStepNumber, $this->title))
             )
             . PHP_EOL
             . PHP_EOL

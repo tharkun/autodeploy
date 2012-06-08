@@ -364,7 +364,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
      */
     public function prompt($message)
     {
-        $this->outWriter->write(rtrim($message));
+        $this->outWriter->write($message);
 
         return trim($this->adapter->fgets(STDIN));
     }

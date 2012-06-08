@@ -54,7 +54,7 @@ class cli extends fields\step\duration
             sprintf(
                 $this->locale->_('%1$s: %2$s.'),
                 $this->titleStyler->colorize($this->locale->_('Step duration')),
-                $this->durationStyler->colorize($this->value === null ? $this->locale->_('unknown') : sprintf($this->locale->__('%4.2f second', '%4.2f seconds', $this->value), $this->value))
+                $this->durationStyler->colorize($this->value === null ? $this->locale->_('unknown') : sprintf($this->locale->__('%4.4f second', '%4.4f seconds', $this->value), $this->value))
             ) .
             PHP_EOL
         ;
