@@ -9,7 +9,7 @@ class basic extends autodeploy\parser
 
     protected static $singleton = null;
 
-    const PATTERN = '([^.]+)';
+    const PATTERN = '(.+)';
 
     /**
      * @param \autodeploy\element $element
