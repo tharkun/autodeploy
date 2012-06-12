@@ -34,11 +34,6 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         {
             throw new \LogicException('\'' . $this->getName() . '\' must be used in CLI only');
         }
-
-        $this->setArgumentCommonHandlers();
-        $this->setArgumentHandlers();
-
-        $this->setStepHandlers();
     }
 
     /**
@@ -206,7 +201,7 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
      * @param null $help
      * @return script
      */
-    public function addArgumentHandler(\Closure $handler, array $args, $type = arguments\parser::TYPE_ALL, $values = null, $help = null)
+    final public function addArgumentHandler(\Closure $handler, array $args, $type = arguments\parser::TYPE_ALL, $values = null, $help = null)
     {
         if ($help !== null)
         {
@@ -224,6 +219,11 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
      */
     public function init(array $args = array())
     {
+        $this->setArgumentCommonHandlers();
+        $this->setArgumentHandlers();
+
+        $this->setStepHandlers();
+
         $this->adapter->ini_set('log_errors_max_len', '0');
         $this->adapter->ini_set('log_errors', 'Off');
         $this->adapter->ini_set('display_errors', 'stderr');
@@ -246,11 +246,11 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
      * @param array $args
      * @return runner
      */
-    public function run(array $args = array())
+    final public function run(array $args = array())
     {
         try
         {
-            self::init($args);
+            $this->init($args);
 
             $this->getRunner()->run();
         }

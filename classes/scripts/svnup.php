@@ -10,6 +10,18 @@ use autodeploy\php\arguments;
 final class svnup extends autodeploy\script
 {
 
+    public function init(array $args = array())
+    {
+        $this->getRunner()->getProfile()
+            ->setName('svn')
+            ->setParsers(array(
+                autodeploy\step::defaultFactory,
+            ))
+        ;
+
+        parent::init($args);
+    }
+
     protected function setArgumentHandlers()
     {
         $runner = $this->getRunner();

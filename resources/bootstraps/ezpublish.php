@@ -9,19 +9,3 @@ if ( !ini_get( "date.timezone" ) )
 }
 
 require 'autoload.php';
-
-$runner
-    ->getProfile()
-        ->setName('ezpublish')
-        ->setParsers(array(
-            'ini',
-            'override',
-            'template',
-            'template_autoload',
-            'module',
-            'translation',
-            'design_base',
-            'active_extensions',
-            'autoload',
-        ))
-;
