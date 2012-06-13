@@ -197,6 +197,14 @@ class styler
     }
 
     /**
+     * @return string
+     */
+    public function getCli()
+    {
+        return $this->cli;
+    }
+
+    /**
      * @param $string
      * @return string
      */
