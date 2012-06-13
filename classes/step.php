@@ -28,8 +28,11 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
     protected $factories = array();
     protected $observers = array();
 
-    private $start = null;
-    private $stop = null;
+    private $startTime = 0;
+    private $stopTime  = 0;
+
+    private $startMemory = 0;
+    private $stopMemory  = 0;
 
     /**
      * @param runner $runner
@@ -104,9 +107,20 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
         return $this;
     }
 
+    /**
+     * @return int
+     */
     public function getDuration()
     {
-        return ($this->start === null || $this->stop === null ? null : $this->stop - $this->start);
+        return $this->stopTime - $this->startTime;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMemory()
+    {
+        return $this->stopMemory - $this->startMemory;
     }
 
     /**
@@ -114,12 +128,16 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
      */
     public function run()
     {
-        $this->start = $this->getRunner()->getAdapter()->microtime(true);
+        $this->startTime    = $this->getRunner()->getAdapter()->microtime(true);
+        $this->startMemory  = $this->getRunner()->getAdapter()->memory_get_usage(true);
+        //echo __LINE__, '--', $this->startMemory, "\n";
 
         $this->callObservers(self::runStart);
         $this->callObservers(static::runStart);
 
         $this->getFactories()->rewind();
+
+        //echo __LINE__, '--', $this->getRunner()->getIterator()->count(), "\n";
 
         if ($this->getFactories()->valid())
         {
@@ -131,7 +149,11 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
             }
         }
 
-        $this->stop = $this->getRunner()->getAdapter()->microtime(true);
+        //echo __LINE__, '--', $this->getRunner()->getIterator()->count(), "\n";
+
+        $this->stopMemory   = $this->getRunner()->getAdapter()->memory_get_usage(true);
+        $this->stopTime     = $this->getRunner()->getAdapter()->microtime(true);
+        //echo __LINE__, '--', $this->stopMemory, "\n";
 
         $this->callObservers(static::runStop);
         $this->callObservers(self::runStop);

@@ -26,9 +26,11 @@ class cli extends reports\synchronous
 
         $this
             ->addField( new fields\runner\duration\cli($firstLevelPrefix, $firstLevelStyler) )
+            ->addField( new fields\runner\memory\cli($firstLevelPrefix, $firstLevelStyler) )
 
             ->addField( new fields\step\title\cli($titlePrefix, $titleStyler) )
             ->addField( new fields\step\duration\cli($secondLevelPrefix) )
+            ->addField( new fields\step\memory\cli($secondLevelPrefix) )
             ->addField( new fields\step\result\cli() )
 
             ->addField( new fields\step\files\cli() )
