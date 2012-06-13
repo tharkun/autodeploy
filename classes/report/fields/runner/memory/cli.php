@@ -50,16 +50,16 @@ class cli extends fields\runner\memory
 
     public function __toString()
     {
-        $memory = $this->value;
+        $memory = $this->totalMemory;
         $scale  = 'o';
-        if ($this->value > pow(1024, 2))
+        if ($this->totalMemory > pow(1024, 2))
         {
-            $memory = $this->value / pow(1024, 2);
+            $memory = $this->totalMemory / pow(1024, 2);
             $scale  = 'Mo';
         }
         else if ($this->value > pow(1024, 1))
         {
-            $memory = $this->value / pow(1024, 1);
+            $memory = $this->totalMemory / pow(1024, 1);
             $scale  = 'Ko';
         }
 
@@ -67,7 +67,7 @@ class cli extends fields\runner\memory
             sprintf(
                 $this->locale->_('%1$s: %2$s'),
                 $this->titleStyler->colorize($this->locale->_('Total memory')),
-                $this->memoryStyler->colorize($this->value === null ? $this->locale->_('unknown') : sprintf($this->locale->_('%d %s'), $memory, $scale))
+                $this->memoryStyler->colorize(sprintf($this->locale->_('%d %s'), $memory, $scale))
             ) .
             PHP_EOL
         ;

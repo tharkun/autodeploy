@@ -128,8 +128,8 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
      */
     public function run()
     {
-        $this->startTime    = $this->getRunner()->getAdapter()->microtime(true);
-        $this->startMemory  = $this->getRunner()->getAdapter()->memory_get_usage(true);
+        $this->startTime    = microtime(true);
+        $this->startMemory  = memory_get_usage(true);
         //echo __LINE__, '--', $this->startMemory, "\n";
 
         $this->callObservers(self::runStart);
@@ -151,8 +151,8 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
 
         //echo __LINE__, '--', $this->getRunner()->getIterator()->count(), "\n";
 
-        $this->stopMemory   = $this->getRunner()->getAdapter()->memory_get_usage(true);
-        $this->stopTime     = $this->getRunner()->getAdapter()->microtime(true);
+        $this->stopMemory   = memory_get_usage(true);
+        $this->stopTime     = microtime(true);
         //echo __LINE__, '--', $this->stopMemory, "\n";
 
         $this->callObservers(static::runStop);

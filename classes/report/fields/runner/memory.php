@@ -11,7 +11,7 @@ use
 
 abstract class memory extends field
 {
-    protected $value = null;
+    protected $totalMemory = 0;
 
     public function __construct(locale $locale = null)
     {
@@ -26,7 +26,7 @@ abstract class memory extends field
         }
         else
         {
-            $this->value = memory_get_usage(true);
+            $this->totalMemory = memory_get_usage(true);
 
             return true;
         }

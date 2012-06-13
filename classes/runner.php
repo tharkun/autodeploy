@@ -24,8 +24,8 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
     protected $iterator = null;
 
-    private $start = null;
-    private $stop = null;
+    private $startTime = 0;
+    private $stopTime  = 0;
 
     protected $outWriter = null;
     protected $errWriter = null;
@@ -369,10 +369,12 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
         return trim($this->adapter->fgets(STDIN));
     }
 
-
+    /**
+     * @return int
+     */
     public function getDuration()
     {
-        return ($this->start === null || $this->stop === null ? null : $this->stop - $this->start);
+        return $this->stopTime - $this->startTime;
     }
 
     /**
@@ -404,7 +406,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
     public function run()
     {
-        $this->start = microtime(true);
+        $this->startTime = microtime(true);
 
         /*if ($this->defaultReportTitle !== null)
         {
@@ -445,7 +447,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
             }
         }
 
-        $this->stop = microtime(true);
+        $this->stopTime = microtime(true);
 
         $this->callObservers(self::runStop);
 
