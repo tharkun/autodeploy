@@ -25,6 +25,7 @@ class cli extends reports\synchronous
         $secondLevelPrefix = new prefix('=> ', $firstLevelStyler);
 
         $this
+            ->addField( new fields\runner\commands\cli($firstLevelPrefix) )
             ->addField( new fields\runner\duration\cli($firstLevelPrefix, $firstLevelStyler) )
             ->addField( new fields\runner\memory\cli($firstLevelPrefix, $firstLevelStyler) )
 

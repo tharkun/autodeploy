@@ -222,6 +222,8 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
             $executeTask = 'y' === $this->getRunner()->prompt("Please confirm you want to execute command [n] : ");
         }
 
+        $this->getRunner()->setCommands(array(array((string) $this, $executeTask)), true);
+
         if ($executeTask)
         {
             factories\client::build($this->client, $this->getRunner(), (string) $this)->execute($this);

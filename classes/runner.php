@@ -33,6 +33,8 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     protected $promptBetweenSteps = false;
     protected $promptBeforeExecution = false;
 
+    protected $commands = array();
+
 
     /*****************************************************************************************************************************/
     /*****************************************************************************************************************************/
@@ -375,6 +377,33 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     public function getPromptBeforeExecution()
     {
         return $this->promptBeforeExecution;
+    }
+
+    /**
+     * @param array $commands
+     * @param bool $add
+     * @return runner
+     */
+    public function setCommands(array $commands, $add = false)
+    {
+        if ($add === true)
+        {
+            foreach ($commands as $command) $this->commands[] = $command;
+        }
+        else
+        {
+            $this->commands = $commands;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getCommands()
+    {
+        return $this->commands;
     }
 
     /**
