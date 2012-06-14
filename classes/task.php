@@ -219,8 +219,7 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
 
         if ($this->getRunner()->getPromptBeforeExecution() === true)
         {
-            $input = $this->getRunner()->prompt("Please confirm you want to execute command [y] : ");
-            $executeTask = in_array($input, array('', 'y'));
+            $executeTask = 'y' === $this->getRunner()->prompt("Please confirm you want to execute command [n] : ");
         }
 
         if ($executeTask)
