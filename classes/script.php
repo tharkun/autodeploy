@@ -2,7 +2,7 @@
 
 namespace autodeploy;
 
-use autodeploy\php\arguments;
+use autodeploy\php\arguments\parser;
 
 abstract class script implements aggregators\runner, aggregators\php\adapter, aggregators\php\locale
 {
@@ -27,7 +27,7 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
             ->setRunner($runner ?: new runner())
             ->setLocale(new php\locale())
             ->setAdapter(new php\adapter())
-            ->setArgumentsParser(new php\arguments\parser())
+            ->setArgumentsParser(new parser())
         ;
 
         if ($this->adapter->php_sapi_name() !== 'cli')
@@ -116,7 +116,7 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
      * @param php\arguments\parser $parser
      * @return script
      */
-    public function setArgumentsParser(php\arguments\parser $parser)
+    public function setArgumentsParser(parser $parser)
     {
         $this->argumentsParser = $parser;
 
@@ -145,7 +145,8 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
                 outputs\cli::forceTerminal();
             },
             array('-c', '--color'),
-            arguments\parser::TYPE_NONE,
+            parser::TYPE_NONE,
+            parser::OPTIONNAL,
             null,
             'Use color'
         );
@@ -156,7 +157,8 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
                 $runner->setPromptBetweenSteps(true);
             },
             array('-pbs', '--prompt-between-steps'),
-            arguments\parser::TYPE_NONE,
+            parser::TYPE_NONE,
+            parser::OPTIONNAL,
             null,
             'Prompt between steps'
         );
@@ -167,7 +169,8 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
                 $runner->setPromptBeforeExecution(true);
             },
             array('-pbe', '--prompt-before-execution'),
-            arguments\parser::TYPE_NONE,
+            parser::TYPE_NONE,
+            parser::OPTIONNAL,
             null,
             'Prompt before command execution'
         );
@@ -185,7 +188,8 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
                 $runner->setBootstrapFile($bootstrapFile);
             },
             array('-bf', '--bootstrap-file'),
-            arguments\parser::TYPE_SINGLE,
+            parser::TYPE_SINGLE,
+            parser::OPTIONNAL,
             '<file>',
             'Include <file> before executing each test method'
         );
@@ -197,18 +201,19 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
      * @param \Closure $handler
      * @param array $args
      * @param int $type
+     * @param int $mandatory
      * @param null $values
      * @param null $help
      * @return script
      */
-    final public function addArgumentHandler(\Closure $handler, array $args, $type = arguments\parser::TYPE_ALL, $values = null, $help = null)
+    final public function addArgumentHandler(\Closure $handler, array $args, $type = parser::TYPE_ALL, $mandatory = parser::OPTIONNAL, $values = null, $help = null)
     {
         if ($help !== null)
         {
             $this->help[] = array($args, $values, $this->locale->_($help));
         }
 
-        $this->argumentsParser->addHandler($handler, $args, $type);
+        $this->argumentsParser->addHandler($handler, $args, $type, $mandatory);
 
         return $this;
     }

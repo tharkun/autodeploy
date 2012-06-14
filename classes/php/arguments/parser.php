@@ -11,6 +11,9 @@ class parser implements \iteratorAggregate
     const TYPE_SINGLE = 2;
     const TYPE_MULTIPLE = 3;
 
+    const OPTIONNAL = 0;
+    const MANDATORY = 1;
+
     protected $superglobals = null;
 
     protected $values = array();
@@ -62,11 +65,12 @@ class parser implements \iteratorAggregate
     /**
      * @param closure $handler
      * @param array $arguments
-     * @param $type
+     * @param int $type
+     * @param int $mandatory
      * @return parser
      * @throws \RuntimeException
      */
-    public function addHandler(\closure $handler, array $arguments, $type = self::TYPE_ALL)
+    public function addHandler(\closure $handler, array $arguments, $type = self::TYPE_ALL, $mandatory = self::OPTIONNAL)
     {
         $invoke = new \reflectionMethod($handler, '__invoke');
 
@@ -83,9 +87,11 @@ class parser implements \iteratorAggregate
             }
 
             $this->handlers[$argument][] = array(
-                'closure'   => $handler,
-                'arguments' => $arguments,
-                'type'      => $type,
+                'closure'       => $handler,
+                'arguments'     => $arguments,
+                'type'          => $type,
+                'mandatory'     => $mandatory,
+                'values'        => array(),
             );
         }
 
@@ -153,6 +159,8 @@ class parser implements \iteratorAggregate
         }
 
         $this->trigger($script);
+
+        $this->checkMandatory($script);
 
         return $this;
     }
@@ -234,7 +242,7 @@ class parser implements \iteratorAggregate
      */
     protected function invokeHandlers(autodeploy\script $script, $argument, array $values)
     {
-        foreach ($this->handlers[$argument] as $handler)
+        foreach ($this->handlers[$argument] as $i => $handler)
         {
             $isInvalid = false;
             switch ($handler['type'])
@@ -254,9 +262,28 @@ class parser implements \iteratorAggregate
                 throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bad usage of %s, do php %s --help for more informations'), $argument, $script->getName()));
             }
 
+            $this->handlers[$argument][$i]['values'] = $values;
+
             $handler['closure']->__invoke($script, $argument, $values, sizeof($this->values));
         }
 
         return $this;
     }
+
+    protected function checkMandatory(autodeploy\script $script)
+    {
+        foreach ($this->handlers as $argument => $handlers)
+        {
+            foreach ($handlers as $handler)
+            {
+                if ($handler['mandatory'] == true && !count($handler['values']))
+                {
+                    throw new \LogicException(sprintf($script->getLocale()->_('Argument %s is mandatory, do php %s --help for more informations'), $argument, $script->getName()));
+                }
+            }
+        }
+
+        return $this;
+    }
+
 }

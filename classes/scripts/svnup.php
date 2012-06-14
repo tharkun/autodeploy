@@ -5,7 +5,7 @@ namespace autodeploy\scripts;
 use autodeploy;
 use autodeploy\step;
 use autodeploy\factories;
-use autodeploy\php\arguments;
+use autodeploy\php\arguments\parser;
 
 final class svnup extends autodeploy\script
 {
@@ -15,7 +15,7 @@ final class svnup extends autodeploy\script
         $this->getRunner()->getProfile()
             ->setName('svn')
             ->setParsers(array(
-                autodeploy\step::defaultFactory,
+                step::defaultFactory,
             ))
         ;
 
@@ -35,7 +35,8 @@ final class svnup extends autodeploy\script
                 }
             },
             array(''),
-            arguments\parser::TYPE_MULTIPLE,
+            parser::TYPE_MULTIPLE,
+            parser::MANDATORY,
             ''
         );
 
