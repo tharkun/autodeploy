@@ -14,7 +14,6 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     protected $profile = null;
 
     protected $bootstrapFile = null;
-    //protected $defaultReportTitle = null;
 
     protected $reports = array();
     protected $observers = array();
@@ -30,6 +29,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     protected $outWriter = null;
     protected $errWriter = null;
 
+    protected $quiet = false;
     protected $promptBetweenSteps = false;
     protected $promptBeforeExecution = false;
 
@@ -324,9 +324,28 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
      * @param $bool
      * @return runner
      */
+    public function setQuiet($bool)
+    {
+        $this->quiet = (bool) $bool;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getQuiet()
+    {
+        return $this->quiet;
+    }
+
+    /**
+     * @param $bool
+     * @return runner
+     */
     public function setPromptBetweenSteps($bool)
     {
-        $this->promptBetweenSteps = $bool;
+        $this->promptBetweenSteps = (bool) $bool;
 
         return $this;
     }
@@ -407,17 +426,6 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     public function run()
     {
         $this->startTime = microtime(true);
-
-        /*if ($this->defaultReportTitle !== null)
-        {
-            foreach ($this->reports as $report)
-            {
-                if ($report->getTitle() === null)
-                {
-                    $report->setTitle($this->defaultReportTitle);
-                }
-            }
-        }//*/
 
         $this->includeBootstrapFile();
 

@@ -154,6 +154,18 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         $this->addArgumentHandler(
             function($script, $argument, $values) use ($runner)
             {
+                $runner->setQuiet(true);
+            },
+            array('-q', '--quiet'),
+            parser::TYPE_NONE,
+            parser::OPTIONNAL,
+            null,
+            'Is quiet'
+        );
+
+        $this->addArgumentHandler(
+            function($script, $argument, $values) use ($runner)
+            {
                 $runner->setPromptBetweenSteps(true);
             },
             array('-pbs', '--prompt-between-steps'),
