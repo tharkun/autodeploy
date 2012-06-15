@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\factories;
+namespace autodeploy\factories\profile;
 
 use autodeploy\php\factory;
 

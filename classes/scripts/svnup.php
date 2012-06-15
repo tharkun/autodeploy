@@ -49,7 +49,7 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_TRANSFORM, array(
                 function ($runner)
                 {
-                    return factories\transformer::build(
+                    return factories\profile\transformer::build(
                         step::defaultFactory,
                         $runner
                     );
@@ -58,7 +58,7 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_FILTER, array(
                 function ($runner)
                 {
-                    return factories\filter::build(
+                    return factories\profile\filter::build(
                         step::defaultFactory,
                         $runner
                     );
@@ -67,7 +67,7 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_PARSE, array(
                 function ($runner)
                 {
-                    return factories\parser::build(
+                    return factories\profile\parser::build(
                         step::defaultFactory,
                         $runner
                     );
@@ -135,7 +135,7 @@ final class svnup extends autodeploy\script
                         }
                     }
 
-                    return factories\transformer::build(
+                    return factories\profile\transformer::build(
                         $runner->getProfile()->getOrigin(),
                         $runner
                     );
@@ -144,7 +144,7 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_FILTER, array(
                 function ($runner)
                 {
-                    return factories\filter::build(
+                    return factories\profile\filter::build(
                         $runner->getProfile()->getOrigin(),
                         $runner
                     );

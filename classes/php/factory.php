@@ -20,6 +20,11 @@ class factory
         $this->class = $class;
         $this->args  = $args;
 
+        for ($i = 0; $i < substr_count($this->getPattern(), '%s') - count($class)+1; $i++)
+        {
+            $this->class[] = '';
+        }
+
         $this->recursiveLevel = substr_count($this->getPattern(), '%s\%s');
     }
 
@@ -31,7 +36,6 @@ class factory
     {
         $args  = func_get_args();
         $class = array_shift($args);
-        //$class = is_string($class) && '' == $class ? 'none' : $class;
         $class = is_string($class) ? array($class) : $class;
 
         $factory = new static( $class, $args );
@@ -57,13 +61,22 @@ class factory
     /**
      * @param $class
      * @param int $level
-     * @return
+     * @return string
+     * @throws \RuntimeException
      */
     public function findRecursiveClassName($class, $level = 0)
     {
-        if ($level > $this->recursiveLevel)
+        if ($level > 5)
         {
             throw new \RuntimeException('');
+        }
+
+        if (!class_exists($class))
+        {
+            if ('s' == $class[ strlen($class)-1 ] && class_exists( substr($class, 0, -1) ))
+            {
+                $class = substr($class, 0, -1);
+            }
         }
 
         if (!class_exists($class) && preg_match('/.+\\\\.+/', $class))
