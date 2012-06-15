@@ -19,7 +19,7 @@ class svn extends parsers\override
     public function hasMatches(autodeploy\element $element, array & $matches = null, & $i = null)
     {
         return parent::hasMatches($element, $matches, $i)
-            || $element->isAddedOrDeleted()&& $this->getOtherInstance('template')->hasMatches($element, $matches, $i);
+            || autodeploy\profiles\svn\tools::isAddedOrDeleted($element)&& $this->getOtherInstance('template')->hasMatches($element, $matches, $i);
     }
 
 }

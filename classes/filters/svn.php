@@ -76,7 +76,7 @@ class svn extends autodeploy\filter
             '(l)  launch',
             '(s)  show all',
         );
-        return $element->isConflict()
+        return autodeploy\profiles\svn\tools::isConflict($element)
             || preg_match("@^Conflict discovered in@", $element->name)
             || preg_match("@^(Select:)?\s+(".preg_replace(array("@\s+@", "@\(@", "@\)@"), array(" ", "\(", "\)") ,implode('|', $aSelectOption)).")@", $element->name)
             || preg_match("@^Summary of conflicts@", $element->name)
