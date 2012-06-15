@@ -155,14 +155,14 @@ abstract class parser implements aggregators\runner, definitions\php\observable,
             if (isset($matches[$matchOffset]))
             {
                 $this->matches[] = array(
-                    'file' => $matches[0],
+                    'name'  => $matches[0],
                     'match' => $matches[$matchOffset],
                 );
             }
             else
             {
                 $this->matches[] = array(
-                    'file' => $matches[0],
+                    'name'  => $matches[0],
                     'match' => '',
                 );
             }
@@ -186,9 +186,9 @@ abstract class parser implements aggregators\runner, definitions\php\observable,
     {
         $tasks = array();
 
-        if (count($this->getMatches())) {
+        if (count($this->matches)) {
             $wildcards = array();
-            foreach ($this->getMatches() as $match)
+            foreach ($this->matches as $match)
             {
                 $wildcards[] = $match['match'];
             }

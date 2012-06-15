@@ -42,11 +42,11 @@ class cli extends fields\step\files
 
     public function __toString()
     {
-        $output = "Remaining files : " . count($this->files) . PHP_EOL;
+        $output = "Remaining elements : " . count($this->values) . PHP_EOL;
 
-        if (count($this->files))
+        if (count($this->values))
         {
-            foreach ($this->files as $value)
+            foreach ($this->values as $value)
             {
                 $output .= $this->prefix . '- ' . $value . PHP_EOL;
             }

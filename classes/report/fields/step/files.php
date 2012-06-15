@@ -12,7 +12,7 @@ use
 abstract class files extends field
 {
 
-    protected $files = array();
+    protected $values = array();
 
     public function __construct(locale $locale = null)
     {
@@ -27,10 +27,10 @@ abstract class files extends field
         }
         else
         {
-            $this->files = array();
+            $this->values = array();
             foreach ($observable->getRunner()->getIterator()->end()->getChildren() as $element)
             {
-                $this->files[] = $element->name;
+                $this->values[] = $element->name;
             }
 
             return true;
