@@ -18,7 +18,7 @@ class basic extends autodeploy\transformer
             return $this;
         }
         $this->append(array(
-            'file'      => $line,
+            'name'      => $line,
         ));
 
         return $this;

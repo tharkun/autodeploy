@@ -27,8 +27,8 @@ class designBase extends autodeploy\parser
 
     public function hasMatches(autodeploy\element $element, array & $matches = null, & $i = null)
     {
-        return preg_match('@extension/[^/]+/design$@', $element->file, $matches) && !is_null($i = 0)
-            || preg_match('@extension/[^/]+/design/'.self::PATTERN.'$@', $element->file, $matches) && !is_null($i = 1)
+        return preg_match('@extension/[^/]+/design$@', $element->name, $matches) && !is_null($i = 0)
+            || preg_match('@extension/[^/]+/design/'.self::PATTERN.'$@', $element->name, $matches) && !is_null($i = 1)
         ;
     }
 

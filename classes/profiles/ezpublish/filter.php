@@ -19,8 +19,8 @@ class filter extends autodeploy\filter
     {
         foreach ($iterator as $element)
         {
-            if ("" == $element->file
-                || preg_match("@^".self::PATTERN_EXCLUDED_FOLDERS."@", $element->file)
+            if ("" == $element->name
+                || preg_match("@^".self::PATTERN_EXCLUDED_FOLDERS."@", $element->name)
             ) {
                 $iterator->skip();
             }

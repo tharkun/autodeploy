@@ -27,7 +27,7 @@ class template extends autodeploy\parser
 
     public function hasMatches(autodeploy\element $element, array & $matches = null, & $i = null)
     {
-        return preg_match('@(extension/)?design/[^/]+/(override/)?templates/(.*/)?'.self::PATTERN.'$@', $element->file, $matches) && !is_null($i = count($matches) - 1);
+        return preg_match('@(extension/)?design/[^/]+/(override/)?templates/(.*/)?'.self::PATTERN.'$@', $element->name, $matches) && !is_null($i = count($matches) - 1);
     }
 
     public function getTaskType()

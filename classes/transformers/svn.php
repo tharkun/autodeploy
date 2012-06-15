@@ -23,14 +23,14 @@ class svn extends autodeploy\transformer
             if ('' == trim($aMatches[1]))
             {
                 $this->append(array(
-                    'file'      => $aMatches[4],
+                    'name'      => $aMatches[4],
                     'action'    => $aMatches[2]
                 ));
             }
             else
             {
                 $this->append(array(
-                    'file'      => $aMatches[4],
+                    'name'      => $aMatches[4],
                     'action'    => $aMatches[1]
                 ));
             }
@@ -38,7 +38,7 @@ class svn extends autodeploy\transformer
         else
         {
             $this->append(array(
-                'file'      => $line,
+                'name'      => $line,
                 'action'    => '',
             ));
         }

@@ -102,11 +102,11 @@ abstract class transformer implements aggregators\runner, definitions\php\observ
      */
     final public static function compareByFile(element $a, element $b)
     {
-        if ($a->file == $b->file)
+        if ($a->name == $b->name)
         {
             return 0;
         }
-        return ($a->file < $b->file) ? -1 : 1;
+        return ($a->name < $b->name) ? -1 : 1;
     }
 
     /**

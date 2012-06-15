@@ -19,7 +19,7 @@ class basic extends autodeploy\parser
      */
     public function hasMatches(autodeploy\element $element, array & $matches = null, & $i = null)
     {
-        return preg_match('@'.self::PATTERN.'@', $element->file, $matches) && !is_null($i = 1);
+        return preg_match('@'.self::PATTERN.'@', $element->name, $matches) && !is_null($i = 1);
     }
 
     /**

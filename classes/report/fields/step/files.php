@@ -30,7 +30,7 @@ abstract class files extends field
             $this->files = array();
             foreach ($observable->getRunner()->getIterator()->end()->getChildren() as $element)
             {
-                $this->files[] = $element->file;
+                $this->files[] = $element->name;
             }
 
             return true;

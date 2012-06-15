@@ -27,9 +27,9 @@ class activeExtensions extends autodeploy\parser
 
     public function hasMatches(autodeploy\element $element, array & $matches = null, & $i = null)
     {
-        return preg_match('@extension/[^/]+$@', $element->file, $matches) && !is_null($i = 0)
-            || preg_match('@extension/[^/]+'.self::PATTERN.'$@', $element->file, $matches) && !is_null($i = 1)
-            || preg_match('@settings/override/site.ini.append.php$@', $element->file, $matches) && !is_null($i = 0)
+        return preg_match('@extension/[^/]+$@', $element->name, $matches) && !is_null($i = 0)
+            || preg_match('@extension/[^/]+'.self::PATTERN.'$@', $element->name, $matches) && !is_null($i = 1)
+            || preg_match('@settings/override/site.ini.append.php$@', $element->name, $matches) && !is_null($i = 0)
         ;
     }
 

@@ -18,7 +18,7 @@ class rsync extends autodeploy\transformer
             return $this;
         }
         $this->append(array(
-            'file'      => $line,
+            'name'      => $line,
             'action'    => 'U',
         ));
 

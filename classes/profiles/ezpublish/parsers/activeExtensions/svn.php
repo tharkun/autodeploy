@@ -18,9 +18,9 @@ class svn extends parsers\activeExtensions
      */
     public function hasMatches(autodeploy\element $element, array & $matches = null, & $i = null)
     {
-        return preg_match('@extension/[^/]+$@', $element->file, $matches) && $element->isAddedOrDeleted() && !is_null($i = 0)
-            || preg_match('@extension/[^/]+'.self::PATTERN.'$@', $element->file, $matches) && $element->isAddedOrDeleted() && !is_null($i = 1)
-            || preg_match('@settings/override/site.ini.append.php$@', $element->file, $matches) && !is_null($i = 0)
+        return preg_match('@extension/[^/]+$@', $element->name, $matches) && $element->isAddedOrDeleted() && !is_null($i = 0)
+            || preg_match('@extension/[^/]+'.self::PATTERN.'$@', $element->name, $matches) && $element->isAddedOrDeleted() && !is_null($i = 1)
+            || preg_match('@settings/override/site.ini.append.php$@', $element->name, $matches) && !is_null($i = 0)
         ;
     }
 
