@@ -9,6 +9,7 @@ class parser extends factory
 
     public function getPattern()
     {
+        return 'profiles\%s\parser';
         return 'parsers\%s';
     }
 

@@ -9,7 +9,7 @@ class transformer extends factory
 
     public function getPattern()
     {
-        return 'transformers\%s';
+        return 'profiles\%s\transformer';
     }
 
 }

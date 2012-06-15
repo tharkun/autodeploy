@@ -1,10 +1,10 @@
 <?php
 
-namespace autodeploy\transformers;
+namespace autodeploy\profiles\svn;
 
 use autodeploy;
 
-class svn extends autodeploy\transformer
+class transformer extends autodeploy\transformer
 {
 
     /**

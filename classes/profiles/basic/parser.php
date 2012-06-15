@@ -1,10 +1,10 @@
 <?php
 
-namespace autodeploy\parsers;
+namespace autodeploy\profiles\basic;
 
 use autodeploy;
 
-class basic extends autodeploy\parser
+class parser extends autodeploy\parser
 {
 
     protected static $singleton = null;

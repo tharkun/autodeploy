@@ -1,15 +1,15 @@
 <?php
 
-namespace autodeploy\transformers;
+namespace autodeploy\profiles\basic;
 
 use autodeploy;
 
-class rsync extends autodeploy\transformer
+class transformer extends autodeploy\transformer
 {
 
     /**
      * @param $line
-     * @return rsync
+     * @return basic
      */
     public function transform($line)
     {
@@ -19,7 +19,6 @@ class rsync extends autodeploy\transformer
         }
         $this->append(array(
             'name'      => $line,
-            'action'    => 'U',
         ));
 
         return $this;

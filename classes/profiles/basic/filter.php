@@ -1,12 +1,12 @@
 <?php
 
-namespace autodeploy\filters;
+namespace autodeploy\profiles\basic;
 
 use
     autodeploy
 ;
 
-class basic extends autodeploy\filter
+class filter extends autodeploy\filter
 {
 
     /**

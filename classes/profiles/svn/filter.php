@@ -1,12 +1,12 @@
 <?php
 
-namespace autodeploy\filters;
+namespace autodeploy\profiles\svn;
 
 use
     autodeploy
 ;
 
-class svn extends autodeploy\filter
+class filter extends autodeploy\filter
 {
 
     /**
