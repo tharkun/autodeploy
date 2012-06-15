@@ -9,7 +9,7 @@ use
     autodeploy\report\field
 ;
 
-abstract class files extends field
+abstract class elements extends field
 {
 
     protected $values = array();

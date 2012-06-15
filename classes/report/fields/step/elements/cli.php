@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\report\fields\step\files;
+namespace autodeploy\report\fields\step\elements;
 
 use
     autodeploy\report\fields,
@@ -10,7 +10,7 @@ use
     autodeploy\outputs\cli\table
 ;
 
-class cli extends fields\step\files
+class cli extends fields\step\elements
 {
 
     protected $prefix = null;

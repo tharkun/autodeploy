@@ -34,7 +34,7 @@ class cli extends reports\synchronous
             ->addField( new fields\step\memory\cli($secondLevelPrefix) )
             ->addField( new fields\step\result\cli() )
 
-            ->addField( new fields\step\files\cli() )
+            ->addField( new fields\step\elements\cli() )
             ->addField( new fields\step\actions\cli() )
             ->addField( new fields\step\wildcards\cli() )
             ->addField( new fields\step\output\cli() )
