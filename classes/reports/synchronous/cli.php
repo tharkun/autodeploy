@@ -39,7 +39,6 @@ class cli extends reports\synchronous
             ->addField( new fields\step\wildcards\cli() )
             ->addField( new fields\step\output\cli() )
 
-            ->addField( new fields\task\client\cli() )
             ->addField( new fields\task\command\cli() )
 
             ->addField( new fields\command\stdout\cli() )

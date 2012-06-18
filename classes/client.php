@@ -6,7 +6,6 @@ abstract class client implements aggregators\runner
 {
 
     const FILE_SYSTEM      = 'filesystem';
-    const GEARMAN          = 'gearman';
 
     protected $runner = null;
     protected $command = null;

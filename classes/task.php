@@ -14,7 +14,6 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
     protected $runner = null;
     protected $observers = array();
 
-    protected $client = '';
     protected $command = null;
     protected $wildcards = array();
 
@@ -78,14 +77,6 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
         }
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getClient()
-    {
-        return $this->client;
     }
 
     /**
@@ -211,8 +202,6 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
      */
     public function execute()
     {
-        $this->client = client::FILE_SYSTEM;
-
         $this->callObservers(self::taskStart);
 
         $executeTask = true;
@@ -226,7 +215,7 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
 
         if ($executeTask)
         {
-            factories\client::build($this->client, $this->getRunner(), (string) $this)->execute($this);
+            factories\client::build(client::FILE_SYSTEM, $this->getRunner(), (string) $this)->execute($this);
         }
 
         $this->callObservers(self::taskStop);
