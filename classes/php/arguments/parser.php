@@ -133,7 +133,11 @@ class parser implements \iteratorAggregate
         {
             $value = $arguments->current();
 
-            if (self::isOption($value) === false)
+            if (self::isOptionEndingCaracter($value) === true)
+            {
+                $argument = '';
+            }
+            else if (self::isOption($value) === false)
             {
                 $this->values[$argument][] = $value;
 
@@ -204,6 +208,16 @@ class parser implements \iteratorAggregate
         }
 
         return true;
+    }
+
+    /**
+     * @static
+     * @param $value
+     * @return bool
+     */
+    public static function isOptionEndingCaracter($value)
+    {
+        return '--' === $value;
     }
 
     /**
