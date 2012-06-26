@@ -158,39 +158,6 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
         return $this->currentOutput;
     }
 
-    /*****************************************************************************************************************************/
-    /*****************************************************************************************************************************/
-    /*****************************************************************************************************************************/
-
-
-    /**
-     * @return closure
-     */
-    final public function getClosureForStdout()
-    {
-        $self = $this;
-        return function ($stdout) use ($self)
-        {
-            $self->setStdOut($stdout);
-            $self->setCurrentOutput($stdout);
-            $self->callObservers(task::stdOutStart);
-        };
-    }
-
-    /**
-     * @return closure
-     */
-    final public function getClosureForStderr()
-    {
-        $self = $this;
-        return function ($stderr) use ($self)
-        {
-            $self->setStdErr($stderr);
-            $self->setCurrentOutput($stderr);
-            $self->callObservers(task::stdErrStart);
-        };
-    }
-
 
     /*****************************************************************************************************************************/
     /*****************************************************************************************************************************/
@@ -215,13 +182,23 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
 
         if ($executeTask)
         {
+            $self = $this;
+
             $command = new command( (string) $this );
             $command->execute(
-                $this->getClosureForStdout(),
-                $this->getClosureForStderr()
+                function ($stdout) use ($self)
+                {
+                    $self->setStdOut($stdout);
+                    $self->setCurrentOutput($stdout);
+                    $self->callObservers(task::stdOutStart);
+                },
+                function ($stderr) use ($self)
+                {
+                    $self->setStdErr($stderr);
+                    $self->setCurrentOutput($stderr);
+                    $self->callObservers(task::stdErrStart);
+                }
             );
-
-            //factories\client::build(client::FILE_SYSTEM, $this->getRunner(), (string) $this)->execute($this);
         }
 
         $this->callObservers(self::taskStop);
