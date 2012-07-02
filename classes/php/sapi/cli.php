@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\outputs;
+namespace autodeploy\php\sapi;
 
 use autodeploy\php;
 

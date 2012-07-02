@@ -1,8 +1,8 @@
 <?php
 
-namespace autodeploy\outputs\cli;
+namespace autodeploy\php\sapi\cli;
 
-use autodeploy\outputs;
+use autodeploy\php\sapi;
 
 class styler
 {
@@ -61,15 +61,15 @@ class styler
      * @param null $style
      * @param null $fgColor
      * @param null $bgColor
-     * @param \autodeploy\outputs\cli|null $cli
+     * @param \autodeploy\php\sapi\cli|null $cli
      */
-    public function __construct($style = null, $fgColor = null, $bgColor = null, outputs\cli $cli = null)
+    public function __construct($style = null, $fgColor = null, $bgColor = null, sapi\cli $cli = null)
     {
         $this
             ->setStyle($style?:'default')
             ->setForeGroundColor($fgColor?:'default')
             ->setBackGroundColor($bgColor?:'default')
-            ->setCli($cli ?: new outputs\cli())
+            ->setCli($cli ?: new sapi\cli())
         ;
     }
 
@@ -186,10 +186,10 @@ class styler
     }
 
     /**
-     * @param \autodeploy\outputs\cli $cli
-     * @return ground
+     * @param \autodeploy\php\sapi\cli $cli
+     * @return styler
      */
-    public function setCli(outputs\cli $cli)
+    public function setCli(sapi\cli $cli)
     {
         $this->cli = $cli;
 

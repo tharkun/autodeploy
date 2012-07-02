@@ -5,8 +5,8 @@ namespace autodeploy\reports\synchronous;
 use
     autodeploy\reports,
     autodeploy\report\fields,
-    autodeploy\outputs\cli\prefix,
-    autodeploy\outputs\cli\styler
+    autodeploy\php\sapi\cli\prefix,
+    autodeploy\php\sapi\cli\styler
 ;
 
 class cli extends reports\synchronous

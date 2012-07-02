@@ -142,7 +142,7 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         $this->addArgumentHandler(
             function($script, $argument, $values)
             {
-                outputs\cli::forceTerminal();
+                php\sapi\cli::forceTerminal();
             },
             array('-c', '--color'),
             parser::TYPE_NONE,

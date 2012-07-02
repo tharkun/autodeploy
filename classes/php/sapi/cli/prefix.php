@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\outputs\cli;
+namespace autodeploy\php\sapi\cli;
 
 class prefix
 {
