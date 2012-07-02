@@ -206,6 +206,31 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
             'Include <file> before executing each test method'
         );
 
+        $this->addArgumentHandler(
+            function($script, $argument, $values) use ($runner)
+            {
+                $mailer = new php\mailers\mail();
+                $mailer->setSubject(__FILE__);
+                foreach ($values as $value)
+                {
+                    $mailer->addTo($value);
+                }
+
+                $mailWriter = new writers\mail();
+                $mailWriter->setMailer($mailer);
+
+                $builderReport = new reports\asynchronous\mail();
+                $builderReport->addWriter($mailWriter);
+
+                $runner->addReport($builderReport);
+            },
+            array('-t', '--to'),
+            parser::TYPE_SINGLE,
+            parser::OPTIONNAL,
+            '<email...>',
+            'Send report to <email...>'
+        );
+
         return $this;
     }
 
@@ -236,6 +261,14 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
      */
     public function init(array $args = array())
     {
+        if ($this->getRunner()->hasReports() === false)
+        {
+            $report = new reports\synchronous\cli();
+            $report->addWriter(new writers\std\out());
+
+            $this->getRunner()->addReport($report);
+        }
+
         $this->setArgumentCommonHandlers();
         $this->setArgumentHandlers();
 
@@ -246,14 +279,6 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         $this->adapter->ini_set('display_errors', 'stderr');
 
         $this->argumentsParser->parse($this, $args);
-
-        if ($this->getRunner()->hasReports() === false)
-        {
-            $report = new reports\synchronous\cli();
-            $report->addWriter(new writers\std\out());
-
-            $this->getRunner()->addReport($report);
-        }
 
         return $this;
     }

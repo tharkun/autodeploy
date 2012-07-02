@@ -8,7 +8,7 @@ use
     autodeploy\reports
 ;
 
-abstract class std extends autodeploy\writer implements writers\synchronous//, writers\asynchronous
+abstract class std extends autodeploy\writer implements writers\synchronous, writers\asynchronous
 {
 
     protected $resource = null;
@@ -38,10 +38,10 @@ abstract class std extends autodeploy\writer implements writers\synchronous//, w
         return $this->write((string) $report);
     }
 
-    /*public function writeAsynchronousReport(reports\asynchronous $report)
+    public function writeAsynchronous(reports\asynchronous $report)
     {
         return $this->write((string) $report);
-    }*/
+    }
 
     protected abstract function getResource();
 

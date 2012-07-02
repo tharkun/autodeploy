@@ -12,11 +12,6 @@ class synchronous extends autodeploy\report
         return parent::handleEvent($event, $observable)->write($event);
     }
 
-    public function addWriter(autodeploy\definitions\writers\synchronous $writer)
-    {
-        return $this->doAddWriter($writer);
-    }
-
     protected function write($event)
     {
         foreach ($this->writers as $writer)
