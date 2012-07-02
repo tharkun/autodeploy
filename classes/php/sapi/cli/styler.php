@@ -65,12 +65,20 @@ class styler
      */
     public function __construct($style = null, $fgColor = null, $bgColor = null, sapi\cli $cli = null)
     {
-        $this
-            ->setStyle($style?:'default')
-            ->setForeGroundColor($fgColor?:'default')
-            ->setBackGroundColor($bgColor?:'default')
-            ->setCli($cli ?: new sapi\cli())
-        ;
+        if ($style !== null)
+        {
+            $this->setStyle($style);
+        }
+        if ($fgColor !== null)
+        {
+            $this->setForeGroundColor($fgColor);
+        }
+        if ($bgColor !== null)
+        {
+            $this->setBackGroundColor($bgColor);
+        }
+
+        $this->setCli($cli ?: new sapi\cli());
     }
 
     /**
@@ -231,7 +239,10 @@ class styler
                 $sequences[] = $this->bgColor;
             }
 
-            $string = sprintf(self::$escape, implode(';', $sequences)) . $string . sprintf(self::$escape, '0');
+            if (count($sequences))
+            {
+                $string = sprintf(self::$escape, implode(';', $sequences)) . $string . sprintf(self::$escape, '0');
+            }
         }
 
         return $string;
