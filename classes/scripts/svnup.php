@@ -37,7 +37,8 @@ final class svnup extends autodeploy\script
             array(''),
             parser::TYPE_MULTIPLE,
             parser::MANDATORY,
-            ''
+            'file',
+            'Files to update'
         );
 
         return $this;

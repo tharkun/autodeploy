@@ -13,6 +13,8 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
     protected $adapter = null;
 
     private $argumentsParser = null;
+    protected $runScript = true;
+    protected $help = array();
 
 
     /*****************************************************************************************************************************/
@@ -142,6 +144,18 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         $this->addArgumentHandler(
             function($script, $argument, $values)
             {
+                $script->help();
+            },
+            array('-h', '--help'),
+            parser::TYPE_NONE,
+            parser::OPTIONNAL,
+            null,
+            'Display help'
+        );
+
+        $this->addArgumentHandler(
+            function($script, $argument, $values)
+            {
                 php\sapi\cli::forceTerminal();
             },
             array('-c', '--color'),
@@ -202,8 +216,8 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
             array('-bf', '--bootstrap-file'),
             parser::TYPE_SINGLE,
             parser::OPTIONNAL,
-            '<file>',
-            'Include <file> before executing each test method'
+            'file',
+            'Include %s before executing each test method'
         );
 
         $this->addArgumentHandler(
@@ -225,10 +239,10 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
                 $runner->addReport($builderReport);
             },
             array('-t', '--to'),
-            parser::TYPE_SINGLE,
+            parser::TYPE_MULTIPLE,
             parser::OPTIONNAL,
-            '<email...>',
-            'Send report to <email...>'
+            'email',
+            'Send report to %s'
         );
 
         return $this;
@@ -247,7 +261,13 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
     {
         if ($help !== null)
         {
-            $this->help[] = array($args, $values, $this->locale->_($help));
+            $this->help[] = array(
+                $args,
+                $type,
+                $mandatory,
+                $values,
+                $this->locale->_($help)
+            );
         }
 
         $this->argumentsParser->addHandler($handler, $args, $type, $mandatory);
@@ -294,11 +314,50 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         {
             $this->init($args);
 
-            $this->getRunner()->run();
+            if ($this->runScript)
+            {
+                $this->getRunner()->run();
+            }
         }
         catch (\Exception $exception)
         {
             throw $exception;
+        }
+
+        return $this;
+    }
+
+    public function help()
+    {
+        $this->runScript = false;
+
+        if ($this->help)
+        {
+            $this->getRunner()->writeMessage(sprintf($this->locale->_('Usage: %s [options]'), $this->getName()) . PHP_EOL);
+            $this->getRunner()->writeMessage($this->locale->_('Options:') . PHP_EOL);
+
+            $rows = array();
+            foreach ($this->help as $help)
+            {
+                $option = '';
+                if (php\arguments\parser::TYPE_SINGLE === $help[1])
+                {
+                    $option .= sprintf(' <%s>', $help[3]);
+                }
+                else if (php\arguments\parser::TYPE_MULTIPLE === $help[1])
+                {
+                    $option .= sprintf(' <%s...>', $help[3]);
+                }
+
+                $rows[] = array(
+                    isset($help[0][0]) ? trim($help[0][0] . $option) : '',
+                    isset($help[0][1]) ? trim($help[0][1] . $option) : '',
+                    $help[2] ? 'no' : 'yes',
+                    sprintf($help[4], trim($option)),
+                );
+            }
+
+            $this->getRunner()->writeMessage((string) new php\sapi\cli\table( $rows, array('Short', 'Long', 'Optionnal', 'Description') ) . PHP_EOL);
         }
 
         return $this;

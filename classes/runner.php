@@ -417,6 +417,20 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
         return trim($this->adapter->fgets(STDIN));
     }
 
+    public function writeMessage($message, $eol = true)
+    {
+        $message = rtrim($message);
+
+        if ($eol == true)
+        {
+            $message .= PHP_EOL;
+        }
+
+        $this->outWriter->write($message);
+
+        return $this;
+    }
+
     /**
      * @return int
      */
