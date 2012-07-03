@@ -298,8 +298,6 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         $this->adapter->ini_set('log_errors', 'Off');
         $this->adapter->ini_set('display_errors', 'stderr');
 
-        $this->argumentsParser->parse($this, $args);
-
         return $this;
     }
 
@@ -316,6 +314,8 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
 
             if ($this->runScript)
             {
+                $this->argumentsParser->parse($this, $args);
+
                 $this->getRunner()->run();
             }
         }
