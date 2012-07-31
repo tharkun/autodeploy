@@ -13,6 +13,7 @@ class report implements aggregators\php\adapter, aggregators\php\locale, definit
     protected $writers = array();
     protected $fields = array();
     protected $lastSetFields = array();
+    protected $string = '';
 
     public function __construct(php\adapter $adapter = null, php\locale $locale = null)
     {
@@ -100,6 +101,11 @@ class report implements aggregators\php\adapter, aggregators\php\locale, definit
         }
 
         return $string;
+    }
+
+    public function addWriter(definitions\writer $writer)
+    {
+        return $this->doAddWriter($writer);
     }
 
     protected function doAddWriter($writer)

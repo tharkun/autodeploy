@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\reports\synchronous;
+namespace autodeploy\reports\asynchronous;
 
 use
     autodeploy\reports,
@@ -9,7 +9,7 @@ use
     autodeploy\php\sapi\cli\styler
 ;
 
-class cli extends reports\synchronous
+class mail extends reports\asynchronous
 {
 
     public function __construct()
@@ -17,10 +17,10 @@ class cli extends reports\synchronous
         parent::__construct();
 
         $titlePrefix = new prefix("\t");
-        $titleStyler = new styler(array('bold', 'underlined'), 'yellow');
+        $titleStyler = new styler();
 
         $firstLevelPrefix = new prefix('> ');
-        $firstLevelStyler = new styler(array(), 'cyan');
+        $firstLevelStyler = new styler();
 
         $secondLevelPrefix = new prefix('=> ', $firstLevelStyler);
 

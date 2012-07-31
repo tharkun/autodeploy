@@ -5,9 +5,9 @@ namespace autodeploy\report\fields\runner\memory;
 use
     autodeploy\report\fields,
     autodeploy\php\locale,
-    autodeploy\outputs\cli\prefix,
-    autodeploy\outputs\cli\styler,
-    autodeploy\outputs\cli\table
+    autodeploy\php\sapi\cli\prefix,
+    autodeploy\php\sapi\cli\styler,
+    autodeploy\php\sapi\cli\table
 ;
 
 class cli extends fields\runner\memory
