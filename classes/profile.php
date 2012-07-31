@@ -8,11 +8,26 @@ class profile extends php\options
     protected $name = null;
 
     /**
+     * @param array $options
+     */
+    public function __construct(array $options = array())
+    {
+        parent::__construct($options);
+
+        $this->init();
+    }
+
+    public function init()
+    {
+        return $this;
+    }
+
+    /**
      * @param $name
      * @return profile
      * @throws \InvalidArgumentException
      */
-    public function setName($name)
+    final public function setName($name)
     {
         if (!is_string($name))
         {
@@ -27,7 +42,7 @@ class profile extends php\options
     /**
      * @return null|string
      */
-    public function getName()
+    final public function getName()
     {
         return $this->name;
     }

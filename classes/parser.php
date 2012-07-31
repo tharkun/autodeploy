@@ -86,19 +86,20 @@ abstract class parser implements aggregators\runner, definitions\php\observable,
      * Get another instance of a autodeploy\parser
      * @final
      * @param string $sParser
-     * @return autodeploy\parser
+     * @return parser
      */
     final protected function getOtherInstance($sParser)
     {
         preg_match("/(svn|rsync)$/", get_class($this), $aMatches);
 
-        return factories\profile\parser::build(
-            array(
-                 $this->getRunner()->getProfile()->getName(),
-                 $sParser,
-                 strtolower($aMatches[1])
-            ), $this->getRunner()
-        );
+        return factories\profile\parser::instance(
+             $this->getRunner()->getProfile()->getName(),
+             $sParser,
+             strtolower($aMatches[1])
+        )
+            ->with($this->getRunner())
+            ->make()
+        ;
     }
 
     /**

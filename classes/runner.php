@@ -481,7 +481,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
 
             $this->stepNumber++;
 
-            $object = factories\step::build($step['type'], $this, $step['factories']);
+            $object = factories\step::instance($step['type'])->with($this, $step['factories'])->make();
 
             foreach ($this->observers as $observer)
             {

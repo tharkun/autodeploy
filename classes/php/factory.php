@@ -5,41 +5,29 @@ namespace autodeploy\php;
 class factory
 {
 
-    private $class = '';
+    private $reflectionClass = null;
+
     private $args = array();
-    private $recursiveLevel = 0;
 
     /**
-     * @param array $class
-     * @param array $args
+     * @param array $array
      */
-    final protected function __construct(array $class, array $args = array())
+    final protected function __construct(array $array)
     {
-        $class = autoloader::normalize($class);
+        $array = $class = autoloader::normalize($array);
         array_unshift($class, $this->getPattern());
-        $this->class = $class;
-        $this->args  = $args;
 
-        for ($i = 0; $i < substr_count($this->getPattern(), '%s') - count($class)+1; $i++)
+        for ($i = 0; $i < substr_count($this->getPattern(), '%s') - count($array)+1; $i++)
         {
-            $this->class[] = '';
+            $class[] = '';
         }
 
-        $this->recursiveLevel = substr_count($this->getPattern(), '%s\%s');
+        $this->reflectionClass = new \ReflectionClass( $this->findRecursiveClassName( str_replace('\php', '', __NAMESPACE__) . '\\' . call_user_func_array('sprintf', $class) ) );
     }
 
-    /**
-     * @static
-     * @return factory
-     */
-    public static function build()
+    public static function instance()
     {
-        $args  = func_get_args();
-        $class = array_shift($args);
-        $class = is_string($class) ? array($class) : $class;
-
-        $factory = new static( $class, $args );
-        return $factory->create();
+        return new static( func_get_args() );
     }
 
     /**
@@ -48,6 +36,37 @@ class factory
     final public function __clone()
     {
         throw new \LogicException( sprintf('Class %s can not be cloned.', __CLASS__) );
+    }
+
+    /**
+     * @return factory
+     */
+    final public function with()
+    {
+        $this->args = func_get_args();
+
+        return $this;
+    }
+
+    /**
+     * @return mixed|object
+     */
+    final public function make()
+    {
+        $constructor = $this->reflectionClass->getConstructor();
+        if ($constructor->isPublic())
+        {
+            $object = $this->reflectionClass->newInstanceArgs( $this->args );
+        }
+        else
+        {
+            if ($this->reflectionClass->hasMethod('instance') && $this->reflectionClass->getMethod('instance')->isStatic())
+            {
+                $object = call_user_func_array( $this->reflectionClass->getName().'::instance', $this->args );
+            }
+        }
+
+        return $object;
     }
 
     /**
@@ -68,7 +87,7 @@ class factory
     {
         if ($level > 5)
         {
-            throw new \RuntimeException('');
+            throw new \RuntimeException();
         }
 
         if (!class_exists($class))
@@ -85,38 +104,6 @@ class factory
         }
 
         return $class;
-    }
-
-    /**
-     * @return mixed|object
-     */
-    protected function create()
-    {
-        $namespace = str_replace('\php', '', __NAMESPACE__);
-
-        $class = $this->findRecursiveClassName( $namespace . '\\' . call_user_func_array('sprintf', $this->class) );
-
-        if ($namespace === $class)
-        {
-            throw new \RuntimeException('Factory is unable to create object');
-        }
-
-        $oReflectionClass = new \ReflectionClass( $class );
-
-        $constructor = $oReflectionClass->getConstructor();
-        if ($constructor->isPublic())
-        {
-            $object = $oReflectionClass->newInstanceArgs( $this->args );
-        }
-        else
-        {
-            if ($oReflectionClass->hasMethod('instance') && $oReflectionClass->getMethod('instance')->isStatic())
-            {
-                $object = call_user_func_array( $class.'::instance', $this->args );
-            }
-        }
-
-        return $object;
     }
 
 }
