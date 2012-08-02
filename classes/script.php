@@ -135,7 +135,7 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
 
     /**
      * @return script
-     * @throws \InvalidArgument
+     * @throws \InvalidArgumentException
      */
     final protected function setArgumentCommonHandlers()
     {
