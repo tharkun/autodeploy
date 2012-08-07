@@ -133,14 +133,11 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
     {
         $this->startTime    = microtime(true);
         $this->startMemory  = memory_get_usage(true);
-        //echo __LINE__, '--', $this->startMemory, "\n";
 
         $this->callObservers(self::runStart);
         $this->callObservers(static::runStart);
 
         $this->getFactories()->rewind();
-
-        //echo __LINE__, '--', $this->getRunner()->getIterator()->count(), "\n";
 
         if ($this->getFactories()->valid())
         {
@@ -152,11 +149,8 @@ abstract class step implements aggregators\runner, definitions\php\observable, d
             }
         }
 
-        //echo __LINE__, '--', $this->getRunner()->getIterator()->count(), "\n";
-
         $this->stopMemory   = memory_get_usage(true);
         $this->stopTime     = microtime(true);
-        //echo __LINE__, '--', $this->stopMemory, "\n";
 
         $this->callObservers(static::runStop);
         $this->callObservers(self::runStop);

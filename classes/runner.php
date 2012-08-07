@@ -417,6 +417,11 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
         return trim($this->adapter->fgets(STDIN));
     }
 
+    /**
+     * @param $message
+     * @param bool $eol
+     * @return runner
+     */
     public function writeMessage($message, $eol = true)
     {
         $message = rtrim($message);
@@ -464,8 +469,9 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
         return $this;
     }
 
-
-
+    /**
+     * @return runner
+     */
     public function run()
     {
         $this->startTime = microtime(true);
