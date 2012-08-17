@@ -11,6 +11,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     protected $adapter = null;
     protected $locale = null;
     protected $system = null;
+    protected $debug = null;
     protected $profile = null;
 
     protected $bootstrapFile = null;
@@ -49,6 +50,8 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
             ->setSystem($system ?: new php\system())
             ->setProfile($profile ?: new profile())
         ;
+
+        $this->setDebug(php\debug::instance());
 
         $this->steps    = new php\iterator();
         $this->iterator = new php\iterator\recursive( array(new php\iterator()) );
@@ -93,6 +96,25 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * @param php\debug $debug
+     * @return runner
+     */
+    public function setDebug(php\debug $debug)
+    {
+        $this->debug = $debug;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getDebug()
+    {
+        return $this->debug;
     }
 
     /**
