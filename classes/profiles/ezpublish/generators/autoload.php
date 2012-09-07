@@ -13,7 +13,7 @@ class autoload extends autodeploy\generator
     {
         return array(
             'php',
-            'bin/php/ezpgenerateautoloads.php -e'
+            'bin/php/ezpgenerateautoloads.php -e -p'
         );
     }
 
