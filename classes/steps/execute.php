@@ -111,7 +111,6 @@ class execute extends step
                     $iterator->append($s);
                 }
             }
-            $iterator->append("U    index.php\n");
         }
 
         $this->callObservers(self::actionStop);
