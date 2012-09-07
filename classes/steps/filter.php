@@ -2,9 +2,10 @@
 
 namespace autodeploy\steps;
 
+use autodeploy\definitions;
 use autodeploy\step;
 
-class filter extends step
+class filter extends step implements definitions\php\observable
 {
 
     const runStart = 'stepFilterStart';

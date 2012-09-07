@@ -2,9 +2,10 @@
 
 namespace autodeploy\steps;
 
+use autodeploy\definitions;
 use autodeploy;
 
-class parse extends autodeploy\step
+class parse extends autodeploy\step implements definitions\php\observable
 {
 
     const runStart = 'stepParseStart';

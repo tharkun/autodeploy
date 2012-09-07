@@ -507,13 +507,18 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
         {
             $step = $this->steps->current();
 
-            $this->stepNumber++;
+            $factory = factories\step::instance($step['type']);
 
-            $object = factories\step::instance($step['type'])->with($this, $step['factories'])->make();
+            $object = $factory->with($this, $step['factories'])->make();
 
-            foreach ($this->observers as $observer)
+            if ($factory->getReflectionClass()->implementsInterface(__NAMESPACE__ . "\\definitions\\php\\observable"))
             {
-                $object->addObserver($observer);
+                $this->stepNumber++;
+
+                foreach ($this->observers as $observer)
+                {
+                    $object->addObserver($observer);
+                }
             }
 
             $object->run();

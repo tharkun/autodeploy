@@ -2,9 +2,10 @@
 
 namespace autodeploy\steps;
 
+use autodeploy\definitions;
 use autodeploy\step;
 
-class generate extends step
+class generate extends step implements definitions\php\observable
 {
 
     const runStart = 'stepGenerateStart';

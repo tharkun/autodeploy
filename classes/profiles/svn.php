@@ -12,6 +12,9 @@ class svn extends autodeploy\profile
     {
         $this
             ->setName('svn')
+            ->setParsers(array(
+                step::defaultFactory,
+            ))
         ;
 
         return $this;

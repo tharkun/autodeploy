@@ -39,6 +39,14 @@ class factory
     }
 
     /**
+     * @return \ReflectionClass
+     */
+    public function getReflectionClass()
+    {
+        return $this->reflectionClass;
+    }
+
+    /**
      * @return factory
      */
     final public function with()
