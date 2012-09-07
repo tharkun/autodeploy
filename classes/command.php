@@ -103,7 +103,8 @@ class command
                     {
                         if (array_key_exists($stream, $process->pipes) && in_array($process->pipes[ $stream ], $pipes) === true)
                         {
-                            call_user_func($fn, stream_get_contents($process->pipes[ $stream ]));
+                            //call_user_func($fn, stream_get_contents($process->pipes[ $stream ]));
+                            call_user_func($fn, stream_get_line($process->pipes[ $stream ], 1024));
 
                             if (feof($process->pipes[ $stream ]) === true)
                             {
