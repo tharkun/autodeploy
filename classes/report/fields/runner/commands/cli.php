@@ -62,7 +62,7 @@ class cli extends fields\runner\commands
             ) .
             PHP_EOL .
             PHP_EOL .
-            (string) new table( $values, array('Commands', 'Executed ?') )
+            (string) new table( $values, array('Executed ?', 'Commands') )
         ;
     }
 }
