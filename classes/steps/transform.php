@@ -5,7 +5,7 @@ namespace autodeploy\steps;
 use autodeploy\definitions;
 use autodeploy\step;
 
-class transform extends step implements definitions\php\observable
+class transform extends step
 {
 
     const runStart = 'stepTransformStart';

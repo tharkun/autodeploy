@@ -63,37 +63,28 @@ class cli extends fields\step\memory
             $scale  = 'Ko';
         }
 
-        $string = $this->prefix .
-            sprintf(
-                $this->locale->_('%1$s: %2$s'),
-                $this->titleStyler->colorize($this->locale->_('Step used memory')),
-                $this->memoryStyler->colorize(sprintf($this->locale->_('%d %s'), $memory, $scale))
-            ) .
-            PHP_EOL
-        ;
-
-        $memory = $this->totalMemory;
-        $scale  = 'o';
+        $totalMemory = $this->totalMemory;
+        $totalScale  = 'o';
         if ($this->totalMemory > pow(1024, 2))
         {
-            $memory = $this->totalMemory / pow(1024, 2);
-            $scale  = 'Mo';
+            $totalMemory = $this->totalMemory / pow(1024, 2);
+            $totalScale  = 'Mo';
         }
         else if ($this->totalMemory > pow(1024, 1))
         {
-            $memory = $this->totalMemory / pow(1024, 1);
-            $scale  = 'Ko';
+            $totalMemory = $this->totalMemory / pow(1024, 1);
+            $totalScale  = 'Ko';
         }
 
-        $string .= $this->prefix .
+        return $this->prefix .
             sprintf(
-                $this->locale->_('%1$s: %2$s'),
+                $this->locale->_('%1$s: %2$s -- %3$s: %4$s'),
                 $this->titleStyler->colorize($this->locale->_('Total used memory')),
+                $this->memoryStyler->colorize(sprintf($this->locale->_('%d %s'), $totalMemory, $totalScale)),
+                $this->titleStyler->colorize($this->locale->_('Delta')),
                 $this->memoryStyler->colorize(sprintf($this->locale->_('%d %s'), $memory, $scale))
             ) .
             PHP_EOL
         ;
-
-        return $string;
     }
 }
