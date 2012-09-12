@@ -34,7 +34,7 @@ abstract class output extends field
             }
             else if ($event === autodeploy\steps\execute::actionStop)
             {
-                $this->output = ob_get_clean();
+                $this->output = ob_get_clean() . "\n";
             }
 
             return true;

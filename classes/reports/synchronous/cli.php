@@ -32,8 +32,6 @@ class cli extends reports\synchronous
             ->addField( new fields\step\title\cli($titlePrefix, $titleStyler) )
             ->addField( new fields\step\duration\cli($secondLevelPrefix) )
             ->addField( new fields\step\memory\cli($secondLevelPrefix) )
-            ->addField( new fields\step\result\cli() )
-
             ->addField( new fields\step\elements\cli() )
             ->addField( new fields\step\actions\cli() )
             ->addField( new fields\step\wildcards\cli() )
