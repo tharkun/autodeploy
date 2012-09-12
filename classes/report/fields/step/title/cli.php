@@ -42,7 +42,8 @@ class cli extends fields\step\title
 
     public function __toString()
     {
-        return $this->prefix .
+        return PHP_EOL
+            . $this->prefix .
             (
                 $this->currentStepNumber === null || $this->title === null
                 ?
