@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\profiles\basic;
+namespace autodeploy\profiles\simple;
 
 use autodeploy;
 
@@ -9,7 +9,7 @@ class transformer extends autodeploy\transformer
 
     /**
      * @param $line
-     * @return basic
+     * @return simple
      */
     public function transform($line)
     {

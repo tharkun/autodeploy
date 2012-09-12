@@ -1,6 +1,6 @@
 <?php
 
-namespace autodeploy\profiles\basic;
+namespace autodeploy\profiles\simple;
 
 use autodeploy;
 

@@ -38,7 +38,7 @@ final class websync extends autodeploy\script
             ->addStep(step::STEP_INVOKE, array(
                 function ($runner)
                 {
-                    $runner->setProfile(new autodeploy\profiles\basic());
+                    $runner->setProfile(new autodeploy\profiles\simple());
                 },
             ))
             ->addStep(step::STEP_TRANSFORM, array(

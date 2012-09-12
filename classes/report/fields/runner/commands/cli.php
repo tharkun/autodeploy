@@ -46,9 +46,13 @@ class cli extends fields\runner\commands
             return '';
         }
 
+        $values = array();
         foreach ($this->value as $i => $val)
         {
-            $this->value[$i][1] = $val[1] ? 'yes' : 'no';
+            $values[] = array(
+                $val[1] ? 'yes' : 'no',
+                $val[0]
+            );
         }
 
         return $this->prefix .
@@ -58,7 +62,7 @@ class cli extends fields\runner\commands
             ) .
             PHP_EOL .
             PHP_EOL .
-            (string) new table( $this->value, array('Commands', 'Executed ?') )
+            (string) new table( $values, array('Commands', 'Executed ?') )
         ;
     }
 }

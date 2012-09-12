@@ -5,7 +5,7 @@ namespace autodeploy;
 abstract class step implements aggregators\runner, definitions\step
 {
 
-    const defaultFactory = 'basic';
+    const defaultFactory = 'simple';
 
     const runStart = 'stepStart';
     const runStop = 'stepStop';

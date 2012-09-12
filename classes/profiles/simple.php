@@ -5,13 +5,13 @@ namespace autodeploy\profiles;
 use autodeploy;
 use autodeploy\step;
 
-class basic extends autodeploy\profile
+class simple extends autodeploy\profile
 {
 
     public function init()
     {
         $this
-            ->setName('basic')
+            ->setName('simple')
             ->setParsers(array(
                 step::defaultFactory,
             ))
