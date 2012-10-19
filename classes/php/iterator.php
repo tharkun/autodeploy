@@ -13,6 +13,7 @@ class iterator implements \Iterator, \Countable
     public function __construct(array $collection = array())
     {
         $this->collection = $collection;
+        $this->size = count($collection);
     }
 
     /**
