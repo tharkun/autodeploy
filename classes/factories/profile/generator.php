@@ -2,9 +2,9 @@
 
 namespace autodeploy\factories\profile;
 
-use autodeploy\php\factory;
+use autodeploy\factories;
 
-class generator extends factory
+class generator extends factories\profile
 {
 
     public function getPattern()
