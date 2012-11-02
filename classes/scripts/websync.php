@@ -38,31 +38,31 @@ final class websync extends autodeploy\script
             ->addStep(step::STEP_INVOKE, array(
                 function ($runner)
                 {
-                    $runner->setProfile(new autodeploy\profiles\simple());
+                    $runner->loadProfile('simple');
                 },
             ))
             ->addStep(step::STEP_TRANSFORM, array(
                 function ($runner)
                 {
-                    return factories\profile\transformer::instance(step::defaultFactory)->with($runner)->make();
+                    return factories\profile\transformer::instance()->with($runner)->make();
                 },
             ))
             ->addStep(step::STEP_FILTER, array(
                 function ($runner)
                 {
-                    return factories\profile\filter::instance(step::defaultFactory)->with($runner)->make();
+                    return factories\profile\filter::instance()->with($runner)->make();
                 },
             ))
             ->addStep(step::STEP_PARSE, array(
                 function ($runner)
                 {
-                    return factories\profile\parser::instance(step::defaultFactory)->with($runner)->make();
+                    return factories\profile\parser::instance()->with($runner)->make();
                 },
             ))
             ->addStep(step::STEP_INVOKE, array(
                 function ($runner)
                 {
-                    $runner->setProfile(new autodeploy\profiles\websync());
+                    $runner->loadProfile('websync');
                 },
             ))
             ->addStep(step::STEP_GENERATE, array(

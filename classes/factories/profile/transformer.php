@@ -2,9 +2,9 @@
 
 namespace autodeploy\factories\profile;
 
-use autodeploy\php\factory;
+use autodeploy\factories;
 
-class transformer extends factory
+class transformer extends factories\profile
 {
 
     public function getPattern()

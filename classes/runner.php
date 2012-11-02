@@ -156,6 +156,18 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     }
 
     /**
+     * @param $name
+     * @return runner
+     */
+    public function loadProfile($name = 'simple')
+    {
+        $profile = sprintf( '%s\profiles\%s', __NAMESPACE__, $name);
+        $this->setProfile(new $profile());
+
+        return $this;
+    }
+
+    /**
      * @param $path
      * @return runner
      */
