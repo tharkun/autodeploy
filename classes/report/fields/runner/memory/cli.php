@@ -57,7 +57,7 @@ class cli extends fields\runner\memory
             $memory = $this->totalMemory / pow(1024, 2);
             $scale  = 'Mo';
         }
-        else if ($this->value > pow(1024, 1))
+        else if ($this->totalMemory > pow(1024, 1))
         {
             $memory = $this->totalMemory / pow(1024, 1);
             $scale  = 'Ko';
