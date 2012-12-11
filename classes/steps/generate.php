@@ -3,6 +3,7 @@
 namespace autodeploy\steps;
 
 use autodeploy\definitions;
+use autodeploy\php;
 use autodeploy\step;
 
 class generate extends step implements definitions\php\observable
@@ -25,40 +26,53 @@ class generate extends step implements definitions\php\observable
      */
     public function runStep()
     {
+        $iterator = new php\iterator();
+
         $tasksIterator = $this->getRunner()->getIterator()->getChildren();
 
         foreach ($this->getFactories() as $closure)
         {
             foreach ($tasksIterator as $task)
             {
-                $invoked = $closure->__invoke($this->getRunner(), $task);
-                $return = $invoked->generate();
+                $actions = $closure->__invoke($this->getRunner(), $task)->generate();
 
-                $task['type'] = $invoked->getType();
-
-                if (is_array($return) &&  2 == count($return))
+                if (!is_object($actions) || !($actions instanceof php\iterator))
                 {
-                    $task['command']  = $return[0];
-                    $task['wildcard'] = $return[1];
-                }
-                else if (is_array($return) && 1 == count($return))
-                {
-                    $task['command']  = 'auto';
-                    $task['wildcard'] = $return[0];
-                }
-                else if (is_string($return))
-                {
-                    $task['command']  = 'auto';
-                    $task['wildcard'] = $return;
-                }
-                else
-                {
-                    throw new \UnexpectedValueException();
+                    $actions = new php\iterator( array($actions) );
                 }
 
-                $tasksIterator->set($task);
+                foreach ($actions as $return)
+                {
+                    $action = $task;
+                    if (is_array($return) && 3 == count($return))
+                    {
+                        $action['type']     = $return[0];
+                        $action['command']  = $return[1];
+                        $action['wildcard'] = $return[2];
+                    }
+                    else if (is_array($return) && 2 == count($return))
+                    {
+                        $action['type']     = $return[0];
+                        $action['command']  = 'auto';
+                        $action['wildcard'] = $return[1];
+                    }
+                    else
+                    {
+                        throw new \UnexpectedValueException();
+                    }
+
+                    $iterator->append($action);
+                }
             }
         }
+
+        $this->getRunner()->getIterator()->append( $iterator );
+
+        return $this;
+    }
+
+    private function f(array & $task, $return)
+    {
 
         return $this;
     }

@@ -12,18 +12,10 @@ class up extends autodeploy\generator
     public function generate()
     {
         return array(
+            autodeploy\tasks\execute\script::TYPE,
             "svn up",
             $this->wildcard
         );
-    }
-
-    /**
-     * @abstract
-     * @return void
-     */
-    public function getType()
-    {
-        return autodeploy\tasks\execute\script::TYPE;
     }
 
 }

@@ -11,12 +11,10 @@ class module extends autodeploy\generator
 
     public function generate()
     {
-        return \eZSys::cacheDirectory() . '/ezmodule-*';
-    }
-
-    public function getType()
-    {
-        return autodeploy\tasks\delete\file::TYPE;
+        return array(
+            autodeploy\tasks\delete\file::TYPE,
+            \eZSys::cacheDirectory() . '/ezmodule-*'
+        );
     }
 
 }

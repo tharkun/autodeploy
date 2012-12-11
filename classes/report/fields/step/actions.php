@@ -28,7 +28,7 @@ abstract class actions extends field
         }
         else
         {
-            $this->parsers = $observable->getRunner()->getProfile()->getParsers();
+            $this->parsers = $observable->getRunner()->getProfiles()->rewind()->current()->getParsers();
             //$this->actions = $observable->getRunner()->getTasksIterator();
             $this->actions = $observable->getRunner()->getIterator()->end()->getChildren();
 

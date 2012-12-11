@@ -38,7 +38,7 @@ final class websync extends autodeploy\script
             ->addStep(step::STEP_INVOKE, array(
                 function ($runner)
                 {
-                    $runner->loadProfile('simple');
+                    $runner->addProfile('simple');
                 },
             ))
             ->addStep(step::STEP_TRANSFORM, array(
@@ -62,13 +62,13 @@ final class websync extends autodeploy\script
             ->addStep(step::STEP_INVOKE, array(
                 function ($runner)
                 {
-                    $runner->loadProfile('websync');
+                    $runner->addProfile('websync', true);
                 },
             ))
             ->addStep(step::STEP_GENERATE, array(
                 function ($runner, $task)
                 {
-                    return factories\profile\generator::instance($runner->getProfile()->getName(), 'main')->with($runner, $task['value'])->make();
+                    return factories\profile\generator::instance($runner->getProfiles()->current()->getName(), 'main')->with($runner, $task['value'])->make();
                 },
             ))
             ->addStep(step::STEP_EXECUTE, array(

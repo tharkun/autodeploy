@@ -11,12 +11,10 @@ class template extends autodeploy\generator
 
     public function generate()
     {
-        return \eZTemplateCompiler::compilationDirectory() . '/' . $this->wildcard . '-*';
-    }
-
-    public function getType()
-    {
-        return autodeploy\tasks\delete\file::TYPE;
+        return array(
+            autodeploy\tasks\delete\file::TYPE,
+            \eZTemplateCompiler::compilationDirectory() . '/' . $this->wildcard . '-*'
+        );
     }
 
 }

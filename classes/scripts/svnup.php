@@ -38,7 +38,7 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_INVOKE, array(
                 function ($runner)
                 {
-                    $runner->loadProfile('simple');
+                    $runner->addProfile('simple');
                 },
             ))
             ->addStep(step::STEP_TRANSFORM, array(
@@ -62,13 +62,13 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_INVOKE, array(
                 function ($runner)
                 {
-                    $runner->loadProfile('svn');
+                    $runner->addProfile('svn', true);
                 },
             ))
             ->addStep(step::STEP_GENERATE, array(
                 function ($runner, $task)
                 {
-                    return factories\profile\generator::instance($runner->getProfile()->getName(), 'up')->with($runner, $task['value'])->make();
+                    return factories\profile\generator::instance($runner->getProfiles()->current()->getName(), 'up')->with($runner, $task['value'])->make();
                 },
             ))
             ->addStep(step::STEP_EXECUTE, array(
@@ -83,7 +83,7 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_INVOKE, array(
                 function ($runner)
                 {
-                    $runner->loadProfile('ezpublish')->getProfile()->setOrigin('svn');
+                    $runner->addProfile('ezpublish', true)->getProfiles()->current()->setOrigin('svn');
                 },
             ))
             ->addStep(step::STEP_TRANSFORM, array(
@@ -96,6 +96,7 @@ final class svnup extends autodeploy\script
                         $output .= "A    extension/labackoffice/settings/override.ini.append.php\n";
                         $output .= "A    bin/toto.php\n";
                         $output .= "U    extension/labackoffice/classes/toto.php\n";
+                        $output .= "U    extension/labackoffice/translations/fre-FR/translation.ts\n";
                         $output .= "U    extension/labackoffice/settings/design.ini.append.php";
 
                         $iterator = $runner->getIterator()->end()->getChildren();
@@ -106,26 +107,26 @@ final class svnup extends autodeploy\script
                         }
                     }
 
-                    return factories\profile\transformer::instance($runner->getProfile()->getOrigin())->with($runner)->make();
+                    return factories\profile\transformer::instance($runner->getProfiles()->current()->getOrigin())->with($runner)->make();
                 },
             ))
             ->addStep(step::STEP_FILTER, array(
                 function ($runner)
                 {
-                    return factories\profile\filter::instance($runner->getProfile()->getOrigin())->with($runner)->make();
+                    return factories\profile\filter::instance($runner->getProfiles()->current()->getOrigin())->with($runner)->make();
                 },
                 function ($runner)
                 {
-                    return factories\profile\filter::instance($runner->getProfile()->getName())->with($runner)->make();
+                    return factories\profile\filter::instance($runner->getProfiles()->current()->getName())->with($runner)->make();
                 },
             ))
             ->addStep(step::STEP_PARSE, array(
                 function ($runner, $parser)
                 {
                     return factories\profile\parser::instance(
-                        $runner->getProfile()->getName(),
+                        $runner->getProfiles()->current()->getName(),
                         $parser,
-                        $runner->getProfile()->getOrigin()
+                        $runner->getProfiles()->current()->getOrigin()
                     )->with($runner)->make();
                 },
             ))
@@ -133,7 +134,7 @@ final class svnup extends autodeploy\script
                 function ($runner, $task)
                 {
                     return factories\profile\generator::instance(
-                        $runner->getProfile()->getName(),
+                        $runner->getProfiles()->current()->getName(),
                         $task['parser']
                     )->with($runner, $task['value'])->make();
                 },

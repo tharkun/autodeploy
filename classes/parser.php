@@ -93,7 +93,7 @@ abstract class parser implements aggregators\runner, definitions\php\observable,
         preg_match("/(svn|rsync)$/", get_class($this), $aMatches);
 
         return factories\profile\parser::instance(
-             $this->getRunner()->getProfile()->getName(),
+             $this->getRunner()->getProfiles()->current()->getName(),
              $sParser,
              strtolower($aMatches[1])
         )

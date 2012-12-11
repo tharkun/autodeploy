@@ -28,30 +28,33 @@ class parse extends autodeploy\step implements definitions\php\observable
 
         foreach ($this->getFactories() as $closure)
         {
-            foreach ($this->getRunner()->getProfile()->getParsers() as $name)
+            foreach ($this->getRunner()->getProfiles() as $profile)
             {
-                $parser = $closure->__invoke($this->getRunner(), $name);
-                foreach ($this->observers as $observer)
+                foreach ($profile->getParsers() as $name)
                 {
-                    $parser->addObserver($observer);
-                }
+                    $parser = $closure->__invoke($this->getRunner(), $name);
+                    foreach ($this->observers as $observer)
+                    {
+                        $parser->addObserver($observer);
+                    }
 
-                $tasks = $parser
-                    ->parse( $this->getRunner()->getIterator()->getChildren() )
-                    ->getTasks()
-                ;
+                    $tasks = $parser
+                        ->parse( $this->getRunner()->getIterator()->getChildren() )
+                        ->getTasks()
+                    ;
 
-                foreach ($tasks as $task)
-                {
-                    /*$iterator->append(array(
-                        'parser' => $name,
-                        'type'   => $task[0],
-                        'value'  => $task[1],
-                    ));//*/
-                    $iterator->append(array(
-                        'parser' => $name,
-                        'value'  => $task,
-                    ));
+                    foreach ($tasks as $task)
+                    {
+                        /*$iterator->append(array(
+                            'parser' => $name,
+                            'type'   => $task[0],
+                            'value'  => $task[1],
+                        ));//*/
+                        $iterator->append(array(
+                            'parser' => $name,
+                            'value'  => $task,
+                        ));
+                    }
                 }
             }
         }

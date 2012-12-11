@@ -11,10 +11,4 @@ interface generator
      */
     public function generate();
 
-    /**
-     * @abstract
-     * @return void
-     */
-    public function getType();
-
 }

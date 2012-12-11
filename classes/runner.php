@@ -12,7 +12,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     protected $locale = null;
     protected $system = null;
     protected $debug = null;
-    protected $profile = null;
+    protected $profiles = null;
 
     protected $bootstrapFile = null;
 
@@ -42,13 +42,13 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     /*****************************************************************************************************************************/
 
 
-    public function __construct(php\adapter $adapter = null, php\locale $locale = null, php\system $system = null, profile $profile = null)
+    public function __construct(php\adapter $adapter = null, php\locale $locale = null, php\system $system = null, php\iterator $iterator = null)
     {
         $this
             ->setAdapter($adapter ?: new php\adapter())
             ->setLocale($locale ?: new php\locale())
             ->setSystem($system ?: new php\system())
-            ->setProfile($profile ?: new profile())
+            ->setProfiles($iterator ?: new php\iterator())
         ;
 
         $this->setDebug(php\debug::instance());
@@ -137,12 +137,12 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     }
 
     /**
-     * @param profile $profile
+     * @param php\iterator $iterator
      * @return runner
      */
-    public function setProfile(profile $profile)
+    public function setProfiles(php\iterator $iterator)
     {
-        $this->profile = $profile;
+        $this->profiles = $iterator;
 
         return $this;
     }
@@ -150,19 +150,24 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     /**
      * @return null|profile
      */
-    public function getProfile()
+    public function getProfiles()
     {
-        return $this->profile;
+        return $this->profiles;
     }
 
     /**
      * @param $name
      * @return runner
      */
-    public function loadProfile($name = 'simple')
+    public function addProfile($name = 'simple', $reset = false)
     {
-        $profile = sprintf( '%s\profiles\%s', __NAMESPACE__, $name);
-        $this->setProfile(new $profile());
+        if ($reset === true)
+        {
+            $this->profiles->reset();
+        }
+
+        $profile = sprintf('%s\profiles\%s', __NAMESPACE__, $name);
+        $this->profiles->append(new $profile());
 
         return $this;
     }
