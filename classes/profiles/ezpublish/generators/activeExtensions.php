@@ -14,4 +14,9 @@ class activeExtensions extends autodeploy\generator
         return \eZExtension::CACHE_DIR . 'active_extensions_*';
     }
 
+    public function getType()
+    {
+        return autodeploy\tasks\delete\file::TYPE;
+    }
+
 }

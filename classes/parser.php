@@ -194,10 +194,11 @@ abstract class parser implements aggregators\runner, definitions\php\observable,
                 $wildcards[] = $match['match'];
             }
 
-            $type = $this->getTaskType();
+            //$type = $this->getTaskType();
             foreach (array_unique($wildcards) as $wildcard)
             {
-                $tasks[] = array($type, $wildcard);
+                //$tasks[] = array($type, $wildcard);
+                $tasks[] = $wildcard;
             }
         }
 

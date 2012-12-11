@@ -30,9 +30,9 @@ class translation extends autodeploy\parser
         return preg_match('@(share|extension/[^/]+)/translations/[^/]+/'.self::PATTERN.'$@', $element->name, $matches) && !is_null($i = 2);
     }
 
-    public function getTaskType()
+    /*public function getTaskType()
     {
         return autodeploy\tasks\delete\folder::TYPE;
-    }
+    }//*/
 
 }

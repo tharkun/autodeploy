@@ -14,4 +14,9 @@ class module extends autodeploy\generator
         return \eZSys::cacheDirectory() . '/ezmodule-*';
     }
 
+    public function getType()
+    {
+        return autodeploy\tasks\delete\file::TYPE;
+    }
+
 }

@@ -105,7 +105,7 @@ class execute extends step implements definitions\php\observable
 
             $stdOut = $task->getStdOut();
 
-            if (trim($stdOut) !== '')
+            if (1||trim($stdOut) !== '')
             {
                 foreach (explode("\n", $stdOut) as $s)
                 {

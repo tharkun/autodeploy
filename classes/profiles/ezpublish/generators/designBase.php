@@ -14,4 +14,9 @@ class designBase extends autodeploy\generator
         return \eZSys::cacheDirectory() . '/' . \eZTemplateDesignResource::DESIGN_BASE_CACHE_NAME.'*';
     }
 
+    public function getType()
+    {
+        return autodeploy\tasks\delete\file::TYPE;
+    }
+
 }

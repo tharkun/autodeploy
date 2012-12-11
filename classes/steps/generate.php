@@ -31,7 +31,10 @@ class generate extends step implements definitions\php\observable
         {
             foreach ($tasksIterator as $task)
             {
-                $return = $closure->__invoke($this->getRunner(), $task)->generate();
+                $invoked = $closure->__invoke($this->getRunner(), $task);
+                $return = $invoked->generate();
+
+                $task['type'] = $invoked->getType();
 
                 if (is_array($return) &&  2 == count($return))
                 {

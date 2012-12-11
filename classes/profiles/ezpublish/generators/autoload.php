@@ -17,4 +17,9 @@ class autoload extends autodeploy\generator
         );
     }
 
+    public function getType()
+    {
+        return autodeploy\tasks\execute\script::TYPE;
+    }
+
 }

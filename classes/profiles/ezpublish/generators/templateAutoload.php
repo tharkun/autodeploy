@@ -14,4 +14,9 @@ class templateAutoload extends autodeploy\generator
         return \eZSys::cacheDirectory() . '/eztemplateautoload-*';
     }
 
+    public function getType()
+    {
+        return autodeploy\tasks\delete\file::TYPE;
+    }
+
 }

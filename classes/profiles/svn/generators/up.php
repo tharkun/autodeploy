@@ -17,4 +17,13 @@ class up extends autodeploy\generator
         );
     }
 
+    /**
+     * @abstract
+     * @return void
+     */
+    public function getType()
+    {
+        return autodeploy\tasks\execute\script::TYPE;
+    }
+
 }

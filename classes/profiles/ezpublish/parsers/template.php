@@ -30,9 +30,9 @@ class template extends autodeploy\parser
         return preg_match('@(extension/)?design/[^/]+/(override/)?templates/(.*/)?'.self::PATTERN.'$@', $element->name, $matches) && !is_null($i = count($matches) - 1);
     }
 
-    public function getTaskType()
+    /*public function getTaskType()
     {
         return autodeploy\tasks\delete\file::TYPE;
-    }
+    }//*/
 
 }

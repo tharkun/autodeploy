@@ -14,4 +14,9 @@ class translation extends autodeploy\generator
         return \eZDir::path( array( \eZSys::cacheDirectory(), 'translation' ) ) . '/*';
     }
 
+    public function getType()
+    {
+        return autodeploy\tasks\delete\folder::TYPE;
+    }
+
 }

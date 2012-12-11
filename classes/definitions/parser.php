@@ -20,6 +20,6 @@ interface parser
      * @abstract
      * @return void
      */
-    public function getTaskType();
+    //public function getTaskType();
 
 }

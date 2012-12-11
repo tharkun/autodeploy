@@ -32,9 +32,9 @@ class designBase extends autodeploy\parser
         ;
     }
 
-    public function getTaskType()
+    /*public function getTaskType()
     {
         return autodeploy\tasks\delete\file::TYPE;
-    }
+    }//*/
 
 }

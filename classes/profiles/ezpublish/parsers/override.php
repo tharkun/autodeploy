@@ -34,9 +34,9 @@ class override extends autodeploy\parser
             //toto new tpl
     }
 
-    public function getTaskType()
+    /*public function getTaskType()
     {
         return autodeploy\tasks\delete\folder::TYPE;
-    }
+    }//*/
 
 }

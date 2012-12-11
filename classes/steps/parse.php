@@ -43,10 +43,14 @@ class parse extends autodeploy\step implements definitions\php\observable
 
                 foreach ($tasks as $task)
                 {
-                    $iterator->append(array(
+                    /*$iterator->append(array(
                         'parser' => $name,
                         'type'   => $task[0],
                         'value'  => $task[1],
+                    ));//*/
+                    $iterator->append(array(
+                        'parser' => $name,
+                        'value'  => $task,
                     ));
                 }
             }

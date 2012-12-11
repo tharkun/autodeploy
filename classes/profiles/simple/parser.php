@@ -26,9 +26,9 @@ class parser extends autodeploy\parser
      * @abstract
      * @return void
      */
-    public function getTaskType()
+    /*public function getTaskType()
     {
         return autodeploy\tasks\execute\script::TYPE;
-    }
+    }//*/
 
 }

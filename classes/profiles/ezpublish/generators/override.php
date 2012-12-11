@@ -14,4 +14,9 @@ class override extends autodeploy\generator
         return \eZSys::cacheDirectory() . '/override/*';
     }
 
+    public function getType()
+    {
+        return autodeploy\tasks\delete\folder::TYPE;
+    }
+
 }

@@ -14,4 +14,9 @@ class template extends autodeploy\generator
         return \eZTemplateCompiler::compilationDirectory() . '/' . $this->wildcard . '-*';
     }
 
+    public function getType()
+    {
+        return autodeploy\tasks\delete\file::TYPE;
+    }
+
 }

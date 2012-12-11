@@ -30,9 +30,9 @@ class module extends autodeploy\parser
         return preg_match('@extension/[^/]+/'.self::PATTERN.'$@', $element->name, $matches) && !is_null($i = 1);
     }
 
-    public function getTaskType()
+    /*public function getTaskType()
     {
         return autodeploy\tasks\delete\file::TYPE;
-    }
+    }//*/
 
 }
