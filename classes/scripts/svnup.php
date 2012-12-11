@@ -97,6 +97,7 @@ final class svnup extends autodeploy\script
                         $output .= "A    bin/toto.php\n";
                         $output .= "U    extension/labackoffice/classes/toto.php\n";
                         $output .= "U    extension/labackoffice/translations/fre-FR/translation.ts\n";
+                        $output .= "U    extension/labackoffice/translations/rus-RU/translation.ts\n";
                         $output .= "U    extension/labackoffice/settings/design.ini.append.php";
 
                         $iterator = $runner->getIterator()->end()->getChildren();

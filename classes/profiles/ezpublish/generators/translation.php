@@ -15,12 +15,17 @@ class translation extends autodeploy\generator
         return new iterator(array(
             array(
                 autodeploy\tasks\delete\folder::TYPE,
-                \eZDir::path( array( \eZSys::cacheDirectory(), 'translation' ) ) . '/*',
+                \eZDir::path(array(
+                    \eZSys::cacheDirectory(),
+                    'translation',
+                    '*',
+                    $this->wildcard
+                )),
             ),
             array(
                 autodeploy\tasks\execute\script::TYPE,
                 'php',
-                'bin/php/ezgeneratetranslationcache.php'
+                'bin/php/ezgeneratetranslationcache.php' . ( $this->wildcard ? ' --ts-list="'.$this->wildcard.'"' : '' )
             )
         ));
     }
