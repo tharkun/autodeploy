@@ -32,6 +32,8 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
             ->setArgumentsParser(new parser())
         ;
 
+        $this->getRunner()->setScript($this);
+
         if ($this->adapter->php_sapi_name() !== 'cli')
         {
             throw new \LogicException('\'' . $this->getName() . '\' must be used in CLI only');
@@ -204,17 +206,20 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         $this->addArgumentHandler(
             function($script, $argument, $values) use ($runner)
             {
-                $bootstrapFile = realpath($values[0]);
-
-                if ($bootstrapFile === false || is_file($bootstrapFile) === false || is_readable($bootstrapFile) === false)
+                foreach ($values as $value)
                 {
-                    throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bootstrap file \'%s\' does not exist'), $values[0]));
-                }
+                    $bootstrapFile = realpath($value);
 
-                $runner->setBootstrapFile($bootstrapFile);
+                    if ($bootstrapFile === false || is_file($bootstrapFile) === false || is_readable($bootstrapFile) === false)
+                    {
+                        throw new \InvalidArgumentException(sprintf($script->getLocale()->_('Bootstrap file \'%s\' does not exist'), $value));
+                    }
+
+                    $runner->addBootstrapFile($bootstrapFile);
+                }
             },
             array('-bf', '--bootstrap-file'),
-            parser::TYPE_SINGLE,
+            parser::TYPE_MULTIPLE,
             parser::OPTIONNAL,
             'file',
             'Include %s before executing each test method'

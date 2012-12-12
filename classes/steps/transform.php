@@ -24,6 +24,8 @@ class transform extends step
      */
     public function runStep()
     {
+        $this->getRunner()->getProfiles()->rewind();
+
         $iterator = $this->getRunner()->getIterator()->getChildren();
 
         foreach ($this->getFactories() as $closure)

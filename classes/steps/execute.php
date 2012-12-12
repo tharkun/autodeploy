@@ -122,7 +122,7 @@ class execute extends step implements definitions\php\observable
     private static function uniqueCommand(array $action)
     {
         return md5( implode(':', array(
-            //$action['parser'],
+            $action['profile'],
             $action['type'],
             $action['command'],
         )) );
@@ -131,6 +131,7 @@ class execute extends step implements definitions\php\observable
     private static function uniqueAction(array $action)
     {
         return md5( implode(':', array(
+            $action['profile'],
             $action['parser'],
             $action['type'],
             $action['command'],

@@ -32,47 +32,49 @@ class generate extends step implements definitions\php\observable
 
         foreach ($this->getFactories() as $closure)
         {
-            foreach ($tasksIterator as $task)
+            foreach ($this->getRunner()->getProfiles() as $profile)
             {
-                $actions = $closure->__invoke($this->getRunner(), $task)->generate();
-
-                if (!is_object($actions) || !($actions instanceof php\iterator))
+                foreach ($tasksIterator as $task)
                 {
-                    $actions = new php\iterator( array($actions) );
-                }
-
-                foreach ($actions as $return)
-                {
-                    $action = $task;
-                    if (is_array($return) && 3 == count($return))
+                    if ($task['profile'] != 'simple' && $profile->getName() !== $task['profile'])
                     {
-                        $action['type']     = $return[0];
-                        $action['command']  = $return[1];
-                        $action['wildcard'] = $return[2];
-                    }
-                    else if (is_array($return) && 2 == count($return))
-                    {
-                        $action['type']     = $return[0];
-                        $action['command']  = 'auto';
-                        $action['wildcard'] = $return[1];
-                    }
-                    else
-                    {
-                        throw new \UnexpectedValueException();
+                        continue;
                     }
 
-                    $iterator->append($action);
+                    $actions = $closure->__invoke($this->getRunner(), $task)->generate();
+
+                    if (!is_object($actions) || !($actions instanceof php\iterator))
+                    {
+                        $actions = new php\iterator( array($actions) );
+                    }
+
+                    foreach ($actions as $return)
+                    {
+                        $action = $task;
+                        if (is_array($return) && 3 == count($return))
+                        {
+                            $action['type']     = $return[0];
+                            $action['command']  = $return[1];
+                            $action['wildcard'] = $return[2];
+                        }
+                        else if (is_array($return) && 2 == count($return))
+                        {
+                            $action['type']     = $return[0];
+                            $action['command']  = 'auto';
+                            $action['wildcard'] = $return[1];
+                        }
+                        else
+                        {
+                            throw new \UnexpectedValueException();
+                        }
+
+                        $iterator->append($action);
+                    }
                 }
             }
         }
 
         $this->getRunner()->getIterator()->append( $iterator );
-
-        return $this;
-    }
-
-    private function f(array & $task, $return)
-    {
 
         return $this;
     }

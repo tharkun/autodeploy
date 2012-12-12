@@ -14,7 +14,9 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     protected $debug = null;
     protected $profiles = null;
 
-    protected $bootstrapFile = null;
+    protected $script = null;
+
+    protected $bootstrapFiles = null;
 
     protected $reports = array();
     protected $observers = array();
@@ -50,6 +52,8 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
             ->setSystem($system ?: new php\system())
             ->setProfiles($iterator ?: new php\iterator())
         ;
+
+        $this->setBootstrapFiles(new php\iterator());
 
         $this->setDebug(php\debug::instance());
 
@@ -173,12 +177,31 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     }
 
     /**
-     * @param $path
+     * @param script $script
      * @return runner
      */
-    public function setBootstrapFile($path)
+    public function setScript(script $script)
     {
-        $this->bootstrapFile = $path;
+        $this->script = $script;
+
+        return $this;
+    }
+
+    /**
+     * @return null|profile
+     */
+    public function getScript()
+    {
+        return $this->script;
+    }
+
+    /**
+     * @param $iterator
+     * @return runner
+     */
+    public function setBootstrapFiles(php\iterator $iterator)
+    {
+        $this->bootstrapFiles = $iterator;
 
         return $this;
     }
@@ -186,9 +209,20 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     /**
      * @return null
      */
-    public function getBootstrapFile()
+    public function getBootstrapFiles()
     {
-        return $this->bootstrapFile;
+        return $this->bootstrapFiles;
+    }
+
+    /**
+     * @param $path
+     * @return runner
+     */
+    public function addBootstrapFile($path)
+    {
+        $this->getBootstrapFiles()->append($path);
+
+        return $this;
     }
 
     /**
@@ -487,21 +521,24 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
      * @throws \RuntimeException
      * @return runner
      */
-    public function includeBootstrapFile()
+    public function includeBootstrapFiles()
     {
         $runner = $this;
 
         $include = function($path) use ($runner) { include_once($path); };
 
-        if (($path = $this->getBootstrapFile()) !== null)
+        if (($files = $this->getBootstrapFiles()) !== null)
         {
-            try
+            foreach ($files as $path)
             {
-                $include( $path = $this->getBootstrapFile() );
-            }
-            catch (\Exception $exception)
-            {
-                throw new \RuntimeException(sprintf($this->getLocale()->_('Unable to include \'%s\''), $path));
+                try
+                {
+                    $include( $path );
+                }
+                catch (\Exception $exception)
+                {
+                    throw new \RuntimeException(sprintf($this->getLocale()->_('Unable to include \'%s\''), $path));
+                }
             }
         }
 
@@ -515,7 +552,7 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     {
         $this->startTime = microtime(true);
 
-        $this->includeBootstrapFile();
+        $this->includeBootstrapFiles();
 
         $this->callObservers(self::runStart);
 

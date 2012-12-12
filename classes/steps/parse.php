@@ -51,8 +51,9 @@ class parse extends autodeploy\step implements definitions\php\observable
                             'value'  => $task[1],
                         ));//*/
                         $iterator->append(array(
-                            'parser' => $name,
-                            'value'  => $task,
+                            'profile'   => $profile->getName(),
+                            'parser'    => $name,
+                            'value'     => $task,
                         ));
                     }
                 }

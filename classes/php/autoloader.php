@@ -63,7 +63,7 @@ final class autoloader
         }
         if (!isset($this->roots[$namespace][ md5($directory) ]))
         {
-            $this->roots[$namespace][ md5($directory) ][] = $directory;
+            $this->roots[$namespace][] = $directory;
         }
 
         return $this;

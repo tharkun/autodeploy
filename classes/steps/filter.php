@@ -24,6 +24,8 @@ class filter extends step implements definitions\php\observable
      */
     public function runStep()
     {
+        $this->getRunner()->getProfiles()->rewind();
+
         foreach ($this->getFactories() as $closure)
         {
             $filter = $closure->__invoke($this->getRunner());

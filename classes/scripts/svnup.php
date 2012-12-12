@@ -10,6 +10,30 @@ use autodeploy\php\arguments\parser;
 final class svnup extends autodeploy\script
 {
 
+    private $customProfiles = null;
+
+    /**
+     * @param array $customProfiles
+     * @return svnup
+     */
+    public function setCustomProfiles(array $customProfiles)
+    {
+        $this->customProfiles = $customProfiles;
+
+        return $this;
+    }
+
+    /**
+     * @return null
+     */
+    public function getCustomProfiles()
+    {
+        return $this->customProfiles;
+    }
+
+    /**
+     * @return svnup
+     */
     protected function setArgumentHandlers()
     {
         $runner = $this->getRunner();
@@ -32,8 +56,13 @@ final class svnup extends autodeploy\script
         return $this;
     }
 
+    /**
+     * @return svnup
+     */
     protected function setStepHandlers()
     {
+        $self = $this;
+
         $this->getRunner()
             ->addStep(step::STEP_INVOKE, array(
                 function ($runner)
@@ -47,12 +76,12 @@ final class svnup extends autodeploy\script
                     return factories\profile\transformer::instance()->with($runner)->make();
                 },
             ))
-            ->addStep(step::STEP_FILTER, array(
+            /*->addStep(step::STEP_FILTER, array(
                 function ($runner)
                 {
                     return factories\profile\filter::instance()->with($runner)->make();
                 },
-            ))
+            ))//*/
             ->addStep(step::STEP_PARSE, array(
                 function ($runner)
                 {
@@ -81,9 +110,17 @@ final class svnup extends autodeploy\script
                 },
             ))
             ->addStep(step::STEP_INVOKE, array(
-                function ($runner)
+                function ($runner) use ($self)
                 {
-                    $runner->addProfile('ezpublish', true)->getProfiles()->current()->setOrigin('svn');
+                    $runner->addProfile('ezpublish', true);
+                    foreach ($self->getCustomProfiles() as $name)
+                    {
+                        $runner->addProfile($name);
+                    }
+                    foreach ($runner->getProfiles() as $profile)
+                    {
+                        $profile->setOrigin('svn');
+                    }
                 },
             ))
             ->addStep(step::STEP_TRANSFORM, array(
@@ -151,6 +188,8 @@ final class svnup extends autodeploy\script
                 },
             ))
         ;
+
+        return $this;
     }
 
 }
