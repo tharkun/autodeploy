@@ -121,10 +121,19 @@ class execute extends step implements definitions\php\observable
 
     private static function uniqueCommand(array $action)
     {
+        if ($action['command']=='auto')
+        {
+            return md5( implode(':', array(
+                $action['profile'],
+                $action['type'],
+                $action['command'],
+            )) );
+        }
         return md5( implode(':', array(
             $action['profile'],
             $action['type'],
             $action['command'],
+            $action['wildcard'],
         )) );
     }
 
