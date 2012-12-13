@@ -130,7 +130,7 @@ final class svnup extends autodeploy\script
                     {
                         $output = "A    extension/labackoffice/settings/site.ini.append.php\n";
                         $output .= "A    design/deco/templates/page_mainarea.tpl\n";
-                        $output .= "A    design/deco/templates/toto.tpl\n";
+                        $output .= "A    extension/labackoffice/design/admin2/templates/log_viewer/read.tpl\n";
                         $output .= "A    extension/labackoffice/settings/override.ini.append.php\n";
                         $output .= "A    bin/toto.php\n";
                         $output .= "U    extension/labackoffice/classes/toto.php\n";
