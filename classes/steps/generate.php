@@ -32,9 +32,9 @@ class generate extends step implements definitions\php\observable
 
         foreach ($this->getFactories() as $closure)
         {
-            foreach ($this->getRunner()->getProfiles() as $profile)
+            foreach ($tasksIterator as $task)
             {
-                foreach ($tasksIterator as $task)
+                foreach ($this->getRunner()->getProfiles() as $profile)
                 {
                     if ($task['profile'] != 'simple' && $profile->getName() !== $task['profile'])
                     {

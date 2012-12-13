@@ -26,12 +26,29 @@ class parse extends autodeploy\step implements definitions\php\observable
     {
         $iterator = new autodeploy\php\iterator();
 
+        $parsers = array();
+        foreach ($this->getRunner()->getProfiles() as $profile)
+        {
+            foreach ($profile->getParsers() as $name)
+            {
+                if (!in_array($name, $parsers))
+                {
+                    $parsers[] = $name;
+                }
+            }
+        }
+
         foreach ($this->getFactories() as $closure)
         {
-            foreach ($this->getRunner()->getProfiles() as $profile)
+            foreach ($parsers as $name)
             {
-                foreach ($profile->getParsers() as $name)
+                foreach ($this->getRunner()->getProfiles() as $profile)
                 {
+                    if (!in_array($name, $profile->getParsers()))
+                    {
+                        continue;
+                    }
+
                     $parser = $closure->__invoke($this->getRunner(), $name);
                     foreach ($this->observers as $observer)
                     {
@@ -45,11 +62,6 @@ class parse extends autodeploy\step implements definitions\php\observable
 
                     foreach ($tasks as $task)
                     {
-                        /*$iterator->append(array(
-                            'parser' => $name,
-                            'type'   => $task[0],
-                            'value'  => $task[1],
-                        ));//*/
                         $iterator->append(array(
                             'profile'   => $profile->getName(),
                             'parser'    => $name,
