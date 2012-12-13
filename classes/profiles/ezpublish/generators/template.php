@@ -11,10 +11,11 @@ class template extends autodeploy\generator
 
     public function generate()
     {
-        return array(
-            autodeploy\tasks\delete\file::TYPE,
-            \eZTemplateCompiler::compilationDirectory() . '/' . $this->wildcard . '-*'
-        );
+        return new autodeploy\php\options(array(
+            'type'      => autodeploy\tasks\delete\file::TYPE,
+            'wildcard'  => \eZTemplateCompiler::compilationDirectory() . '/' . $this->wildcard . '-*',
+            'grouped'   => true,
+        ));
     }
 
 }

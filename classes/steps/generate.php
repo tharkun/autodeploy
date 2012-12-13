@@ -51,17 +51,26 @@ class generate extends step implements definitions\php\observable
                     foreach ($actions as $return)
                     {
                         $action = $task;
-                        if (is_array($return) && 3 == count($return))
+                        if (is_object($return) && ($return instanceof php\options))
+                        {
+                            $action['type']     = $return->type;
+                            $action['command']  = $return->__isset('command') ? $return->command : 'auto';
+                            $action['wildcard'] = $return->wildcard;
+                            $action['grouped']  = $return->__isset('grouped') ? $return->grouped : false;
+                        }
+                        else if (is_array($return) && 3 == count($return))
                         {
                             $action['type']     = $return[0];
                             $action['command']  = $return[1];
                             $action['wildcard'] = $return[2];
+                            $action['grouped']  = false;
                         }
                         else if (is_array($return) && 2 == count($return))
                         {
                             $action['type']     = $return[0];
                             $action['command']  = 'auto';
                             $action['wildcard'] = $return[1];
+                            $action['grouped']  = false;
                         }
                         else
                         {

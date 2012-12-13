@@ -11,10 +11,11 @@ class ini extends autodeploy\generator
 
     public function generate()
     {
-        return array(
-            autodeploy\tasks\delete\file::TYPE,
-            \eZINI::CONFIG_CACHE_DIR . $this->wildcard . '-*'
-        );
+        return new autodeploy\php\options(array(
+            'type'      => autodeploy\tasks\delete\file::TYPE,
+            'wildcard'  => \eZINI::CONFIG_CACHE_DIR . $this->wildcard . '-*',
+            'grouped'   => true,
+        ));
     }
 
 }

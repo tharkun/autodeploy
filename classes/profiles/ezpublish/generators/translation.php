@@ -22,11 +22,12 @@ class translation extends autodeploy\generator
                     $this->wildcard
                 )),
             ),
-            array(
-                autodeploy\tasks\execute\script::TYPE,
-                'php',
-                'bin/php/ezgeneratetranslationcache.php' . ( $this->wildcard ? ' --ts-list="'.$this->wildcard.'"' : '' )
-            )
+            new autodeploy\php\options(array(
+                'type'      => autodeploy\tasks\execute\script::TYPE,
+                'command'   => "php",
+                'wildcard'  => 'bin/php/ezgeneratetranslationcache.php' . ( $this->wildcard ? ' --ts-list="'.$this->wildcard.'"' : '' ),
+                'grouped'   => false,
+            )),
         ));
     }
 

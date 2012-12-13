@@ -121,7 +121,7 @@ class execute extends step implements definitions\php\observable
 
     private static function uniqueCommand(array $action)
     {
-        if ($action['command']=='auto')
+        if (isset($action['grouped']) && $action['grouped'])
         {
             return md5( implode(':', array(
                 $action['profile'],

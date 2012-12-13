@@ -11,11 +11,12 @@ class autoload extends autodeploy\generator
 
     public function generate()
     {
-        return array(
-            autodeploy\tasks\execute\script::TYPE,
-            'php',
-            'bin/php/ezpgenerateautoloads.php -e -p'
-        );
+        return new autodeploy\php\options(array(
+            'type'      => autodeploy\tasks\execute\script::TYPE,
+            'command'   => "php",
+            'wildcard'  => 'bin/php/ezpgenerateautoloads.php -e -p',
+            'grouped'   => false,
+        ));
     }
 
 }

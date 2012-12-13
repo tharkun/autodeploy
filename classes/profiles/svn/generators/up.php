@@ -11,11 +11,12 @@ class up extends autodeploy\generator
 
     public function generate()
     {
-        return array(
-            autodeploy\tasks\execute\script::TYPE,
-            "svn up",
-            $this->wildcard
-        );
+        return new autodeploy\php\options(array(
+            'type'      => autodeploy\tasks\execute\script::TYPE,
+            'command'   => "svn up",
+            'wildcard'  => $this->wildcard,
+            'grouped'   => true,
+        ));
     }
 
 }
