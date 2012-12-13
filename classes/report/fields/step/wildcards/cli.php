@@ -47,7 +47,20 @@ class cli extends fields\step\wildcards
             return '';
         }
 
-        return (string) new table( $this->iterator->getArrayCopy(), array('Profile', 'Parser', 'Type', 'Value', 'Command', 'Wildcard') );
+        $array = $this->iterator->getArrayCopy();
+
+        array_walk($array, function(&$val,$key) {
+            $val = array(
+                $val['profile'],
+                $val['parser'],
+                $val['type'],
+                $val['value'],
+                $val['command'],
+                $val['wildcard'],
+            );
+        });
+
+        return (string) new table($array, array('Profile', 'Parser', 'Type', 'Value', 'Command', 'Wildcard') );
     }
 
 }
