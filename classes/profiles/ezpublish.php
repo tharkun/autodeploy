@@ -15,12 +15,12 @@ class ezpublish extends autodeploy\profile
             ->setParsers(array(
                 'ini',
                 'override',
+                'active_extensions',
+                'translation',
+                'module',
+                'design_base',
                 'template',
                 'template_autoload',
-                'module',
-                'translation',
-                'design_base',
-                'active_extensions',
                 'autoload',
             ))
         ;
