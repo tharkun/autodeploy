@@ -184,7 +184,7 @@ abstract class task implements aggregators\runner, definitions\php\observable, d
         {
             $self = $this;
 
-            $command = new command( (string) $this );
+            $command = new engine( (string) $this );
             $command->execute(
                 function ($stdout) use ($self)
                 {

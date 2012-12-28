@@ -2,7 +2,7 @@
 
 namespace autodeploy;
 
-class command
+class engine
 {
 
     const STDIN    = 0;
@@ -24,7 +24,7 @@ class command
 
     /**
      * @param $command
-     * @return command
+     * @return engine
      */
     public function setCommand($command)
     {
@@ -36,7 +36,7 @@ class command
     /**
      * @param \Closure $oClosureStdout
      * @param \Closure $oClosureStderr
-     * @return command
+     * @return engine
      */
     public function execute(\Closure $oClosureStdout, \Closure $oClosureStderr)
     {
@@ -48,6 +48,9 @@ class command
         return $this;
     }
 
+    /**
+     * @return engine
+     */
     protected function run()
     {
         $resource = proc_open(
@@ -76,6 +79,10 @@ class command
         return $this;
     }
 
+    /**
+     * @param array $closures
+     * @return engine
+     */
     protected function read(array $closures)
     {
         $null = null;
