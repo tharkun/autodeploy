@@ -2,7 +2,7 @@
 
 namespace autodeploy;
 
-abstract class task implements aggregators\runner, definitions\php\observable, definitions\task
+class task implements aggregators\runner, definitions\php\observable//, definitions\task
 {
 
     const taskStart = 'taskStart';

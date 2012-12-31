@@ -57,6 +57,7 @@ class generate extends step implements definitions\php\observable
                             $action['command']  = $return->__isset('command') ? $return->command : 'auto';
                             $action['wildcard'] = $return->wildcard;
                             $action['grouped']  = $return->__isset('grouped') ? $return->grouped : false;
+                            $action['todo']  = $return->__isset('todo') ? $return->todo : false;
                         }
                         else if (is_array($return) && 3 == count($return))
                         {

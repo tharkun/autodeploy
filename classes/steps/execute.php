@@ -37,6 +37,29 @@ class execute extends step implements definitions\php\observable
 
         $nextIterator = new autodeploy\php\iterator();
 
+        while ($iterator->valid() === true)
+        {
+            $iterator->next();
+            $action1 = $iterator->current();
+            if ($action1['todo'] instanceof definitions\php\aggregatable && $action['todo']->isAggregatableWith($action1['todo']))
+            {
+                $action['todo']->aggregate($action1['todo']);
+            }
+            else
+            {
+                $this->trigger($action, $nextIterator);
+                $action = $action1;
+                $triggered = false;
+
+            }
+        }
+
+
+
+        $this->getRunner()->getIterator()->append( $nextIterator );
+
+        return $this;
+
         $lastHashCommand = self::uniqueCommand($action);
         $lastHashAction  = self::uniqueAction($action);
 

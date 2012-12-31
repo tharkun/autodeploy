@@ -38,6 +38,51 @@ final class svnup extends autodeploy\script
     {
         $runner = $this->getRunner();
 
+        $o = new autodeploy\commands\php($runner);
+        echo get_class($o), "\t", $o, "\n";
+
+        $o = new autodeploy\commands\ezpgenerateautoloads($runner);
+        echo get_class($o), "\t", $o, "\n";
+
+        $o = new autodeploy\commands\ezgeneratetranslationcache($runner);
+        $o->setWildcard('fre-FR');
+        echo get_class($o), "\t", $o, "\n";
+
+        $o2 = new autodeploy\commands\ezgeneratetranslationcache($runner);
+        $o2->setWildcard('rus-RU');
+        echo get_class($o2), "\t", $o2, "\n";
+
+        $o->aggregate($o2);
+        echo get_class($o), "\t", $o, "\n";
+
+        $o3 = new autodeploy\commands\ezpgenerateautoloads($runner);
+        //echo get_class($o3), "\t", $o->isAggregatableWith($o3), "\n";
+        echo get_class($o2), "\t", $o->isAggregatableWith($o2), "\n";
+
+
+        $o = new autodeploy\commands\delete\file($runner);
+        $o->setWildcard('toto');
+        echo get_class($o), "\t", $o, "\n";
+
+        $o1 = new autodeploy\commands\delete\file($runner);
+        $o1->setWildcard('titi');
+        echo get_class($o1), "\t", $o1, "\n";
+
+        //echo get_class($o3), "\t", $o->isAggregatableWith($o3), "\n";
+        echo get_class($o1), "\t", $o->isAggregatableWith($o1), "\n";
+        $o->aggregate($o1);
+        echo get_class($o), "\t", $o, "\n";
+
+
+        $o1 = new autodeploy\commands\delete\folder($runner);
+        $o1->setWildcard('bin');
+        echo get_class($o1), "\t", $o1, "\n";
+
+        //exit;
+
+
+
+
         $this->addArgumentHandler(
             function($script, $argument, $values) use ($runner)
             {
@@ -103,6 +148,7 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_EXECUTE, array(
                 function ($runner, $action)
                 {
+                    return $action['todo'];
                     return factories\task::instance(str_replace('_', '\\', $action['type']), $action['parser'])
                         ->with($runner, $action['command'], $action['wildcard'])
                         ->make()
