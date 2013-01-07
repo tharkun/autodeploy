@@ -215,7 +215,7 @@ class task implements aggregators\runner, definitions\php\observable//, definiti
             $aCommands = array();
             foreach ($aWildCards as $sWildCard)
             {
-                $aCommands[] = trim( $self->getRunner()->getSystem()->cleanPath( $sWildCard ) );
+                $aCommands[] = trim( $sWildCard );
             }
             return implode(' ', array_unique($aCommands));
         };
