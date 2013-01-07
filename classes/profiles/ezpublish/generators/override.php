@@ -17,11 +17,6 @@ class override extends autodeploy\generator
         return new autodeploy\php\options(array(
             'todo' => $command,
         ));
-
-        /*return array(
-            autodeploy\tasks\delete\folder::TYPE,
-            \eZSys::cacheDirectory() . '/override/*'
-        );//*/
     }
 
 }

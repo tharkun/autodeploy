@@ -17,11 +17,6 @@ class template extends autodeploy\generator
         return new autodeploy\php\options(array(
             'todo' => $command
         ));
-        /*return new autodeploy\php\options(array(
-            'type'      => autodeploy\tasks\delete\file::TYPE,
-            'wildcard'  => \eZTemplateCompiler::compilationDirectory() . '/' . $this->wildcard . '-*',
-            'grouped'   => true,
-        ));//*/
     }
 
 }

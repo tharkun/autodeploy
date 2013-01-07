@@ -15,10 +15,6 @@ class up extends autodeploy\generator
         $command->addWildcard($this->wildcard);
 
         return new autodeploy\php\options(array(
-            /*'type'      => autodeploy\tasks\execute\script::TYPE,
-            'command'   => "svn up",
-            'wildcard'  => $this->wildcard,
-            'grouped'   => true,//*/
             'todo'      => $command
         ));
     }

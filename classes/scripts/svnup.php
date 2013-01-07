@@ -80,9 +80,6 @@ final class svnup extends autodeploy\script
 
         //exit;*/
 
-
-
-
         $this->addArgumentHandler(
             function($script, $argument, $values) use ($runner)
             {
@@ -121,12 +118,6 @@ final class svnup extends autodeploy\script
                     return factories\profile\transformer::instance()->with($runner)->make();
                 },
             ))
-            /*->addStep(step::STEP_FILTER, array(
-                function ($runner)
-                {
-                    return factories\profile\filter::instance()->with($runner)->make();
-                },
-            ))//*/
             ->addStep(step::STEP_PARSE, array(
                 function ($runner)
                 {
@@ -149,10 +140,6 @@ final class svnup extends autodeploy\script
                 function ($runner, $action)
                 {
                     return new autodeploy\task($runner, '', array($action['todo']));
-                    /*return factories\task::instance(str_replace('_', '\\', $action['type']), $action['parser'])
-                        ->with($runner, $action['command'], array($action['wildcard']))
-                        ->make()
-                    ;//*/
                 },
             ))
             ->addStep(step::STEP_INVOKE, array(
@@ -233,10 +220,6 @@ final class svnup extends autodeploy\script
                 function ($runner, $action)
                 {
                     return new autodeploy\task($runner, '', array($action['todo']));
-                    /*return factories\task::instance(str_replace('_', '\\', $action['type']), $action['parser'])
-                        ->with($runner, $action['command'], $action['wildcard'])
-                        ->make()
-                    ;//*/
                 },
             ))
         ;

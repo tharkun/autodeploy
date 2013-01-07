@@ -53,15 +53,11 @@ class cli extends fields\step\wildcards
             $val = array(
                 $val['profile'],
                 $val['parser'],
-                //$val['type'],
-                //$val['value'],
-                //$val['command'],
-                //$val['wildcard'],
                 implode('', $val['todo']->getWildcards())
             );
         });
 
-        return (string) new table($array, array('Profile', 'Parser', /*'Type', 'Value', 'Command', */'Wildcard') );
+        return (string) new table($array, array('Profile', 'Parser', 'Wildcard') );
     }
 
 }

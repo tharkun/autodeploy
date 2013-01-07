@@ -64,57 +64,6 @@ class execute extends step implements definitions\php\observable
         $this->getRunner()->getIterator()->append( $nextIterator );
 
         return $this;
-
-        /*$lastHashCommand = self::uniqueCommand($action);
-        $lastHashAction  = self::uniqueAction($action);
-
-        $groupAction = $action;
-        $groupAction['wildcard'] = self::makeArray($groupAction['wildcard']);
-
-        $iterator->next();
-
-        while ($iterator->valid() === true)
-        {
-            $action = $iterator->current();
-
-            $currentHashCommand = self::uniqueCommand($action);
-            $currentHashAction  = self::uniqueAction($action);
-
-            if ($currentHashAction == $lastHashAction)
-            {
-                $iterator->next();
-                continue;
-            }
-            $lastHashAction = $currentHashAction;
-
-            if ($currentHashCommand != $lastHashCommand)
-            {
-                $this->trigger($groupAction, $nextIterator);
-                $triggered = false;
-
-                $lastHashCommand = $currentHashCommand;
-                $groupAction = $action;
-                $groupAction['wildcard'] = self::makeArray($groupAction['wildcard']);
-            }
-            else
-            {
-                $groupAction['wildcard'] = array_merge(
-                    $groupAction['wildcard'],
-                    self::makeArray($action['wildcard'])
-                );
-            }
-
-            $iterator->next();
-        }
-
-        if (!$triggered)
-        {
-            $this->trigger($groupAction, $nextIterator);
-        }
-
-        $this->getRunner()->getIterator()->append( $nextIterator );
-
-        return $this;//*/
     }
 
     public function trigger(array $action, autodeploy\php\iterator $iterator)
@@ -146,38 +95,4 @@ class execute extends step implements definitions\php\observable
 
         return $this;
     }
-
-    /*private static function uniqueCommand(array $action)
-    {
-        if (isset($action['grouped']) && $action['grouped'])
-        {
-            return md5( implode(':', array(
-                $action['profile'],
-                $action['type'],
-                $action['command'],
-            )) );
-        }
-        return md5( implode(':', array(
-            $action['profile'],
-            $action['type'],
-            $action['command'],
-            $action['wildcard'],
-        )) );
-    }
-
-    private static function uniqueAction(array $action)
-    {
-        return md5( implode(':', array(
-            $action['profile'],
-            $action['parser'],
-            $action['type'],
-            $action['command'],
-            $action['wildcard']
-        )) );
-    }
-
-    private static function makeArray($input)
-    {
-        return is_array($input) ? $input : array($input);
-    }//*/
 }

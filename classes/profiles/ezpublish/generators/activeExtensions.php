@@ -17,10 +17,6 @@ class activeExtensions extends autodeploy\generator
         return new autodeploy\php\options(array(
             'todo' => $command
         ));
-        /*return array(
-            autodeploy\tasks\delete\file::TYPE,
-            \eZExtension::CACHE_DIR . 'active_extensions_*'
-        );//*/
     }
 
 }
