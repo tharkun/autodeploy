@@ -14,9 +14,7 @@ class templateAutoload extends autodeploy\generator
         $command = new autodeploy\commands\delete\file( $this->getRunner() );
         $command->addWildcard( \eZSys::cacheDirectory() . DIRECTORY_SEPARATOR . 'eztemplateautoload-*' );
 
-        return new autodeploy\php\options(array(
-            'todo' => $command
-        ));
+        return $command;
     }
 
 }

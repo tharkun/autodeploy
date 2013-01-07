@@ -14,9 +14,7 @@ class template extends autodeploy\generator
         $command = new autodeploy\commands\delete\file( $this->getRunner() );
         $command->addWildcard( \eZTemplateCompiler::compilationDirectory() . DIRECTORY_SEPARATOR . $this->wildcard . '-*' );
 
-        return new autodeploy\php\options(array(
-            'todo' => $command
-        ));
+        return $command;
     }
 
 }

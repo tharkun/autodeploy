@@ -41,9 +41,9 @@ class execute extends step implements definitions\php\observable
         {
             $iterator->next();
             $action1 = $iterator->current();
-            if (isset($action1['todo']) && $action1['todo'] instanceof definitions\php\aggregatable && $action['todo']->isAggregatableWith($action1['todo']))
+            if (isset($action1['command']) && $action1['command'] instanceof definitions\php\aggregatable && $action['command']->isAggregatableWith($action1['command']))
             {
-                $action['todo']->aggregate($action1['todo']);
+                $action['command']->aggregate($action1['command']);
                 $triggered = false;
             }
             else

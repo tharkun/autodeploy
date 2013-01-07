@@ -53,7 +53,7 @@ class cli extends fields\step\wildcards
             $val = array(
                 $val['profile'],
                 $val['parser'],
-                implode('', $val['todo']->getWildcards())
+                implode('', $val['command']->getWildcards())
             );
         });
 

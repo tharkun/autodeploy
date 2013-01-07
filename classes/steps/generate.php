@@ -2,6 +2,7 @@
 
 namespace autodeploy\steps;
 
+use autodeploy;
 use autodeploy\definitions;
 use autodeploy\php;
 use autodeploy\step;
@@ -51,9 +52,9 @@ class generate extends step implements definitions\php\observable
                     foreach ($actions as $return)
                     {
                         $action = $task;
-                        if (is_object($return) && ($return instanceof php\options))
+                        if (is_object($return) && ($return instanceof autodeploy\command))
                         {
-                            $action['todo']  = $return->__isset('todo') ? $return->todo : false;
+                            $action['command'] = $return;
                         }
                         else
                         {

@@ -139,7 +139,7 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_EXECUTE, array(
                 function ($runner, $action)
                 {
-                    return new autodeploy\task($runner, '', array($action['todo']));
+                    return new autodeploy\task($runner, '', array($action['command']));
                 },
             ))
             ->addStep(step::STEP_INVOKE, array(
@@ -219,7 +219,7 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_EXECUTE, array(
                 function ($runner, $action)
                 {
-                    return new autodeploy\task($runner, '', array($action['todo']));
+                    return new autodeploy\task($runner, '', array($action['command']));
                 },
             ))
         ;

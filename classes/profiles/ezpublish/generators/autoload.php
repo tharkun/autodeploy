@@ -13,9 +13,7 @@ class autoload extends autodeploy\generator
     {
         $command = new autodeploy\commands\ezpgenerateautoloads( $this->getRunner() );
 
-        return new autodeploy\php\options(array(
-            'todo' => $command
-        ));
+        return $command;
     }
 
 }

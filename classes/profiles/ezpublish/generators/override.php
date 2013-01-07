@@ -14,9 +14,7 @@ class override extends autodeploy\generator
         $command = new autodeploy\commands\delete\folder( $this->getRunner() );
         $command->addWildcard(\eZSys::cacheDirectory() . DIRECTORY_SEPARATOR . 'override' . DIRECTORY_SEPARATOR . '*');
 
-        return new autodeploy\php\options(array(
-            'todo' => $command,
-        ));
+        return $command;
     }
 
 }

@@ -24,12 +24,8 @@ class translation extends autodeploy\generator
         $command1->addWildcard($this->wildcard);
 
         return new iterator(array(
-            new autodeploy\php\options(array(
-                'todo' => $command
-            )),
-            new autodeploy\php\options(array(
-                'todo'   => $command1,
-            )),
+            $command,
+            $command1,
         ));
     }
 

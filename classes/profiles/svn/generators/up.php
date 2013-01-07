@@ -14,9 +14,7 @@ class up extends autodeploy\generator
         $command = new autodeploy\commands\svn\up( $this->getRunner() );
         $command->addWildcard($this->wildcard);
 
-        return new autodeploy\php\options(array(
-            'todo'      => $command
-        ));
+        return $command;
     }
 
 }
