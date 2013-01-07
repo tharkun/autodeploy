@@ -40,17 +40,17 @@ class file extends autodeploy\command implements aggregatable
                 $options = "";
                 if ($this->recursive)
                 {
-                    $options .= " r";
+                    $options .= "r";
                 }
                 if ($this->force)
                 {
-                    $options .= " f";
+                    $options .= "f";
                 }
                 if ($this->verbose)
                 {
-                    $options .= " v";
+                    $options .= "v";
                 }
-                return "rm" . ($options ? " -$options" : '') . implode(' ', $this->getWildcards());
+                return "rm" . ($options ? " -$options " : '') . implode(' ', $this->getWildcards());
                 break;
             }
         }
