@@ -17,7 +17,7 @@ class transformer extends autodeploy\transformer
         {
             return $this;
         }
-        preg_match('@^([ADUCGE ]{1})([U ]{1})([B ]{1})  ([^ ]+)$@', $line, $aMatches);
+        preg_match('@^([ABDUCGE ]{1})([U ]{1})([B ]{1})  ([^ ]+)$@', $line, $aMatches);
         if (is_array($aMatches) && count($aMatches))
         {
             if ('' == trim($aMatches[1]))

@@ -2,10 +2,10 @@
 
 namespace autodeploy\commands\svn;
 
-use autodeploy;
+use autodeploy\commands;
 use autodeploy\definitions\php\aggregatable;
 
-class up extends autodeploy\command implements aggregatable
+class up extends commands\svn implements aggregatable
 {
 
     /**
@@ -13,12 +13,12 @@ class up extends autodeploy\command implements aggregatable
      */
     public function __toString()
     {
-        return 'svn up ' . implode(' ', $this->getWildcards());
+        return parent::__toString() . ' up ' . implode(' ', $this->getWildcards());
     }
 
     /**
      * @param \autodeploy\definitions\php\aggregatable $object
-     * @return ezgeneratetranslationcache
+     * @return up
      */
     public function aggregate(aggregatable $object)
     {
