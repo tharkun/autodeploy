@@ -1,7 +1,8 @@
 <?php
 
-namespace autodeploy\commands;
+namespace autodeploy\profiles\ezpublish\commands;
 
+use autodeploy\commands\php;
 use autodeploy\definitions\php\aggregatable;
 
 class ezgeneratetranslationcache extends php implements aggregatable

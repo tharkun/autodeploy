@@ -1,6 +1,8 @@
 <?php
 
-namespace autodeploy\commands;
+namespace autodeploy\profiles\ezpublish\commands;
+
+use autodeploy\commands\php;
 
 class ezpgenerateautoloads extends php
 {
