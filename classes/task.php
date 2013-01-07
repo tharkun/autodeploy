@@ -223,4 +223,12 @@ class task implements aggregators\runner, definitions\php\observable//, definiti
         return $anonymous(is_array($this->wildcards) ? $this->wildcards : array($this->wildcards));
     }
 
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getWildcardsAsString();
+        return $this->command . ' ' . $this->getWildcardsAsString();
+    }
 }

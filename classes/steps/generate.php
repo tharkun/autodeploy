@@ -53,13 +53,13 @@ class generate extends step implements definitions\php\observable
                         $action = $task;
                         if (is_object($return) && ($return instanceof php\options))
                         {
-                            $action['type']     = $return->type;
-                            $action['command']  = $return->__isset('command') ? $return->command : 'auto';
-                            $action['wildcard'] = $return->wildcard;
-                            $action['grouped']  = $return->__isset('grouped') ? $return->grouped : false;
+                            $action['type']     = 'execute_script';
+                            //$action['command']  = $return->__isset('command') ? $return->command : 'auto';
+                            //$action['wildcard'] = $return->__isset('wildcard') ? $return->wildcard : '';
+                            //$action['grouped']  = $return->__isset('grouped') ? $return->grouped : false;
                             $action['todo']  = $return->__isset('todo') ? $return->todo : false;
                         }
-                        else if (is_array($return) && 3 == count($return))
+                        /*else if (is_array($return) && 3 == count($return))
                         {
                             $action['type']     = $return[0];
                             $action['command']  = $return[1];
@@ -72,7 +72,7 @@ class generate extends step implements definitions\php\observable
                             $action['command']  = 'auto';
                             $action['wildcard'] = $return[1];
                             $action['grouped']  = false;
-                        }
+                        }//*/
                         else
                         {
                             throw new \UnexpectedValueException();

@@ -12,21 +12,34 @@ class translation extends autodeploy\generator
 
     public function generate()
     {
+        $command = new autodeploy\commands\delete\folder( $this->getRunner() );
+        $command->addWildcard(\eZDir::path(array(
+            \eZSys::cacheDirectory(),
+            'translation',
+            '*',
+            $this->wildcard
+        )));
+
+        $command1 = new autodeploy\commands\ezgeneratetranslationcache( $this->getRunner() );
+        $command1->addWildcard($this->wildcard);
+
         return new iterator(array(
-            array(
-                autodeploy\tasks\delete\folder::TYPE,
+            new autodeploy\php\options(array(
+                /*'type'      => autodeploy\tasks\delete\folder::TYPE,
                 \eZDir::path(array(
                     \eZSys::cacheDirectory(),
                     'translation',
                     '*',
                     $this->wildcard
-                )),
-            ),
+                )),//*/
+                'todo' => $command
+            )),
             new autodeploy\php\options(array(
-                'type'      => autodeploy\tasks\execute\script::TYPE,
+                /*'type'      => autodeploy\tasks\execute\script::TYPE,
                 'command'   => "php",
                 'wildcard'  => 'bin/php/ezgeneratetranslationcache.php' . ( $this->wildcard ? ' --ts-list="'.$this->wildcard.'"' : '' ),
-                'grouped'   => false,
+                'grouped'   => false,//*/
+                'todo'   => $command1,
             )),
         ));
     }

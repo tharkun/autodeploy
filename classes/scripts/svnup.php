@@ -38,18 +38,18 @@ final class svnup extends autodeploy\script
     {
         $runner = $this->getRunner();
 
-        $o = new autodeploy\commands\php($runner);
+        /*$o = new autodeploy\commands\php($runner);
         echo get_class($o), "\t", $o, "\n";
 
         $o = new autodeploy\commands\ezpgenerateautoloads($runner);
         echo get_class($o), "\t", $o, "\n";
 
         $o = new autodeploy\commands\ezgeneratetranslationcache($runner);
-        $o->setWildcard('fre-FR');
+        $o->addWildcard('fre-FR');
         echo get_class($o), "\t", $o, "\n";
 
         $o2 = new autodeploy\commands\ezgeneratetranslationcache($runner);
-        $o2->setWildcard('rus-RU');
+        $o2->addWildcard('rus-RU');
         echo get_class($o2), "\t", $o2, "\n";
 
         $o->aggregate($o2);
@@ -61,11 +61,11 @@ final class svnup extends autodeploy\script
 
 
         $o = new autodeploy\commands\delete\file($runner);
-        $o->setWildcard('toto');
+        $o->addWildcard('toto');
         echo get_class($o), "\t", $o, "\n";
 
         $o1 = new autodeploy\commands\delete\file($runner);
-        $o1->setWildcard('titi');
+        $o1->addWildcard('titi');
         echo get_class($o1), "\t", $o1, "\n";
 
         //echo get_class($o3), "\t", $o->isAggregatableWith($o3), "\n";
@@ -75,10 +75,10 @@ final class svnup extends autodeploy\script
 
 
         $o1 = new autodeploy\commands\delete\folder($runner);
-        $o1->setWildcard('bin');
+        $o1->addWildcard('bin');
         echo get_class($o1), "\t", $o1, "\n";
 
-        //exit;
+        //exit;*/
 
 
 
@@ -148,11 +148,11 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_EXECUTE, array(
                 function ($runner, $action)
                 {
-                    return $action['todo'];
-                    return factories\task::instance(str_replace('_', '\\', $action['type']), $action['parser'])
-                        ->with($runner, $action['command'], $action['wildcard'])
+                    return new autodeploy\task($runner, '', array($action['todo']));
+                    /*return factories\task::instance(str_replace('_', '\\', $action['type']), $action['parser'])
+                        ->with($runner, $action['command'], array($action['wildcard']))
                         ->make()
-                    ;
+                    ;//*/
                 },
             ))
             ->addStep(step::STEP_INVOKE, array(
@@ -180,9 +180,14 @@ final class svnup extends autodeploy\script
                         $output .= "A    extension/labackoffice/settings/override.ini.append.php\n";
                         $output .= "A    bin/toto.php\n";
                         $output .= "U    extension/labackoffice/classes/toto.php\n";
+                        $output .= "U    settings/override/site.ini.append.php\n";
+                        $output .= "A    extension/labackoffice/modules\n";
+                        $output .= "U    extension/labackoffice/autoloads/eztemplateautoload.php\n";
                         $output .= "U    extension/labackoffice/translations/fre-FR/translation.ts\n";
+                        $output .= "A    extension/labackoffice/design\n";
                         $output .= "U    extension/labackoffice/translations/rus-RU/translation.ts\n";
-                        $output .= "U    extension/labackoffice/settings/design.ini.append.php";
+                        $output .= "U    extension/labackoffice/settings/design.ini.append.php\n";
+                        $output .= "A    extension/labackoffice/classes/toto.php\n";
 
                         $iterator = $runner->getIterator()->end()->getChildren();
 
@@ -227,11 +232,11 @@ final class svnup extends autodeploy\script
             ->addStep(step::STEP_EXECUTE, array(
                 function ($runner, $action)
                 {
-                    return factories\task::instance(
-                        str_replace('_', '\\', $action['type']),
-                        $action['parser']
-                    )
-                        ->with($runner, $action['command'], $action['wildcard'])->make();
+                    return new autodeploy\task($runner, '', array($action['todo']));
+                    return factories\task::instance(str_replace('_', '\\', $action['type']), $action['parser'])
+                        ->with($runner, $action['command'], $action['wildcard'])
+                        ->make()
+                    ;
                 },
             ))
         ;

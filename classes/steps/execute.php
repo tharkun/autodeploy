@@ -41,17 +41,22 @@ class execute extends step implements definitions\php\observable
         {
             $iterator->next();
             $action1 = $iterator->current();
-            if ($action1['todo'] instanceof definitions\php\aggregatable && $action['todo']->isAggregatableWith($action1['todo']))
+            if (isset($action1['todo']) && $action1['todo'] instanceof definitions\php\aggregatable && $action['todo']->isAggregatableWith($action1['todo']))
             {
                 $action['todo']->aggregate($action1['todo']);
+                $triggered = false;
             }
             else
             {
                 $this->trigger($action, $nextIterator);
                 $action = $action1;
-                $triggered = false;
-
+                $triggered = true;
             }
+        }
+
+        if (!$triggered)
+        {
+            $this->trigger($action, $nextIterator);
         }
 
 
@@ -60,7 +65,7 @@ class execute extends step implements definitions\php\observable
 
         return $this;
 
-        $lastHashCommand = self::uniqueCommand($action);
+        /*$lastHashCommand = self::uniqueCommand($action);
         $lastHashAction  = self::uniqueAction($action);
 
         $groupAction = $action;
@@ -109,7 +114,7 @@ class execute extends step implements definitions\php\observable
 
         $this->getRunner()->getIterator()->append( $nextIterator );
 
-        return $this;
+        return $this;//*/
     }
 
     public function trigger(array $action, autodeploy\php\iterator $iterator)
@@ -128,7 +133,7 @@ class execute extends step implements definitions\php\observable
 
             $stdOut = $task->getStdOut();
 
-            if (trim($stdOut) !== '')
+            if (1||trim($stdOut) !== '')
             {
                 foreach (explode("\n", $stdOut) as $s)
                 {
@@ -142,7 +147,7 @@ class execute extends step implements definitions\php\observable
         return $this;
     }
 
-    private static function uniqueCommand(array $action)
+    /*private static function uniqueCommand(array $action)
     {
         if (isset($action['grouped']) && $action['grouped'])
         {
@@ -174,5 +179,5 @@ class execute extends step implements definitions\php\observable
     private static function makeArray($input)
     {
         return is_array($input) ? $input : array($input);
-    }
+    }//*/
 }
