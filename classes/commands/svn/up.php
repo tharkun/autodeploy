@@ -13,7 +13,7 @@ class up extends autodeploy\command implements aggregatable
      */
     public function __toString()
     {
-        return 'svn up ' . $this->getWildcard();
+        return 'svn up ' . implode(' ', $this->getWildcards());
     }
 
     /**
@@ -22,7 +22,7 @@ class up extends autodeploy\command implements aggregatable
      */
     public function aggregate(aggregatable $object)
     {
-        $this->setWildcard( $this->getWildcard() . ' ' . $object->getWildcard() );
+        $this->addWildcard( $object->getWildcards() );
 
         return $this;
     }

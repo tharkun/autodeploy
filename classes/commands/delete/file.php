@@ -31,7 +31,7 @@ class file extends autodeploy\command implements aggregatable
                 {
                     $string .= " /F";
                 }
-                return "$string " . $this->getWildcard();
+                return "$string " . implode(' ', $this->getWildcards());
                 break;
             }
             case php\system::OSTYPE_UNIX:
@@ -50,7 +50,7 @@ class file extends autodeploy\command implements aggregatable
                 {
                     $options .= " v";
                 }
-                return "rm" . ($options ? " -$options" : '') . $this->getWildcard();
+                return "rm" . ($options ? " -$options" : '') . implode(' ', $this->getWildcards());
                 break;
             }
         }
@@ -62,7 +62,7 @@ class file extends autodeploy\command implements aggregatable
      */
     public function aggregate(aggregatable $object)
     {
-        $this->setWildcard( $this->getWildcard() . ' ' . $object->getWildcard() );
+        $this->addWildcard( $object->getWildcards() );
 
         return $this;
     }

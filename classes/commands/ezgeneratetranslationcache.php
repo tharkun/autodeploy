@@ -12,7 +12,7 @@ class ezgeneratetranslationcache extends php implements aggregatable
      */
     public function __toString()
     {
-        return parent::__toString() . ' bin/php/ezgeneratetranslationcache.php --ts-list="'.$this->getWildcard().'"';
+        return parent::__toString() . ' bin/php/ezgeneratetranslationcache.php --ts-list="'.implode(' ', $this->getWildcards()).'"';
     }
 
     /**
@@ -21,7 +21,7 @@ class ezgeneratetranslationcache extends php implements aggregatable
      */
     public function aggregate(aggregatable $object)
     {
-        $this->setWildcard( $this->getWildcard() . ' ' . $object->getWildcard() );
+        $this->addWildcard( $object->getWildcards() );
 
         return $this;
     }

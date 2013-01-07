@@ -8,7 +8,7 @@ abstract class command implements aggregators\runner
     protected $runner = null;
     protected $options = array();
 
-    protected $wildcard = null;
+    protected $wildcards = array();
 
     /**
      * @param runner $runner
@@ -57,12 +57,12 @@ abstract class command implements aggregators\runner
     }
 
     /**
-     * @param $wildcard
-     * @return ezgeneratetranslationcache
+     * @param array $wildcards
+     * @return command
      */
-    public function setWildcard($wildcard)
+    public function setWildcards(array $wildcards)
     {
-        $this->wildcard = $wildcard;
+        $this->wildcards = $wildcards;
 
         return $this;
     }
@@ -70,9 +70,30 @@ abstract class command implements aggregators\runner
     /**
      * @return array
      */
-    public function getWildcard()
+    public function getWildcards()
     {
-        return $this->wildcard;
+        return $this->wildcards;
+    }
+
+    /**
+     * @param $wildcards
+     * @return command
+     */
+    public function addWildcard($wildcards)
+    {
+        if (!is_array($wildcards))
+        {
+            $wildcards = array($wildcards);
+        }
+        foreach ($wildcards as $wildcard)
+        {
+            if (!in_array($wildcard, $this->wildcards))
+            {
+                $this->wildcards[] = $wildcard;
+            }
+        }
+
+        return $this;
     }
 
     /**
