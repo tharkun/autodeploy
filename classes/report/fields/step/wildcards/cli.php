@@ -53,7 +53,7 @@ class cli extends fields\step\wildcards
             $val = array(
                 $val['profile'],
                 $val['parser'],
-                $val['type'],
+                //$val['type'],
                 //$val['value'],
                 //$val['command'],
                 //$val['wildcard'],
@@ -61,7 +61,7 @@ class cli extends fields\step\wildcards
             );
         });
 
-        return (string) new table($array, array('Profile', 'Parser', 'Type', /*'Value', 'Command', */'Wildcard') );
+        return (string) new table($array, array('Profile', 'Parser', /*'Type', 'Value', 'Command', */'Wildcard') );
     }
 
 }

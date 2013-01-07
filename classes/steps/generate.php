@@ -53,7 +53,7 @@ class generate extends step implements definitions\php\observable
                         $action = $task;
                         if (is_object($return) && ($return instanceof php\options))
                         {
-                            $action['type']     = 'execute_script';
+                            //$action['type']     = 'execute_script';
                             //$action['command']  = $return->__isset('command') ? $return->command : 'auto';
                             //$action['wildcard'] = $return->__isset('wildcard') ? $return->wildcard : '';
                             //$action['grouped']  = $return->__isset('grouped') ? $return->grouped : false;

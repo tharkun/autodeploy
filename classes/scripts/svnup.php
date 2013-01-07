@@ -233,10 +233,10 @@ final class svnup extends autodeploy\script
                 function ($runner, $action)
                 {
                     return new autodeploy\task($runner, '', array($action['todo']));
-                    return factories\task::instance(str_replace('_', '\\', $action['type']), $action['parser'])
+                    /*return factories\task::instance(str_replace('_', '\\', $action['type']), $action['parser'])
                         ->with($runner, $action['command'], $action['wildcard'])
                         ->make()
-                    ;
+                    ;//*/
                 },
             ))
         ;
