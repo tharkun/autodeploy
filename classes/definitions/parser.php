@@ -16,10 +16,4 @@ interface parser
      */
     public function hasMatches(autodeploy\element $element, array & $matches = null, & $i = null);
 
-    /**
-     * @abstract
-     * @return void
-     */
-    //public function getTaskType();
-
 }

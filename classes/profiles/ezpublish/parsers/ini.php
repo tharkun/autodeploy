@@ -33,9 +33,4 @@ class ini extends autodeploy\parser
         ;
     }
 
-    /*public function getTaskType()
-    {
-        return autodeploy\tasks\delete\file::TYPE;
-    }//*/
-
 }

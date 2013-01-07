@@ -33,9 +33,4 @@ class activeExtensions extends autodeploy\parser
         ;
     }
 
-    /*public function getTaskType()
-    {
-        return autodeploy\tasks\delete\file::TYPE;
-    }//*/
-
 }

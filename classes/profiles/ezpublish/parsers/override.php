@@ -31,12 +31,6 @@ class override extends autodeploy\parser
             || preg_match('@(extension/[^/]+/)?settings/override/'.self::PATTERN.'$@', $element->name, $matches) && !is_null($i = 2)
             || preg_match('@(extension/[^/]+/)?settings/siteaccess/[^/]+/'.self::PATTERN.'$@', $element->name, $matches) && !is_null($i = 2)
         ;
-            //toto new tpl
     }
-
-    /*public function getTaskType()
-    {
-        return autodeploy\tasks\delete\folder::TYPE;
-    }//*/
 
 }
