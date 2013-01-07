@@ -15,11 +15,13 @@ class ini extends autodeploy\generator
         $command->addWildcard(\eZINI::CONFIG_CACHE_DIR . $this->wildcard . '-*');
 
         return new autodeploy\php\options(array(
-            //'type'      => autodeploy\tasks\delete\file::TYPE,
-            //'wildcard'  => \eZINI::CONFIG_CACHE_DIR . $this->wildcard . '-*',
-            //'grouped'   => true,
             'todo' => $command,
         ));
+        /*return new autodeploy\php\options(array(
+            'type'      => autodeploy\tasks\delete\file::TYPE,
+            'wildcard'  => \eZINI::CONFIG_CACHE_DIR . $this->wildcard . '-*',
+            'grouped'   => true,
+        ));//*/
     }
 
 }

@@ -12,12 +12,9 @@ class override extends autodeploy\generator
     public function generate()
     {
         $command = new autodeploy\commands\delete\folder( $this->getRunner() );
-        $command->addWildcard(\eZSys::cacheDirectory() . '/override/*');
+        $command->addWildcard(\eZSys::cacheDirectory() . DIRECTORY_SEPARATOR . 'override' . DIRECTORY_SEPARATOR . '*');
 
         return new autodeploy\php\options(array(
-            //'type'      => autodeploy\tasks\delete\file::TYPE,
-            //'wildcard'  => \eZSys::cacheDirectory() . '/override/*',
-            //'grouped'   => true,
             'todo' => $command,
         ));
 
