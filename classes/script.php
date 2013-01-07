@@ -168,6 +168,18 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         );
 
         $this->addArgumentHandler(
+            function($script, $argument, $values)
+            {
+                commands\php::setPhpPath(current($values));
+            },
+            array('-p', '--php'),
+            parser::TYPE_SINGLE,
+            parser::OPTIONNAL,
+            null,
+            'Path to php binary'
+        );
+
+        $this->addArgumentHandler(
             function($script, $argument, $values) use ($runner)
             {
                 $runner->setQuiet(true);
@@ -175,7 +187,7 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
             array('-q', '--quiet'),
             parser::TYPE_NONE,
             parser::OPTIONNAL,
-            null,
+            '<path/to/php/binary>',
             'Is quiet'
         );
 
