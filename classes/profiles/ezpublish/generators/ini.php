@@ -12,7 +12,7 @@ class ini extends autodeploy\generator
     public function generate()
     {
         $command = new autodeploy\commands\delete\file( $this->getRunner() );
-        $command->addWildcard(\eZINI::CONFIG_CACHE_DIR . $this->wildcard . '-*');
+        $command->addWildcard( $command->cleanPath( \eZINI::CONFIG_CACHE_DIR . $this->wildcard . '-*' ) );
 
         return $command;
     }

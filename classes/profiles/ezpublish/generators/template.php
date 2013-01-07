@@ -12,7 +12,7 @@ class template extends autodeploy\generator
     public function generate()
     {
         $command = new autodeploy\commands\delete\file( $this->getRunner() );
-        $command->addWildcard( \eZTemplateCompiler::compilationDirectory() . DIRECTORY_SEPARATOR . $this->wildcard . '-*' );
+        $command->addWildcard( $command->cleanPath( \eZTemplateCompiler::compilationDirectory() . DIRECTORY_SEPARATOR . $this->wildcard . '-*' ) );
 
         return $command;
     }

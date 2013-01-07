@@ -104,4 +104,13 @@ abstract class command implements aggregators\runner
         throw new \RuntimeException('__toString method in command class can be called.');
     }
 
+    /**
+     * @param $wildcard
+     * @return mixed
+     */
+    public function cleanPath($wildcard)
+    {
+        return $this->getRunner()->getSystem()->cleanPath( $wildcard );
+    }
+
 }

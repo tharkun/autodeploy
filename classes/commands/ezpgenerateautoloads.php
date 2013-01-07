@@ -12,7 +12,7 @@ class ezpgenerateautoloads extends php
      */
     public function __toString()
     {
-        return parent::__toString() . ' bin/php/ezpgenerateautoloads.php -e -p';
+        return parent::__toString() . ' ' . $this->cleanPath('bin/php/ezpgenerateautoloads.php') . ' -e -p';
     }
 
 }

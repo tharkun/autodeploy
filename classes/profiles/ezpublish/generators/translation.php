@@ -13,15 +13,10 @@ class translation extends autodeploy\generator
     public function generate()
     {
         $command = new autodeploy\commands\delete\folder( $this->getRunner() );
-        $command->addWildcard(\eZDir::path(array(
-            \eZSys::cacheDirectory(),
-            'translation',
-            '*',
-            $this->wildcard
-        )));
+        $command->addWildcard( $command->cleanPath( \eZSys::cacheDirectory() . DIRECTORY_SEPARATOR . 'translation' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . $this->wildcard ) );
 
         $command1 = new autodeploy\commands\ezgeneratetranslationcache( $this->getRunner() );
-        $command1->addWildcard($this->wildcard);
+        $command1->addWildcard( $this->wildcard );
 
         return new iterator(array(
             $command,

@@ -12,7 +12,7 @@ class ezgeneratetranslationcache extends php implements aggregatable
      */
     public function __toString()
     {
-        return parent::__toString() . ' bin/php/ezgeneratetranslationcache.php --ts-list="'.implode(' ', $this->getWildcards()).'"';
+        return parent::__toString() . ' ' . $this->cleanPath('bin/php/ezgeneratetranslationcache.php') . ' --ts-list="'.implode(' ', $this->getWildcards()).'"';
     }
 
     /**
