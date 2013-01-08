@@ -41,7 +41,15 @@ class mail extends php\mailer
             $headers[] = 'Content-Type: ' . $this->contentType[0] . '; charset="' . $this->contentType[1] . '"';
         }
 
-        $this->adapter->file_put_contents('test.log', implode("\r\n", $headers) . "\r\n" . (string) $something);
+        if($this->xPriority !== null)
+        {
+            $headers[] = 'X-Priority : ' . $this->xPriority;
+        }
+
+        if($this->notify !== null)
+        {
+            $headers[] = 'Disposition-Notification-To : ' . $this->notify;
+        }
 
         $this->adapter->mail($this->to, $this->subject, (string) $something, implode("\r\n", $headers));
 
