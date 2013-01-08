@@ -14,11 +14,11 @@ class ezpublish extends autodeploy\profile
             ->setName('ezpublish')
             ->setParsers(array(
                 'ini',
-                'override',
                 'active_extensions',
-                'translation',
-                'module',
                 'design_base',
+                'module',
+                'override',
+                'translation',
                 'template',
                 'template_autoload',
                 'autoload',
