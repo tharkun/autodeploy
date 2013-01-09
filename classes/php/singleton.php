@@ -9,7 +9,7 @@ abstract class singleton
 
     protected static $instance = null;
 
-    protected function __construct() {}
+    public function __construct() {}
 
     /**
      * @throws \Exception
@@ -33,8 +33,9 @@ abstract class singleton
 
         if (null === static::$instance)
         {
-            $class = get_called_class();
-            static::$instance = new $class();
+            $reflectionClass    = new \ReflectionClass($class = get_called_class());
+            static::$instance   = $reflectionClass->newInstanceArgs( func_get_args() );
+
             if (method_exists(static::$instance, 'init'))
             {
                 static::$instance->init();
@@ -43,7 +44,7 @@ abstract class singleton
 
         if (self::$instance !== null)
         {
-            throw new \Exception( sprintf("You MUST provide a <code>protected static \$_oInstance = null;</code> statement in %s class.", $class) );
+            throw new \Exception( sprintf("You MUST provide a <code>protected static \$instance = null;</code> statement in %s class.", get_class(static::$instance)) );
         }
 
         return static::$instance;
