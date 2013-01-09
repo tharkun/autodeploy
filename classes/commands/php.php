@@ -14,7 +14,7 @@ class php extends autodeploy\command
      */
     public function __toString()
     {
-        return self::$phpPath;
+        return escapeshellarg(self::$phpPath);
     }
 
     public static function setPhpPath($phpPath)
