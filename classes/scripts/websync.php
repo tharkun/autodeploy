@@ -74,10 +74,7 @@ final class websync extends autodeploy\script
             ->addStep(step::STEP_EXECUTE, array(
                 function ($runner, $action)
                 {
-                    return factories\task::instance(str_replace('_', '\\', $action['type']), $action['parser'])
-                        ->with($runner, $action['command'], $action['wildcard'])
-                        ->make()
-                    ;
+                    return new autodeploy\task($runner, $action['command']);
                 },
             ))
         ;

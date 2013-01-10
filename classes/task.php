@@ -2,7 +2,7 @@
 
 namespace autodeploy;
 
-class task implements aggregators\runner, definitions\php\observable//, definitions\task
+final class task implements aggregators\runner, definitions\php\observable//, definitions\task
 {
 
     const taskStart = 'taskStart';
@@ -15,7 +15,6 @@ class task implements aggregators\runner, definitions\php\observable//, definiti
     protected $observers = array();
 
     protected $command = null;
-    protected $wildcards = array();
 
     protected $stdOut = '';
     protected $stdErr = '';
@@ -24,14 +23,12 @@ class task implements aggregators\runner, definitions\php\observable//, definiti
     /**
      * @param runner $runner
      * @param $command
-     * @param array $wildcards
      */
-    public function __construct(runner $runner, $command, array $wildcards)
+    public function __construct(runner $runner, command $command)
     {
         $this
             ->setRunner($runner)
             ->setCommand($command)
-            ->setWildcards($wildcards)
         ;
     }
 
@@ -86,17 +83,6 @@ class task implements aggregators\runner, definitions\php\observable//, definiti
     public function setCommand($command = null)
     {
         $this->command = $command;
-
-        return $this;
-    }
-
-    /**
-     * @param array $wildcards
-     * @return task
-     */
-    public function setWildcards(array $wildcards)
-    {
-        $this->wildcards = $wildcards;
 
         return $this;
     }
@@ -184,8 +170,8 @@ class task implements aggregators\runner, definitions\php\observable//, definiti
         {
             $self = $this;
 
-            $command = new engine( (string) $this );
-            $command->execute(
+            $engine = new engine( (string) $this );
+            $engine->execute(
                 function ($stdout) use ($self)
                 {
                     $self->setStdOut($stdout);
@@ -206,29 +192,11 @@ class task implements aggregators\runner, definitions\php\observable//, definiti
         return $this;
     }
 
-    public function getWildcardsAsString()
-    {
-        $self = $this;
-
-        $anonymous = function (array $aWildCards) use ($self)
-        {
-            $aCommands = array();
-            foreach ($aWildCards as $sWildCard)
-            {
-                $aCommands[] = trim( $sWildCard );
-            }
-            return implode(' ', array_unique($aCommands));
-        };
-
-        return $anonymous(is_array($this->wildcards) ? $this->wildcards : array($this->wildcards));
-    }
-
     /**
      * @return string
      */
     public function __toString()
     {
-        return $this->getWildcardsAsString();
-        return $this->command . ' ' . $this->getWildcardsAsString();
+        return (string) $this->command;
     }
 }
