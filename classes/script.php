@@ -22,6 +22,11 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
     /*****************************************************************************************************************************/
 
 
+    /**
+     * @param $name
+     * @param runner $runner
+     * @throws \LogicException
+     */
     public function __construct($name, runner $runner = null)
     {
         $this
@@ -344,6 +349,9 @@ abstract class script implements aggregators\runner, aggregators\php\adapter, ag
         return $this;
     }
 
+    /**
+     * @return script
+     */
     public function help()
     {
         $this->runScript = false;

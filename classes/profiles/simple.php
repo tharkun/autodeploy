@@ -8,6 +8,9 @@ use autodeploy\step;
 class simple extends autodeploy\profile
 {
 
+    /**
+     * @return \autodeploy\profile|simple
+     */
     public function init()
     {
         $this

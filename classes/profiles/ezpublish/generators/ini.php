@@ -9,6 +9,9 @@ use
 class ini extends autodeploy\generator
 {
 
+    /**
+     * @return \autodeploy\commands\delete\file|void
+     */
     public function generate()
     {
         $command = new autodeploy\commands\delete\file( $this->getRunner() );

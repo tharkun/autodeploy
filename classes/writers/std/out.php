@@ -7,6 +7,10 @@ use autodeploy\writers;
 class out extends writers\std
 {
 
+    /**
+     * @return out
+     * @throws \RuntimeException
+     */
     protected function getResource()
     {
         if ($this->resource === null)

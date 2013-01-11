@@ -8,6 +8,9 @@ use autodeploy\step;
 class svn extends autodeploy\profile
 {
 
+    /**
+     * @return \autodeploy\profile|svn
+     */
     public function init()
     {
         $this

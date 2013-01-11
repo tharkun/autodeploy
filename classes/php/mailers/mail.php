@@ -7,6 +7,11 @@ use autodeploy\php;
 class mail extends php\mailer
 {
 
+    /**
+     * @param $something
+     * @return mail
+     * @throws \RuntimeException
+     */
     public function send($something)
     {
         if ($this->to === null)

@@ -16,6 +16,11 @@ class cli extends fields\step\title
     protected $prefix = null;
     protected $styler = null;
 
+    /**
+     * @param \autodeploy\php\sapi\cli\prefix $prefix
+     * @param \autodeploy\php\sapi\cli\styler $styler
+     * @param \autodeploy\php\locale $locale
+     */
     public function __construct(prefix $prefix = null, styler $styler = null, locale $locale = null)
     {
         parent::__construct($locale);
@@ -26,6 +31,10 @@ class cli extends fields\step\title
         ;
     }
 
+    /**
+     * @param $prefix
+     * @return cli
+     */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
@@ -33,6 +42,10 @@ class cli extends fields\step\title
         return $this;
     }
 
+    /**
+     * @param \autodeploy\php\sapi\cli\styler $styler
+     * @return cli
+     */
     public function setStyler(styler $styler)
     {
         $this->styler = $styler;
@@ -40,6 +53,9 @@ class cli extends fields\step\title
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return PHP_EOL

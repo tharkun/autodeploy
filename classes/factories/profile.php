@@ -8,6 +8,9 @@ use autodeploy\php;
 class profile extends php\factory
 {
 
+    /**
+     * @return profile|\autodeploy\php\factory
+     */
     public static function instance()
     {
         $args = func_get_args();

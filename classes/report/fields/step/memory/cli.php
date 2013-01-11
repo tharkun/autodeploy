@@ -16,6 +16,12 @@ class cli extends fields\step\memory
     protected $titleStyler = null;
     protected $memoryStyler = null;
 
+    /**
+     * @param \autodeploy\php\sapi\cli\prefix $prefix
+     * @param \autodeploy\php\sapi\cli\styler $titleStyler
+     * @param \autodeploy\php\sapi\cli\styler $memoryStyler
+     * @param \autodeploy\php\locale $locale
+     */
     public function __construct(prefix $prefix = null, styler $titleStyler = null, styler $memoryStyler = null, locale $locale = null)
     {
         parent::__construct($locale);
@@ -27,6 +33,10 @@ class cli extends fields\step\memory
         ;
     }
 
+    /**
+     * @param $prefix
+     * @return cli
+     */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
@@ -34,6 +44,10 @@ class cli extends fields\step\memory
         return $this;
     }
 
+    /**
+     * @param \autodeploy\php\sapi\cli\styler $titleStyler
+     * @return cli
+     */
     public function setTitleStyler(styler $titleStyler)
     {
         $this->titleStyler = $titleStyler;
@@ -41,6 +55,10 @@ class cli extends fields\step\memory
         return $this;
     }
 
+    /**
+     * @param \autodeploy\php\sapi\cli\styler $memoryStyler
+     * @return cli
+     */
     public function setMemoryStyler(styler $memoryStyler)
     {
         $this->memoryStyler = $memoryStyler;
@@ -48,6 +66,9 @@ class cli extends fields\step\memory
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         $memory = $this->consummedMemory;

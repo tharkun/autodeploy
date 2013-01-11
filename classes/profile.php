@@ -17,6 +17,9 @@ class profile extends php\options
         $this->init();
     }
 
+    /**
+     * @return profile
+     */
     public function init()
     {
         return $this;

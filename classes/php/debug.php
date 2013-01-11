@@ -31,7 +31,9 @@ class debug extends singleton
         E_STRICT            => 'E_STRICT',
     );
 
-
+    /**
+     * @return debug
+     */
     protected function init()
     {
         // Since PHP 5.2
@@ -52,8 +54,16 @@ class debug extends singleton
 
         restore_error_handler();
         set_error_handler( array( $this, 'protectRecursive' ) );
+
+        return $this;
     }
 
+    /**
+     * @param $errno
+     * @param $errstr
+     * @param $errfile
+     * @param $errline
+     */
     public function protectRecursive($errno, $errstr, $errfile, $errline)
     {
         if ( $this->recursive )
@@ -67,6 +77,13 @@ class debug extends singleton
         $this->recursive = false;
     }
 
+    /**
+     * @param $errno
+     * @param $errstr
+     * @param $errfile
+     * @param $errline
+     * @return bool
+     */
     private function handleError($errno, $errstr, $errfile, $errline)
     {
         if ( error_reporting() == 0 )

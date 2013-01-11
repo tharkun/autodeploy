@@ -8,6 +8,9 @@ use autodeploy\step;
 class ezpublish extends autodeploy\profile
 {
 
+    /**
+     * @return \autodeploy\profile|ezpublish
+     */
     public function init()
     {
         $this

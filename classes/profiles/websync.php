@@ -8,6 +8,9 @@ use autodeploy\step;
 class websync extends autodeploy\profile
 {
 
+    /**
+     * @return \autodeploy\profile|websync
+     */
     public function init()
     {
         $this

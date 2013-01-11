@@ -25,6 +25,12 @@ class override extends autodeploy\parser
     /*****************************************************************************************************************************/
 
 
+    /**
+     * @param \autodeploy\element $element
+     * @param array $matches
+     * @param null $i
+     * @return bool|void
+     */
     public function hasMatches(autodeploy\element $element, array & $matches = null, & $i = null)
     {
         return preg_match('@(extension/[^/]+/)?settings/'.self::PATTERN.'$@', $element->name, $matches) && !is_null($i = 2)

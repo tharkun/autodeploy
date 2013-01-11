@@ -160,7 +160,8 @@ class runner implements aggregators\php\adapter, aggregators\php\locale, definit
     }
 
     /**
-     * @param $name
+     * @param string $name
+     * @param bool $reset
      * @return runner
      */
     public function addProfile($name = 'simple', $reset = false)

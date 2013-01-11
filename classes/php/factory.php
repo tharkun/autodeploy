@@ -25,6 +25,9 @@ class factory
         $this->reflectionClass = new \ReflectionClass( $this->findRecursiveClassName( str_replace('\php', '', __NAMESPACE__) . '\\' . call_user_func_array('sprintf', $class) ) );
     }
 
+    /**
+     * @return factory
+     */
     public static function instance()
     {
         return new static( func_get_args() );

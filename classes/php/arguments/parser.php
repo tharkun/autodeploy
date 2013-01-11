@@ -19,6 +19,9 @@ class parser implements \iteratorAggregate
     protected $values = array();
     private $handlers = array();
 
+    /**
+     * @param \autodeploy\php\superglobals $superglobals
+     */
     public function __construct(autodeploy\php\superglobals $superglobals = null)
     {
         $this->setSuperglobals($superglobals ?: new autodeploy\php\superglobals());
@@ -63,7 +66,7 @@ class parser implements \iteratorAggregate
     }
 
     /**
-     * @param closure $handler
+     * @param callable $handler
      * @param array $arguments
      * @param int $type
      * @param int $mandatory
@@ -253,6 +256,7 @@ class parser implements \iteratorAggregate
      * @param $argument
      * @param array $values
      * @return parser
+     * @throws \InvalidArgumentException
      */
     protected function invokeHandlers(autodeploy\script $script, $argument, array $values)
     {
@@ -284,6 +288,11 @@ class parser implements \iteratorAggregate
         return $this;
     }
 
+    /**
+     * @param \autodeploy\script $script
+     * @return parser
+     * @throws \LogicException
+     */
     protected function checkMandatory(autodeploy\script $script)
     {
         foreach ($this->handlers as $argument => $handlers)

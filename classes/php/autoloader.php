@@ -116,9 +116,9 @@ final class autoloader
     }
 
     /**
-     * @static
      * @param $mixed
-     * @return array|mixed|string
+     * @return array|string
+     * @throws \InvalidArgumentException
      */
     public static function normalize($mixed)
     {

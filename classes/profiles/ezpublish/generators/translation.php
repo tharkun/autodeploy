@@ -10,6 +10,9 @@ use
 class translation extends autodeploy\generator
 {
 
+    /**
+     * @return \autodeploy\php\iterator|void
+     */
     public function generate()
     {
         $command = new autodeploy\commands\delete\folder( $this->getRunner() );

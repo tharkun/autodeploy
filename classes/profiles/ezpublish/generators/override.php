@@ -9,6 +9,9 @@ use
 class override extends autodeploy\generator
 {
 
+    /**
+     * @return \autodeploy\commands\delete\folder|void
+     */
     public function generate()
     {
         $command = new autodeploy\commands\delete\folder( $this->getRunner() );

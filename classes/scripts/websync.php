@@ -10,6 +10,9 @@ use autodeploy\php\arguments\parser;
 final class websync extends autodeploy\script
 {
 
+    /**
+     * @return websync
+     */
     protected function setArgumentHandlers()
     {
         $runner = $this->getRunner();
@@ -32,6 +35,9 @@ final class websync extends autodeploy\script
         return $this;
     }
 
+    /**
+     * @return websync
+     */
     protected function setStepHandlers()
     {
         $this->getRunner()
@@ -78,6 +84,8 @@ final class websync extends autodeploy\script
                 },
             ))
         ;
+
+        return $this;
     }
 
 }

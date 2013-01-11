@@ -12,6 +12,9 @@ use
 class cli extends reports\synchronous
 {
 
+    /**
+     *
+     */
     public function __construct()
     {
         parent::__construct();

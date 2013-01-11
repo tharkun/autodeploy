@@ -16,6 +16,12 @@ class cli extends fields\step\duration
     protected $titleStyler = null;
     protected $durationStyler = null;
 
+    /**
+     * @param \autodeploy\php\sapi\cli\prefix $prefix
+     * @param \autodeploy\php\sapi\cli\styler $titleStyler
+     * @param \autodeploy\php\sapi\cli\styler $durationStyler
+     * @param \autodeploy\php\locale $locale
+     */
     public function __construct(prefix $prefix = null, styler $titleStyler = null, styler $durationStyler = null, locale $locale = null)
     {
         parent::__construct($locale);
@@ -27,6 +33,10 @@ class cli extends fields\step\duration
         ;
     }
 
+    /**
+     * @param $prefix
+     * @return cli
+     */
     public function setPrefix($prefix)
     {
         $this->prefix = $prefix;
@@ -34,6 +44,10 @@ class cli extends fields\step\duration
         return $this;
     }
 
+    /**
+     * @param \autodeploy\php\sapi\cli\styler $titleStyler
+     * @return cli
+     */
     public function setTitleStyler(styler $titleStyler)
     {
         $this->titleStyler = $titleStyler;
@@ -41,6 +55,10 @@ class cli extends fields\step\duration
         return $this;
     }
 
+    /**
+     * @param \autodeploy\php\sapi\cli\styler $durationStyler
+     * @return cli
+     */
     public function setDurationStyler(styler $durationStyler)
     {
         $this->durationStyler = $durationStyler;
@@ -48,6 +66,9 @@ class cli extends fields\step\duration
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return $this->prefix .

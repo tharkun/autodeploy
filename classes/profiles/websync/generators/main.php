@@ -9,6 +9,9 @@ use
 class main extends autodeploy\generator
 {
 
+    /**
+     * @return \autodeploy\php\options|void
+     */
     public function generate()
     {
         return new autodeploy\php\options(array(

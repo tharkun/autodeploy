@@ -13,6 +13,9 @@ abstract class std extends autodeploy\writer implements writers\synchronous, wri
 
     protected $resource = null;
 
+    /**
+     *
+     */
     public function __destruct()
     {
         if ($this->resource !== null)
@@ -21,6 +24,10 @@ abstract class std extends autodeploy\writer implements writers\synchronous, wri
         }
     }
 
+    /**
+     * @param $value
+     * @return \autodeploy\writer|std|mixed
+     */
     public function write($value)
     {
         $this->getResource()->adapter->fwrite($this->resource, $value);
@@ -28,16 +35,27 @@ abstract class std extends autodeploy\writer implements writers\synchronous, wri
         return $this;
     }
 
+    /**
+     * @return \autodeploy\writer|std|mixed
+     */
     public function clear()
     {
         return $this->write("\r");
     }
 
+    /**
+     * @param \autodeploy\reports\synchronous $report
+     * @return \autodeploy\writer|std|mixed
+     */
     public function writeSynchronous(reports\synchronous $report)
     {
         return $this->write((string) $report);
     }
 
+    /**
+     * @param \autodeploy\reports\asynchronous $report
+     * @return \autodeploy\writer|std|mixed
+     */
     public function writeAsynchronous(reports\asynchronous $report)
     {
         return $this->write((string) $report);

@@ -14,11 +14,19 @@ abstract class output extends field
 
     protected $output = null;
 
+    /**
+     * @param \autodeploy\php\locale $locale
+     */
     public function __construct(locale $locale = null)
     {
         parent::__construct(array(autodeploy\steps\execute::actionStart, autodeploy\steps\execute::actionStop), $locale);
     }
 
+    /**
+     * @param $event
+     * @param \autodeploy\definitions\php\observable $observable
+     * @return bool
+     */
     public function handleEvent($event, observable $observable)
     {
         if (parent::handleEvent($event, $observable) === false)

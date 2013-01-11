@@ -66,6 +66,11 @@ class execute extends step implements definitions\php\observable
         return $this;
     }
 
+    /**
+     * @param array $action
+     * @param \autodeploy\php\iterator $iterator
+     * @return execute
+     */
     public function trigger(array $action, autodeploy\php\iterator $iterator)
     {
         $this->callObservers(self::actionStart);

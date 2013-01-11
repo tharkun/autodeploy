@@ -25,6 +25,12 @@ class translation extends autodeploy\parser
     /*****************************************************************************************************************************/
 
 
+    /**
+     * @param \autodeploy\element $element
+     * @param array $matches
+     * @param null $i
+     * @return bool|void
+     */
     public function hasMatches(autodeploy\element $element, array & $matches = null, & $i = null)
     {
         return preg_match('@(share|extension/[^/]+)/translations/([a-z]{3}-[A-Z]{2})/'.self::PATTERN.'$@', $element->name, $matches) && !is_null($i = 2);

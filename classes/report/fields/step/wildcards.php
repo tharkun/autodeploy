@@ -14,11 +14,19 @@ abstract class wildcards extends field
 
     protected $iterator = null;
 
+    /**
+     * @param \autodeploy\php\locale $locale
+     */
     public function __construct(locale $locale = null)
     {
         parent::__construct(array(autodeploy\steps\generate::runStop), $locale);
     }
 
+    /**
+     * @param $event
+     * @param \autodeploy\definitions\php\observable $observable
+     * @return bool
+     */
     public function handleEvent($event, observable $observable)
     {
         if (parent::handleEvent($event, $observable) === false)
@@ -33,6 +41,9 @@ abstract class wildcards extends field
         }
     }
 
+    /**
+     * @return null
+     */
     public function getIterator()
     {
         return $this->iterator;

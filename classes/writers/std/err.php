@@ -7,6 +7,10 @@ use autodeploy\writers;
 class err extends writers\std
 {
 
+    /**
+     * @return err
+     * @throws \RuntimeException
+     */
     protected function getResource()
     {
         if ($this->resource === null)

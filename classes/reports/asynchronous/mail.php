@@ -12,6 +12,9 @@ use
 class mail extends reports\asynchronous
 {
 
+    /**
+     *
+     */
     public function __construct()
     {
         parent::__construct();
