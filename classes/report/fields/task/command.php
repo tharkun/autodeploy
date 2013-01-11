@@ -40,5 +40,3 @@ abstract class command extends field
         }
     }
 }
-
-?>

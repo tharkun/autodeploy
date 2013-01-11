@@ -40,5 +40,3 @@ abstract class stderr extends field
         }
     }
 }
-
-?>
