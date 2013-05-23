@@ -11,7 +11,7 @@ class engine
 
     protected $command = null;
 
-    private $processes = array();
+    private $process = null;
 
 
     /**
@@ -34,13 +34,14 @@ class engine
     }
 
     /**
-     * @param \Closure $oClosureStdout
-     * @param \Closure $oClosureStderr
-     * @return engine
+     * @param callable $oClosureStdout
+     * @param callable $oClosureStderr
+     * @param callable $oClosureStdin
+     * @return $this
      */
-    public function execute(\Closure $oClosureStdout, \Closure $oClosureStderr)
+    public function execute(\Closure $oClosureStdout, \Closure $oClosureStderr, \Closure $oClosureStdin = null)
     {
-        $this->run()->read(array(
+        $this->run($oClosureStdin)->read(array(
             self::STDOUT => $oClosureStdout,
             self::STDERR => $oClosureStderr,
         ));
@@ -49,9 +50,10 @@ class engine
     }
 
     /**
-     * @return engine
+     * @param callable $oClosureStdin
+     * @return $this
      */
-    protected function run()
+    protected function run(\Closure $oClosureStdin)
     {
         $resource = proc_open(
             $this->command,
@@ -68,13 +70,30 @@ class engine
         stream_set_blocking($pipes[ self::STDOUT ], 1);
         stream_set_blocking($pipes[ self::STDERR ], 1);
 
-        fclose($pipes[ self::STDIN ]);
-        unset($pipes[ self::STDIN ]);
+        if (!is_null($oClosureStdin))
+        {
+            call_user_func($oClosureStdin);
+        }
 
-        $this->processes[] = (object) array(
+        $this->closeStream($pipes, self::STDIN);
+
+        $this->process = (object) array(
             'resource' => $resource,
             'pipes'    => $pipes,
         );
+
+        return $this;
+    }
+
+    /**
+     * @param array $pipes
+     * @param $streamName
+     * @return $this
+     */
+    protected function closeStream(array &$pipes, $streamName)
+    {
+        fclose($pipes[ $streamName ]);
+        unset($pipes[ $streamName ]);
 
         return $this;
     }
@@ -87,58 +106,61 @@ class engine
     {
         $null = null;
 
-        while (count($this->processes))
+        while (!is_null($this->process))
         {
-            $pipes = array();
-
-            foreach ($this->processes as $process)
-            {
-                foreach (array_keys($closures) as $stream)
-                {
-                    if (array_key_exists($stream, $process->pipes))
-                    {
-                        $pipes[] = $process->pipes[ $stream ];
-                    }
-                }
-            }
+            $pipes = $this->getPipesFromClosures($closures);
 
             if (stream_select($pipes, $null, $null, 0))
             {
-                foreach ($this->processes as $i => $process)
+                foreach ($closures as $stream => $fn)
                 {
-                    foreach ($closures as $stream => $fn)
+                    if (array_key_exists($stream, $this->process->pipes) && in_array($this->process->pipes[ $stream ], $pipes) === true)
                     {
-                        if (array_key_exists($stream, $process->pipes) && in_array($process->pipes[ $stream ], $pipes) === true)
-                        {
-                            //call_user_func($fn, stream_get_contents($process->pipes[ $stream ]));
-                            call_user_func($fn, stream_get_line($process->pipes[ $stream ], 1024));
+                        call_user_func($fn, stream_get_line($this->process->pipes[ $stream ], 1024));
 
-                            if (feof($process->pipes[ $stream ]) === true)
-                            {
-                                fclose($process->pipes[ $stream ]);
-                                unset($process->pipes[ $stream ]);
-                            }
+                        if (feof($this->process->pipes[ $stream ]) === true)
+                        {
+                            $this->closeStream($this->process->pipes, $stream);
                         }
                     }
+                }
 
-                    if (!count($process->pipes))
+                if (!count($this->process->pipes))
+                {
+                    $phpStatus = proc_get_status($this->process->resource);
+
+                    while ($phpStatus['running'] == true)
                     {
-                        $phpStatus = proc_get_status($process->resource);
-
-                        while ($phpStatus['running'] == true)
-                        {
-                            $phpStatus = proc_get_status($process->resource);
-                        }
-
-                        proc_close($process->resource);
-
-                        unset($this->processes[$i]);
+                        $phpStatus = proc_get_status($this->process->resource);
                     }
+
+                    proc_close($this->process->resource);
+
+                    $this->process = null;
                 }
             }
         }
 
         return $this;
+    }
+
+    /**
+     * @param array $closures
+     * @return array
+     */
+    protected function getPipesFromClosures(array $closures)
+    {
+        $pipes = array();
+
+        foreach (array_keys($closures) as $stream)
+        {
+            if (array_key_exists($stream, $this->process->pipes))
+            {
+                $pipes[] = $this->process->pipes[ $stream ];
+            }
+        }
+
+        return $pipes;
     }
 
 }
