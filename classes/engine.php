@@ -53,7 +53,7 @@ class engine
      * @param callable $oClosureStdin
      * @return $this
      */
-    protected function run(\Closure $oClosureStdin)
+    protected function run(\Closure $oClosureStdin = null)
     {
         $resource = proc_open(
             $this->command,
@@ -72,7 +72,7 @@ class engine
 
         if (!is_null($oClosureStdin))
         {
-            call_user_func($oClosureStdin);
+            call_user_func($oClosureStdin, $pipes[ self::STDIN ]);
         }
 
         $this->closeStream($pipes, self::STDIN);
